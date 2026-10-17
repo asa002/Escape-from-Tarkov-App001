@@ -3,97 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Escape from Tarkov PvE — タスク＆ハイドアウト管理</title>
+<title>Escape from Tarkov PvE — タスク＆ハイドアウト管理（完全版）</title>
 <style>
-:root{--bg:#101419;--panel:#1a2129;--panel2:#222c36;--line:#35414d;--text:#e8edf2;--muted:#a9b5c1;--accent:#d8a441;--green:#73c991;--red:#f07878;--blue:#78b8ed}
+:root{--bg:#101419;--panel:#1a2129;--panel2:#222c36;--line:#35414d;--text:#e8edf2;--muted:#a9b5c1;--accent:#d8a441;--green:#73c991;--red:#f07878;--blue:#78b8ed;--usec:#5b82a6;--bear:#a6615b}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#101419,#171d24 60%,#11161b);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-header{padding:26px max(18px,calc((100% - 1200px)/2));border-bottom:1px solid var(--line);background:#11171deF;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
-h1{margin:0;font-size:clamp(22px,3vw,32px);letter-spacing:.02em}header p{color:var(--muted);margin:7px 0 0}
-.lang-switch{display:flex;gap:6px}.lang-btn{background:var(--panel2);color:var(--muted);border:1px solid var(--line);padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px}.lang-btn.active{background:var(--accent);color:#171717;border-color:var(--accent)}
+header{padding:20px max(18px,calc((100% - 1200px)/2));border-bottom:1px solid var(--line);background:#11171deF;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+h1{margin:0;font-size:clamp(20px,2.5vw,28px);letter-spacing:.02em}header p{color:var(--muted);margin:4px 0 0;font-size:13px}
+.header-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.faction-switch,.lang-switch{display:flex;gap:4px;background:var(--panel2);padding:3px;border-radius:7px;border:1px solid var(--line)}
+.faction-btn,.lang-btn{background:transparent;color:var(--muted);border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:700;font-size:12px;transition:all .15s}
+.faction-btn.usec.active{background:var(--usec);color:#fff}
+.faction-btn.bear.active{background:var(--bear);color:#fff}
+.lang-btn.active{background:var(--accent);color:#171717}
+
 main{max-width:1200px;margin:auto;padding:20px 16px 60px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:11px 16px;border-radius:9px;cursor:pointer;font-weight:700}.tab.active{background:var(--accent);color:#171717;border-color:var(--accent)}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 18px}.toolbar input,.toolbar select,.toolbar button,.slotrow select,.slotrow input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:8px}.toolbar input{flex:1;min-width:210px}.btn{cursor:pointer;font-weight:650}.btn.primary{background:var(--accent);color:#171717;border-color:var(--accent)}.btn.danger{border-color:#8a4141;color:#ffb0b0}.btn:hover,.tab:hover{filter:brightness(1.12)}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}.stat{background:var(--panel2);padding:13px;border-radius:10px;border:1px solid var(--line)}.stat small{display:block;color:var(--muted)}.stat strong{font-size:22px}
-.stat input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:4px 8px;border-radius:6px;font-size:18px;width:100%;margin-top:2px}
-.progress{height:8px;background:#0e1216;border-radius:20px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--green);width:0}
-.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.section-title h2{margin:0;font-size:20px}.muted{color:var(--muted)}.itemlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
-.entry{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.entry.done{opacity:.9}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:4px;flex-shrink:0}.entry h3{margin:0;font-size:16px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.sources a{color:var(--blue);text-decoration:none}.sources a:hover{text-decoration:underline}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13.5px}.tab.active{background:var(--accent);color:#171717;border-color:var(--accent)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 18px}.toolbar input,.toolbar select,.toolbar button,.slotrow select,.slotrow input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:9px 12px;border-radius:8px;font-size:14px}.toolbar input{flex:1;min-width:200px}.btn{cursor:pointer;font-weight:650}.btn.primary{background:var(--accent);color:#171717;border-color:var(--accent)}.btn.danger{border-color:#8a4141;color:#ffb0b0}.btn:hover,.tab:hover{filter:brightness(1.12)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}.stat{background:var(--panel2);padding:12px;border-radius:9px;border:1px solid var(--line)}.stat small{display:block;color:var(--muted)}.stat strong{font-size:20px}
+.stat input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:4px 8px;border-radius:6px;font-size:16px;width:100%;margin-top:2px}
+.progress{height:7px;background:#0e1216;border-radius:20px;overflow:hidden;margin-top:6px}.progress span{display:block;height:100%;background:var(--green);width:0}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.section-title h2{margin:0;font-size:19px}.muted{color:var(--muted)}.itemlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:10px}
+.entry{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px}.entry.done{opacity:.85}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:3px;flex-shrink:0}.entry h3{margin:0;font-size:15px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.tag.usec{background:#2b4154;color:#a2c4e6}.tag.bear{background:#542b2b;color:#e6a2a2}.sources{margin-top:8px;font-size:12px}.sources a{color:var(--blue);text-decoration:none;margin-right:10px}.sources a:hover{text-decoration:underline}
 .itemrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);gap:10px}.itemrow:last-child{border-bottom:0}
-.item-img{width:64px;height:64px;background:#11161b;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:2px}
+.item-img{width:56px;height:56px;background:#11161b;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:2px}
 .item-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.qty{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .count-controls{display:flex;align-items:center;gap:6px}
-.count-controls button{background:var(--panel);color:var(--text);border:1px solid var(--line);width:28px;height:28px;border-radius:4px;cursor:pointer;font-weight:bold;display:flex;align-items:center;justify-content:center}
+.count-controls button{background:var(--panel);color:var(--text);border:1px solid var(--line);width:26px;height:26px;border-radius:4px;cursor:pointer;font-weight:bold;display:flex;align-items:center;justify-content:center}
 .count-controls button:hover{background:var(--accent);color:#171717}
-.count-controls span{min-width:45px;text-align:center;font-variant-numeric:tabular-nums}
-.route li{margin:10px 0;padding-left:4px}.route strong{color:#f4ce7e}.slotrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.slotrow select{min-width:200px}.slotrow input{flex:1;min-width:180px}.footer{font-size:12px;color:var(--muted);margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+.count-controls span{min-width:40px;text-align:center;font-variant-numeric:tabular-nums}
+.req-items{background:#161d24;border:1px dashed var(--line);padding:6px 8px;border-radius:6px;margin:6px 0;font-size:12px;color:#d3deea}
+.slotrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.slotrow select{min-width:180px}.slotrow input{flex:1;min-width:180px}.footer{font-size:12px;color:var(--muted);margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
 .hidden{display:none!important}.empty{padding:20px;text-align:center;color:var(--muted)}
-@media(max-width:600px){main{padding:14px 10px}.panel{padding:12px}.tab{flex:1;padding:10px 8px}}
+@media(max-width:600px){main{padding:12px 8px}.panel{padding:12px}.tab{flex:1;padding:8px 6px;text-align:center}}
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1 id="t-title">ESCAPE FROM TARKOV PvE</h1>
-    <p id="t-subtitle">日本語タスク＆ハイドアウト・準備品トラッカー</p>
+    <p id="t-subtitle">タスク＆ハイドアウト・全前提タスク完全対応トラッカー</p>
   </div>
-  <div class="lang-switch">
-    <button class="lang-btn active" data-lang="ja" onclick="setLang('ja')">日本語</button>
-    <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+  <div class="header-controls">
+    <div class="faction-switch">
+      <button class="faction-btn usec active" onclick="setFaction('USEC')">USEC</button>
+      <button class="faction-btn bear" onclick="setFaction('BEAR')">BEAR</button>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="ja" onclick="setLang('ja')">日本語</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+    </div>
   </div>
 </header>
 <main>
 <div class="stats">
- <div class="stat"><small id="t-stat-tasks">タスク完了</small><strong id="taskCount">0 / 0</strong><div class="progress"><span id="taskBar"></span></div></div>
- <div class="stat"><small id="t-stat-items">準備アイテム</small><strong id="itemCount">0 / 0</strong><div class="progress"><span id="itemBar"></span></div></div>
+ <div class="stat"><small id="t-stat-tasks">Kappaタスク完了</small><strong id="taskCount">0 / 0</strong><div class="progress"><span id="taskBar"></span></div></div>
+ <div class="stat"><small id="t-stat-items">Collectorアイテム</small><strong id="itemCount">0 / 0</strong><div class="progress"><span id="itemBar"></span></div></div>
  <div class="stat">
-   <small id="t-stat-slot">現在スロット</small>
-   <input type="text" id="headerSlotNameInput" value="スロット 1" title="スロット名を直接変更できます">
+   <small id="t-stat-slot">セーブデータ</small>
+   <input type="text" id="headerSlotNameInput" value="スロット 1" title="セーブ名を直接変更できます">
    <small id="t-stat-auto">自動保存：有効</small>
  </div>
 </div>
+
 <div class="tabs" role="tablist">
-<button class="tab active" data-tab="tasks" id="t-tab-tasks">1. タスク管理 (全件)</button>
-<button class="tab" data-tab="trader" id="t-tab-trader">2. トレーダー別</button>
-<button class="tab" data-tab="map" id="t-tab-map">3. マップ別</button>
-<button class="tab" data-tab="hideout" id="t-tab-hideout">4. ハイドアウト</button>
-<button class="tab" data-tab="route" id="t-tab-route">5. 建設ルート</button>
+<button class="tab active" data-tab="kappaTasks" id="t-tab-kappa">1. Kappaタスク (約200個)</button>
+<button class="tab" data-tab="nonKappaTasks" id="t-tab-nonkappa">2. その他タスク (Kappa不要)</button>
+<button class="tab" data-tab="allTasks" id="t-tab-all">3. すべてのタスク一覧</button>
+<button class="tab" data-tab="trader" id="t-tab-trader">4. トレーダー別</button>
+<button class="tab" data-tab="map" id="t-tab-map">5. マップ別</button>
+<button class="tab" data-tab="hideout" id="t-tab-hideout">6. ハイドアウト</button>
 <button class="tab" data-tab="save" id="t-tab-save">保存・設定</button>
 </div>
 
-<!-- 1. タスク一覧 -->
-<section id="tasks" class="page">
+<!-- 1. Kappaタスク -->
+<section id="kappaTasks" class="page">
  <div class="panel">
-   <div class="section-title"><h2 id="t-all-tasks-title">すべてのタスク一覧 (Kappa前提・主要タスク)</h2><span class="muted" id="t-all-tasks-desc">全件表示中</span></div>
-   <p class="muted" id="t-all-tasks-info">各タスクの解放条件や目的を確認してチェックできます。</p>
+   <div class="section-title"><h2 id="t-kappa-title">Kappaタスク (コンテナ獲得前提)</h2><span class="muted" id="t-kappa-desc">全トレーダーのKappa前提タスク（全約200個）を網羅</span></div>
    <div class="toolbar">
-     <input id="allTasksSearch" placeholder="タスク名・トレーダー・解放条件で検索…">
-     <select id="allTasksFilter">
-       <option value="all" id="t-opt-all">すべて表示</option>
-       <option value="todo" id="t-opt-todo">未完了のみ</option>
-       <option value="done" id="t-opt-done">完了のみ</option>
+     <input id="kappaTasksSearch" placeholder="タスク名・トレーダー・マップ・必要品で検索…" oninput="renderKappaTasks()">
+     <select id="kappaTasksFilter" onchange="renderKappaTasks()">
+       <option value="all">すべて表示</option>
+       <option value="todo">未完了のみ</option>
+       <option value="done">完了のみ</option>
      </select>
    </div>
-   <div id="allTasksList" class="itemlist"></div>
+   <div id="kappaTasksList" class="itemlist"></div>
  </div>
+
  <div class="panel">
-   <div class="section-title"><h2 id="t-collector-title">Collector 納品アイテム (最新44点)</h2></div>
-   <p class="muted" id="t-collector-desc">Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。</p>
+   <div class="section-title"><h2 id="t-collector-title">Collector 納品アイテム (全44点)</h2></div>
+   <p class="muted">Fenceの最終タスク「Collector」で使用するレイド内発見（FIR）アイテム一覧です。</p>
    <div id="collectorItems"></div>
    <p class="sources">
-     <a href="https://wikiwiki.jp/eft/Fence/Collector" target="_blank" rel="noopener" id="t-link-jp-collector">日本語Wiki：Fence/Collector ↗</a> 
-     <a href="https://escapefromtarkov.fandom.com/wiki/Collector" target="_blank" rel="noopener" id="t-link-en-collector">英語Wiki：Collector (Fandom) ↗</a>
+     <a href="https://wikiwiki.jp/eft/Fence/Collector" target="_blank" rel="noopener">日本語Wiki：Fence/Collector ↗</a>
+     <a href="https://escapefromtarkov.fandom.com/wiki/Collector" target="_blank" rel="noopener">英語Wiki：Collector ↗</a>
    </p>
  </div>
 </section>
 
-<!-- 2. トレーダー別 -->
+<!-- 2. その他タスク (Kappa不要) -->
+<section id="nonKappaTasks" class="page hidden">
+ <div class="panel">
+   <div class="section-title"><h2 id="t-nonkappa-title">その他タスク (Kappa不要)</h2><span class="muted">Lightkeeper関連・イベンド・サブタスク</span></div>
+   <div class="toolbar">
+     <input id="nonKappaSearch" placeholder="検索…" oninput="renderNonKappaTasks()">
+     <select id="nonKappaFilter" onchange="renderNonKappaTasks()">
+       <option value="all">すべて表示</option>
+       <option value="todo">未完了のみ</option>
+       <option value="done">完了のみ</option>
+     </select>
+   </div>
+   <div id="nonKappaTasksList" class="itemlist"></div>
+ </div>
+</section>
+
+<!-- 3. すべてのタスク一覧 -->
+<section id="allTasks" class="page hidden">
+ <div class="panel">
+   <div class="section-title"><h2 id="t-alltasks-title">すべてのタスク一覧</h2><span class="muted">Kappa必須・非必須を含む全タスク</span></div>
+   <div class="toolbar">
+     <input id="allTasksSearch" placeholder="全タスク検索…" oninput="renderAllTasksPage()">
+     <select id="allTasksFilter" onchange="renderAllTasksPage()">
+       <option value="all">すべて表示</option>
+       <option value="todo">未完了のみ</option>
+       <option value="done">完了のみ</option>
+     </select>
+   </div>
+   <div id="allTasksPageList" class="itemlist"></div>
+ </div>
+</section>
+
+<!-- 4. トレーダー別 -->
 <section id="trader" class="page hidden">
  <div class="panel">
    <div class="section-title"><h2 id="t-trader-title">トレーダー別タスク確認</h2></div>
-   <p class="muted" id="t-trader-desc">確認したいトレーダーを選択してタスクを確認できます。</p>
    <div class="toolbar">
-     <select id="traderSelect">
+     <select id="traderSelect" onchange="renderTraderTasks()">
        <option value="Prapor">Prapor</option>
        <option value="Therapist">Therapist</option>
        <option value="Skier">Skier</option>
@@ -101,20 +146,19 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
        <option value="Mechanic">Mechanic</option>
        <option value="Ragman">Ragman</option>
        <option value="Jaeger">Jaeger</option>
-       <option value="Ref">Ref</option>
+       <option value="Fence">Fence</option>
      </select>
    </div>
    <div id="traderTasksList" class="itemlist"></div>
  </div>
 </section>
 
-<!-- 3. マップ別 -->
+<!-- 5. マップ別 -->
 <section id="map" class="page hidden">
  <div class="panel">
    <div class="section-title"><h2 id="t-map-title">マップ別タスク確認</h2></div>
-   <p class="muted" id="t-map-desc">出撃マップに合わせてタスクを確認できます。</p>
    <div class="toolbar">
-     <select id="mapSelect">
+     <select id="mapSelect" onchange="renderMapTasks()">
        <option value="Customs">Customs (カスタム)</option>
        <option value="Woods">Woods (ウッズ)</option>
        <option value="Shoreline">Shoreline (ショアライン)</option>
@@ -124,6 +168,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
        <option value="Streets of Tarkov">Streets of Tarkov (ストリート)</option>
        <option value="Ground Zero">Ground Zero (グラウンドゼロ)</option>
        <option value="Factory">Factory (ファクトリー)</option>
+       <option value="Lab">The Lab (ラボ)</option>
        <option value="Any">指定なし / 複数</option>
      </select>
    </div>
@@ -131,48 +176,32 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
  </div>
 </section>
 
-<!-- 4. ハイドアウト -->
+<!-- 6. ハイドアウト -->
 <section id="hideout" class="page hidden">
  <div class="panel">
-   <div class="section-title"><h2 id="t-hideout-title">ハイドアウト進捗管理</h2><span class="muted" id="t-hideout-subtitle">現在のレベルから次のアップグレードを表示</span></div>
+   <div class="section-title"><h2 id="t-hideout-title">ハイドアウト進捗管理</h2></div>
    <div class="toolbar">
-     <input id="hideoutSearch" placeholder="施設名で検索…">
-     <select id="hideoutFilter">
-       <option value="all" id="h-opt-all">すべて表示</option>
-       <option value="todo" id="h-opt-todo">未完了のみ</option>
-       <option value="done" id="h-opt-done">完了済みのみ</option>
+     <input id="hideoutSearch" placeholder="施設名で検索…" oninput="renderHideout()">
+     <select id="hideoutFilter" onchange="renderHideout()">
+       <option value="all">すべて表示</option>
+       <option value="todo">未完了のみ</option>
+       <option value="done">完了済みのみ</option>
      </select>
    </div>
    <div id="hideoutItems" class="itemlist"></div>
  </div>
 </section>
 
-<!-- 5. 建設ルート -->
-<section id="route" class="page hidden">
- <div class="panel">
-   <h2 id="t-route-title">ハイドアウト設営・優先ルート</h2>
-   <ol class="route">
-     <li><strong>基礎設備：</strong>セキュリティ Lv.1 → 発電機 Lv.1 → 照明 Lv.1 → 通気口などの基礎施設。</li>
-     <li><strong>クラフト基盤：</strong>ワークベンチ Lv.1 → 洗面所 Lv.1〜2 → メディステーション／栄養ユニット。</li>
-     <li><strong>資源の安定化：</strong>集水器 Lv.1〜2、暖房、発電機 Lv.2。</li>
-     <li><strong>タスク・装備効率：</strong>射撃場、休憩スペース、インテリジェンスセンター。</li>
-     <li><strong>高コスト設備：</strong>発電機 Lv.3 → ソーラーパネル → ビットコインファーム。</li>
-   </ol>
- </div>
-</section>
-
-<!-- 6. セーブ・設定 -->
+<!-- 7. 保存・設定 -->
 <section id="save" class="page hidden">
  <div class="panel">
    <h2 id="t-save-title">名前付きセーブ＆ロード (10スロット)</h2>
-   <p class="muted" id="t-save-desc">各スロットに任意の名前を付けて保存・切り替えができます。ブラウザ閉じる際も自動保存されます。</p>
-   
    <div class="slotrow">
      <label for="slotSelect" id="t-slot-label">対象スロット</label>
      <select id="slotSelect"></select>
    </div>
    <div class="slotrow">
-     <input type="text" id="slotNameInput" placeholder="スロット名を入力（例：メインキャラ、サブ等）">
+     <input type="text" id="slotNameInput" placeholder="スロット名を入力">
      <button class="btn primary" id="saveSlotBtn">名前を付けて保存</button>
      <button class="btn" id="loadSlotBtn">選択スロットをロード</button>
      <button class="btn danger" id="clearSlotBtn">スロット初期化</button>
@@ -182,7 +211,6 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 
  <div class="panel">
    <h2>ファイル共有 (バックアップ JSON)</h2>
-   <p class="muted">全セーブスロットをJSONファイルとして書き出し・読み込みできます。</p>
    <div class="slotrow">
      <button class="btn" id="exportBtn">JSON書き出し</button>
      <button class="btn" id="importBtn">JSON読み込み</button>
@@ -191,98 +219,211 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
  </div>
 
  <div class="panel">
-   <h2 id="t-reset-title">現在のスロットの進捗クリア</h2>
+   <h2>現在のスロットの進捗クリア</h2>
    <button class="btn danger" id="resetBtn">現在の進捗リセット（1/2）</button>
    <span id="resetHint" class="muted">実行するにはもう一度クリック</span>
  </div>
 </section>
-<div class="footer" id="t-footer">GitHub公開対応HTMLトラッカー。</div>
+<div class="footer" id="t-footer">Escape from Tarkov PvE Tracker (Complete Database)</div>
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v21';
+const KEY = 'eft-pve-tracker-v24-complete';
 let currentLang = 'ja';
+let currentFaction = 'USEC';
 
 const i18n = {
   ja: {
     title: "ESCAPE FROM TARKOV PvE",
-    subtitle: "日本語タスク＆ハイドアウト・準備品トラッカー",
-    statTasks: "タスク完了", statItems: "準備アイテム", statSlot: "現在スロット", statAuto: "自動保存：有効",
-    tabTasks: "1. タスク管理 (全件)", tabTrader: "2. トレーダー別", tabMap: "3. マップ別", tabHideout: "4. ハイドアウト", tabRoute: "5. 建設ルート", tabSave: "保存・設定",
-    allTasksTitle: "すべてのタスク一覧 (Kappa前提・主要タスク)", allTasksDesc: "全件表示中", allTasksInfo: "各タスクの解放条件や目的を確認してチェックできます。",
-    optAll: "すべて表示", optTodo: "未完了のみ", optDone: "完了のみ",
-    hOptAll: "すべて表示", hOptTodo: "未完了のみ", hOptDone: "完了済みのみ",
-    collectorTitle: "Collector 納品アイテム (最新44点)", collectorDesc: "Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。",
-    linkEnCollector: "英語Wiki：Collector (Fandom) ↗", linkJpCollector: "日本語Wiki：Fence/Collector ↗",
-    traderTitle: "トレーダー別タスク確認", traderDesc: "確認したいトレーダーを選択してタスクを確認できます。",
-    mapTitle: "マップ別タスク確認", mapDesc: "出撃マップに合わせてタスクを確認できます。",
-    hideoutTitle: "ハイドアウト進捗管理", hideoutSubtitle: "現在のレベルから次のアップグレードを表示",
-    routeTitle: "ハイドアウト設営・優先ルート", saveTitle: "名前付きセーブ＆ロード (10スロット)", slotLabel: "対象スロット",
-    saveNowBtn: "名前を付けて保存", exportBtn: "JSON書き出し", importBtn: "JSON読み込み", resetTitle: "現在のスロットの進捗クリア",
+    subtitle: "タスク＆ハイドアウト・全前提タスク完全対応トラッカー",
+    statTasks: "Kappaタスク完了", statItems: "Collectorアイテム", statSlot: "セーブデータ", statAuto: "自動保存：有効",
+    tabKappa: "1. Kappaタスク (約200個)", tabNonKappa: "2. その他タスク (Kappa不要)", tabAll: "3. すべてのタスク一覧", tabTrader: "4. トレーダー別", tabMap: "5. マップ別", tabHideout: "6. ハイドアウト", tabSave: "保存・設定",
+    kappaTitle: "Kappaタスク (コンテナ獲得前提)", collectorTitle: "Collector 納品アイテム (全44点)",
+    nonKappaTitle: "その他タスク (Kappa不要)", allTasksTitle: "すべてのタスク一覧",
+    traderTitle: "トレーダー別タスク確認", mapTitle: "マップ別タスク確認", hideoutTitle: "ハイドアウト進捗管理", saveTitle: "名前付きセーブ＆ロード (10スロット)",
+    slotLabel: "対象スロット", exportBtn: "JSON書き出し", importBtn: "JSON読み込み",
     resetBtn1: "現在の進捗リセット（1/2）", resetBtn2: "本当にリセットする（2/2）", resetHint1: "実行するにはもう一度クリック", resetHint2: "リセットしました",
-    footer: "GitHub公開対応HTMLトラッカー。",
-    searchAll: "タスク名・トレーダー・解放条件で検索…", searchHideout: "施設名で検索…",
-    kappaBadge: "Kappa必須・前提", generalBadge: "一般・進行タスク", taskInfo: "Task Info ↗", noMatch: "該当する項目はありません。", reqLabel: "解放条件: ",
+    footer: "Escape from Tarkov PvE Tracker (Complete Database)",
+    kappaBadge: "Kappa必須", nonKappaBadge: "Kappa不要", reqLabel: "解放条件: ", reqItemsLabel: "必要アイテム: ",
     currentLv: "現在 Lv.", nextUpgrade: "次 Lv.", maxLevel: "建設完了 (MAX)", upgradeBtn: "このレベルを完了する", downgradeBtn: "レベルを戻す", finishedLabel: "完了済みレベルの素材一覧：", firNote: " (FIR必須)",
-    completeCheck: "完了"
+    wikiJp: "日本語Wiki ↗", wikiEn: "英語Wiki ↗"
   },
   en: {
     title: "ESCAPE FROM TARKOV PvE",
-    subtitle: "English/Japanese Task & Hideout Tracker",
-    statTasks: "Tasks Done", statItems: "Items Ready", statSlot: "Active Slot", statAuto: "Auto-save: ON",
-    tabTasks: "1. Task List (All)", tabTrader: "2. By Trader", tabMap: "3. By Map", tabHideout: "4. Hideout", tabRoute: "5. Build Route", tabSave: "Settings & Save",
-    allTasksTitle: "All Tasks List (Kappa & General)", allTasksDesc: "Displaying all items", allTasksInfo: "Check tasks while verifying requirements.",
-    optAll: "Show All", optTodo: "Incomplete Only", optDone: "Completed Only",
-    hOptAll: "Show All", hOptTodo: "Incomplete Only", hOptDone: "Completed Only",
-    collectorTitle: "Collector Required Items (Latest 44 items)", collectorDesc: "Collector items must be Found in Raid.",
-    linkEnCollector: "English Wiki: Collector (Fandom) ↗", linkJpCollector: "Japanese Wiki: Fence/Collector ↗",
-    traderTitle: "Tasks by Trader", traderDesc: "Select a trader to manage tasks.",
-    mapTitle: "Tasks by Map", mapDesc: "Check required tasks for specific maps.",
-    hideoutTitle: "Hideout Progress Tracker", hideoutSubtitle: "Displays next upgrade requirements based on current level",
-    routeTitle: "Hideout Build Route", saveTitle: "Named Save & Load (10 Slots)", slotLabel: "Target Slot",
-    saveNowBtn: "Save Slot", exportBtn: "Export JSON", importBtn: "Import JSON", resetTitle: "Clear Current Slot Progress",
+    subtitle: "Task & Hideout Tracker (Complete Database)",
+    statTasks: "Kappa Tasks Done", statItems: "Collector Items", statSlot: "Active Save", statAuto: "Auto-save: ON",
+    tabKappa: "1. Kappa Tasks (~200)", tabNonKappa: "2. Other Tasks (Non-Kappa)", tabAll: "3. All Tasks List", tabTrader: "4. By Trader", tabMap: "5. By Map", tabHideout: "6. Hideout", tabSave: "Settings & Save",
+    kappaTitle: "Kappa Prerequisites Tasks", collectorTitle: "Collector Required Items (44 Items)",
+    nonKappaTitle: "Other Tasks (Non-Kappa)", allTasksTitle: "All Tasks List",
+    traderTitle: "Tasks by Trader", mapTitle: "Tasks by Map", hideoutTitle: "Hideout Progress Tracker", saveTitle: "Named Save & Load (10 Slots)",
+    slotLabel: "Target Slot", exportBtn: "Export JSON", importBtn: "Import JSON",
     resetBtn1: "Reset Current Slot (1/2)", resetBtn2: "Confirm Reset (2/2)", resetHint1: "Click again to confirm", resetHint2: "Progress reset",
-    footer: "GitHub Pages Ready Tracker.",
-    searchAll: "Search task, trader, or requirements...", searchHideout: "Search station...",
-    kappaBadge: "Kappa Prerequisite", generalBadge: "General Task", taskInfo: "Task Info ↗", noMatch: "No matching items found.", reqLabel: "Unlock Req: ",
-    currentLv: "Current Lv.", nextUpgrade: "Next Lv.", maxLevel: "Completed (MAX)", upgradeBtn: "Complete This Level", downgradeBtn: "Lower Level", finishedLabel: "Materials for completed level:", firNote: " (FIR Req)",
-    completeCheck: "Done"
+    footer: "Escape from Tarkov PvE Tracker (Complete Database)",
+    kappaBadge: "Kappa Req", nonKappaBadge: "Non-Kappa", reqLabel: "Unlock Req: ", reqItemsLabel: "Required Items: ",
+    currentLv: "Current Lv.", nextUpgrade: "Next Lv.", maxLevel: "Completed (MAX)", upgradeBtn: "Complete Level", downgradeBtn: "Lower Level", finishedLabel: "Materials for completed level:", firNote: " (FIR Req)",
+    wikiJp: "JP Wiki ↗", wikiEn: "EN Wiki ↗"
   }
 };
 
+// 全トレーダーのKappa前提タスク（約200個）および非必須主要タスクのデータベース
 const allTasksData = [
-  {id: 'debut', name: 'Debut', trader: 'Prapor', map: 'Customs', req: 'PMC Level 1 (初期)', note: 'カスタム等でScav5体撃破、MP-133ショットガン2丁納品', kappa: false},
-  {id: 'first_in_line', name: 'First in Line', trader: 'Therapist', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロで医療施設を発見、医療品納品', kappa: false},
-  {id: 'shooting_cans', name: 'Shooting Cans', trader: 'Prapor', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロのUTY Utyos重機関銃とAGS擲弾砲の確認、Scav撃破', kappa: false},
-  {id: 'saving_mole', name: 'Saving the Mole', trader: 'Mechanic', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'テラグループ科学者の研究データ（ドライブ）の回収と脱出', kappa: false},
-  {id: 'burning_rubber', name: 'Burning Rubber', trader: 'Skier', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロの有料タクシー（V-Ex）で脱出', kappa: false},
-  {id: 'checking', name: 'Checking', trader: 'Prapor', map: 'Customs', req: 'Debut完了', note: 'ブロンズのポケットウォッチをトラックから回収', kappa: false},
-  {id: 'shootout', name: 'Shootout Picnic', trader: 'Prapor', map: 'Woods', req: 'Checking完了', note: 'ウッズでScav 15体撃破', kappa: false},
-  {id: 'bp_depot', name: 'BP Depot', trader: 'Prapor', map: 'Customs', req: 'Shootout Picnic完了', note: 'カスタムの燃料タンク4箇所にマーカー設置', kappa: false},
-  {id: 'delivery', name: 'Delivery from the Past', trader: 'Prapor', map: 'Customs / Factory', req: 'BP Depot完了', note: 'カスタムで機密書類回収、ファクトリーへ設置して脱出', kappa: false},
-  {id: 'ice_cream', name: 'Ice Cream Cones', trader: 'Prapor', map: 'Any', req: 'Delivery完了', note: '6L31 60連AKマガジン3本をFIR状態で納品', kappa: false},
-  {id: 'postman_1', name: 'Postman Pat - Part 1', trader: 'Prapor', map: 'Factory', req: 'PMC Level 10', note: 'ファクトリーの死体から手紙を回収して生還', kappa: true},
-  {id: 'postman_2', name: 'Postman Pat - Part 2', trader: 'Therapist', map: 'Any', req: 'Postman Pat - Part 1完了', note: '手紙をセラピストへ引き渡し', kappa: true},
-  {id: 'chemical_1', name: 'Chemical - Part 1', trader: 'Skier', map: 'Customs', req: 'PMC Level 10', note: 'カスタムの寮で情報文書と鍵を回収', kappa: true},
-  {id: 'chemical_2', name: 'Chemical - Part 2', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 1完了', note: 'カスタムで情報物回収', kappa: true},
-  {id: 'chemical_3', name: 'Chemical - Part 3', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 2完了', note: 'カスタム工場で注射器箱回収 (Collector前提)', kappa: true},
-  {id: 'chemical_4', name: 'Chemical - Part 4', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 3完了', note: '化学物質車両にマーカー設置（報告先選択）', kappa: true},
-  {id: 'sew_1', name: 'Sew it Good - Part 1', trader: 'Ragman', map: 'Any', req: 'PMC Level 15', note: '指定防具（耐久度50%未満）の納品', kappa: true},
-  {id: 'sew_2', name: 'Sew it Good - Part 2', trader: 'Ragman', map: 'Any', req: 'Sew it Good - Part 1完了', note: 'Gzhel-Kアーマー（耐久条件あり）納品 (Collector前提)', kappa: true},
-  {id: 'sbih', name: 'Shooter Born in Heaven', trader: 'Mechanic', map: 'Multiple', req: 'PMC Level 30', note: '指定マップにてボルトアクションで100m以上ヘッドショットキル', kappa: true},
-  {id: 'tarkov_shooter_1', name: 'The Tarkov Shooter - Part 1', trader: 'Jaeger', map: 'Woods', req: 'Introduction完了', note: 'アイアンサイトのボルトアクションでScavキル', kappa: true},
-  {id: 'tarkov_shooter_2', name: 'The Tarkov Shooter - Part 2', trader: 'Jaeger', map: 'Woods', req: 'Part 1完了', note: 'ボルトアクションで脚部ヒットおよび遠距離キル', kappa: true},
-  {id: 'tarkov_shooter_3', name: 'The Tarkov Shooter - Part 3', trader: 'Jaeger', map: 'Factory', req: 'Part 2完了', note: '25m以内の近距離ボルトアクションPMCキル', kappa: true},
-  {id: 'tarkov_shooter_4', name: 'The Tarkov Shooter - Part 4', trader: 'Jaeger', map: 'Any', req: 'Part 3完了', note: '80m以上でのボルトアクションPMCキル (Collector前提)', kappa: true},
-  {id: 'sanitary_1', name: 'Sanitary Standards - Part 1', trader: 'Therapist', map: 'Interchange / Customs', req: 'PMC Level 5', note: 'ガスアナライザー1個（FIR）納品', kappa: false},
-  {id: 'sanitary_2', name: 'Sanitary Standards - Part 2', trader: 'Therapist', map: 'Interchange / Customs', req: 'Part 1完了', note: 'ガスアナライザー2個（FIR）納品', kappa: false},
-  {id: 'aquarius_1', name: 'Operation Aquarius - Part 1', trader: 'Therapist', map: 'Customs', req: 'Sanitary Standards完了', note: 'カスタム2層寮の水部屋確認・脱出', kappa: false},
-  {id: 'aquarius_2', name: 'Operation Aquarius - Part 2', trader: 'Therapist', map: 'Customs', req: 'Part 1完了', note: 'カスタムでScav 15体撃破', kappa: false},
-  {id: 'pharmacist', name: 'Pharmacist', trader: 'Therapist', map: 'Customs', req: 'Aquarius完了', note: 'カスタムの2階建て寮で114号室のケース回収', kappa: false},
-  {id: 'introduction', name: 'Introduction', trader: 'Mechanic', map: 'Woods', req: 'PMC Level 10', note: 'ウッズのイェーガーのキャンプで手紙を入手して脱出（Jaeger解放）', kappa: false},
-  {id: 'gunsmith_1', name: 'Gunsmith - Part 1', trader: 'Mechanic', map: 'Any', req: 'PMC Level 12', note: '指定カスタムされたMP-133ショットガン納品', kappa: true},
-  {id: 'fishing_gear', name: 'Fishing Gear', trader: 'Peacekeeper', map: 'Shoreline', req: 'Friend from the West完結', note: 'ショアラインの海岸ボート横にスナイパーライフルとライター埋設', kappa: false},
-  {id: 'spa_tour_1', name: 'Spa Tour - Part 1', trader: 'Peacekeeper', map: 'Shoreline', req: 'Fishing Gear完了', note: 'ショアラインで12Gショットガンによる12体Scavヘッドショット', kappa: false}
+  // --- PRAPOR ---
+  {id:'pr_1', name:'Debut', trader:'Prapor', map:'Customs', req:'PMC Level 1', note:'Customs等でScav 5体撃破、MP-133 2丁納品', items:'MP-133 shotgun ×2', kappa:true},
+  {id:'pr_2', name:'Checking', trader:'Prapor', map:'Customs', req:'Debut', note:'トラックからブロンズのポケットウォッチ回収', items:'Machinery key', kappa:true},
+  {id:'pr_3', name:'Shootout Picnic', trader:'Prapor', map:'Woods', req:'Checking', note:'WoodsでScav 15体撃破', kappa:true},
+  {id:'pr_4', name:'BP Depot', trader:'Prapor', map:'Customs', req:'Shootout Picnic', note:'タンク4箇所にマーカー設置', items:'MS2000 Marker ×4', kappa:true},
+  {id:'pr_5', name:'Delivery from the Past', trader:'Prapor', map:'Customs / Factory', req:'BP Depot', note:'Customsで書類回収、Factoryで設置', items:'Tarcone Director\'s office key', kappa:true},
+  {id:'pr_6', name:'Ice Cream Cones', trader:'Prapor', map:'Any', req:'Delivery from the Past', note:'6L31 60連マガジン3本納品', items:'6L31 60-round mag ×3 (FIR)', kappa:true},
+  {id:'pr_7', name:'Postman Pat - Part 1', trader:'Prapor', map:'Factory', req:'PMC Level 10', note:'Factoryで死体から手紙回収して脱出', kappa:true},
+  {id:'pr_8', name:'Shaking Up Teller', trader:'Prapor', map:'Customs', req:'Ice Cream Cones', note:'203号室からケース回収', items:'Dorm 203 key', kappa:true},
+  {id:'pr_9', name:'The Punisher - Part 1', trader:'Prapor', map:'Shoreline', req:'PMC Level 18', note:'サプレッサー付きAKM系でScav 15体撃破', kappa:true},
+  {id:'pr_10', name:'The Punisher - Part 2', trader:'Prapor', map:'Shoreline', req:'Punisher 1', note:'サイレンサー武器でScav撃破、Half mask 7枚納品', items:'Lower half-mask ×7 (FIR)', kappa:true},
+  {id:'pr_11', name:'The Punisher - Part 3', trader:'Prapor', map:'Customs', req:'Punisher 2', note:'AKS-74UでScav 25体撃破', kappa:true},
+  {id:'pr_12', name:'The Punisher - Part 4', trader:'Prapor', map:'Lighthouse', req:'Punisher 3', note:'Scavベスト＆バラクラバ着用でPMC 10体撃破', items:'PMC Dogtags ×10', kappa:true},
+  {id:'pr_13', name:'The Punisher - Part 5', trader:'Prapor', map:'Any', req:'Punisher 4', note:'PACA+PSh-97着用でPMC 10体撃破、AK-74N等納品', items:'PACA, PSh-97, AK-74N ×1', kappa:true},
+  {id:'pr_14', name:'The Punisher - Part 6', trader:'Prapor', map:'Any', req:'Punisher 5', note:'SVDでPMC 15体撃破、各陣営ドッグタグ7枚納品', items:'BEAR Dogtags ×7, USEC Dogtags ×7', kappa:true},
+  {id:'pr_15', name:'Anatomy of Magic', trader:'Prapor', map:'Customs', req:'PMC Level 15', note:'寮で指定アイテム回収', kappa:true},
+  {id:'pr_16', name:'Grenadier', trader:'Prapor', map:'Any', req:'PMC Level 30', note:'グレネードでPMC 8体撃破', kappa:true},
+  {id:'pr_17', name:'Insomnia', trader:'Prapor', map:'Any', req:'PMC Level 30', note:'夜間(22:00-05:00)にPMC 30体撃破', kappa:true},
+  {id:'pr_18', name:'Test Drive - Part 1', trader:'Prapor', map:'Lighthouse', req:'PMC Level 32', note:'REAP-IR搭載M4A1でPMC 5体撃破', kappa:true},
+  {id:'pr_19', name:'Test Drive - Part 2', trader:'Prapor', map:'Any', req:'Test Drive 1', note:'指定カスタムAK-12でPMC撃破', kappa:true},
+
+  // --- THERAPIST ---
+  {id:'th_1', name:'First in Line', trader:'Therapist', map:'Ground Zero', req:'PMC Level 1', note:'グラウンドゼロで医療施設を発見、医療品納品', items:'医療品 ×3', kappa:false},
+  {id:'th_2', name:'Sanitary Standards - Part 1', trader:'Therapist', map:'Interchange', req:'PMC Level 5', note:'ガスアナライザー1個納品', items:'Gas analyzer ×1 (FIR)', kappa:true},
+  {id:'th_3', name:'Sanitary Standards - Part 2', trader:'Therapist', map:'Interchange', req:'Sanitary Standards 1', note:'ガスアナライザー2個納品', items:'Gas analyzer ×2 (FIR)', kappa:true},
+  {id:'th_4', name:'Operation Aquarius - Part 1', trader:'Therapist', map:'Customs', req:'Sanitary Standards 2', note:'206号室の水を確認', items:'Dorm 206 key', kappa:true},
+  {id:'th_5', name:'Operation Aquarius - Part 2', trader:'Therapist', map:'Customs', req:'Operation Aquarius 1', note:'CustomsでScav 15体撃破', kappa:true},
+  {id:'th_6', name:'Painkiller', trader:'Therapist', map:'Woods', req:'Operation Aquarius 2', note:'モルフィン4本納品', items:'Morphine ×4 (FIR)', kappa:true},
+  {id:'th_7', name:'Pharmacist', trader:'Therapist', map:'Customs', req:'Painkiller', note:'114号室からケース回収', items:'Dorm 114 key', kappa:true},
+  {id:'th_8', name:'Health Care Privacy - Part 1', trader:'Therapist', map:'Shoreline', req:'PMC Level 15', note:'救急車3箇所にマーカー設置', items:'MS2000 Marker ×3', kappa:true},
+  {id:'th_9', name:'Health Care Privacy - Part 2', trader:'Therapist', map:'Shoreline', req:'Health Care Privacy 1', note:'306号室からケース回収', items:'Resort 306 key', kappa:true},
+  {id:'th_10', name:'Health Care Privacy - Part 3', trader:'Therapist', map:'Shoreline', req:'Health Care Privacy 2', note:'事故車両調査', kappa:true},
+  {id:'th_11', name:'Health Care Privacy - Part 4', trader:'Therapist', map:'Shoreline', req:'Health Care Privacy 3', note:'ヘルススキルLevel 4到達', kappa:true},
+  {id:'th_12', name:'Health Care Privacy - Part 5', trader:'Therapist', map:'Factory', req:'Health Care Privacy 4', note:'夜間Factoryで指定箇所に物資埋設', items:'Thermite ×1, Military circuit ×1', kappa:true},
+  {id:'th_13', name:'Postman Pat - Part 2', trader:'Therapist', map:'Any', req:'Postman Pat 1完了', note:'Praporから受け取った手紙を納品', kappa:true},
+  {id:'th_14', name:'Colleague - Part 1', trader:'Therapist', map:'Shoreline', req:'PMC Level 22', note:'療養所の精神科医グループ死体調査', kappa:true},
+  {id:'th_15', name:'Colleague - Part 2', trader:'Therapist', map:'Shoreline', req:'Colleague 1', note:'手術用具・聴診器類回収', items:'AHF1-M, 3-(b-TG) 注射器 (FIR)', kappa:true},
+  {id:'th_16', name:'Private Clinic', trader:'Therapist', map:'Any', req:'PMC Level 35', note:'LEDXとOphthalmoscope納品', items:'LEDX ×1, Ophthalmoscope ×1 (FIR)', kappa:true},
+  {id:'th_17', name:'Decontamination Service', trader:'Therapist', map:'Interchange', req:'Private Clinic', note:'レスピレーター＆カウボーイハットでScav 40体撃破', kappa:true},
+
+  // --- SKIER ---
+  {id:'sk_1', name:'Supplier', trader:'Skier', map:'Any', req:'PMC Level 5', note:'3MアーマーとTOZ 1丁納品', items:'3M armor ×1, TOZ-106 ×1', kappa:true},
+  {id:'sk_2', name:"What's on the Flash Drive?", trader:'Skier', map:'Any', req:'Supplier', note:'Secure Flash Drive 2個納品', items:'Flash Drive ×2 (FIR)', kappa:true},
+  {id:'sk_3', name:'Golden Swag', trader:'Skier', map:'Customs', req:'What\'s on the Flash Drive?', note:'303号室からZibboライター回収して埋設', items:'Dorm 303 key, Zibbo', kappa:true},
+  {id:'sk_4', name:'Chemical - Part 1', trader:'Skier', map:'Customs', req:'Golden Swag', note:'列車内ケース＆220号室鍵回収', items:'Dorm 220 key', kappa:true},
+  {id:'sk_5', name:'Chemical - Part 2', trader:'Skier', map:'Customs', req:'Chemical 1', note:'220号室から情報文書回収', kappa:true},
+  {id:'sk_6', name:'Chemical - Part 3', trader:'Skier', map:'Customs', req:'Chemical 2', note:'工場内から注射器ケース回収', kappa:true},
+  {id:'sk_7', name:'Chemical - Part 4', trader:'Skier', map:'Customs', req:'Chemical 3', note:'化学物質車両にマーカー設置', items:'MS2000 Marker ×1', kappa:true},
+  {id:'sk_8', name:'Informed Means Armed', trader:'Skier', map:'Multiple', req:'Chemical 4', note:'3マップにカメラ設置', items:'Wi-Fi Camera ×3', kappa:true},
+  {id:'sk_9', name:'Chum', trader:'Skier', map:'Interchange', req:'Informed Means Armed', note:'夜間にPMC 5体撃破、金時計5個埋設', items:'Golden neck chain ×5', kappa:true},
+  {id:'sk_10', name:'Silent Caliber', trader:'Skier', map:'Any', req:'Chum', note:'サプレッサー付き12GでScav 20体・PMC 10体撃破', kappa:true},
+  {id:'sk_11', name:'Bullseye / Setup', trader:'Skier', map:'Customs', req:'PMC Level 19', note:'Scavベスト＋ウシャンカ＋12GでPMC 15体撃破', kappa:true},
+
+  // --- PEACEKEEPER ---
+  {id:'pk_1_usec', name:'Friend from the West - Part 1', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (USEC)', note:'BEAR 7体撃破、ドッグタグ7枚納品', items:'BEAR Dogtags ×7', kappa:true, faction:'USEC'},
+  {id:'pk_1_bear', name:'Friend from the West - Part 1', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (BEAR)', note:'USEC 7体撃破、ドッグタグ7枚納品', items:'USEC Dogtags ×7', kappa:true, faction:'BEAR'},
+  {id:'pk_2', name:'Friend from the West - Part 2', trader:'Peacekeeper', map:'Any', req:'Friend from the West 1', note:'6,000ドル支払い', items:'$6,000 Cash', kappa:true},
+  {id:'pk_3', name:'Fishing Gear', trader:'Peacekeeper', map:'Shoreline', req:'Friend from West 2', note:'海岸にスナイパーライフル埋設', items:'SV-98 ×1, Zibbo ×1', kappa:true},
+  {id:'pk_4', name:'Tigris Safari', trader:'Peacekeeper', map:'Customs', req:'Fishing Gear', note:'装甲車3台にマーカー設置', items:'MS2000 Marker ×3', kappa:true},
+  {id:'pk_5', name:'Scrap Metal', trader:'Peacekeeper', map:'Shoreline', req:'Tigris Safari', note:'ヘリ等3箇所にマーカー設置', items:'MS2000 Marker ×3', kappa:true},
+  {id:'pk_6', name:'Eagle Eye', trader:'Peacekeeper', map:'Shoreline', req:'Scrap Metal', note:'墜落した無人機2機から情報回収', kappa:true},
+  {id:'pk_7', name:'Humanitarian Supplies', trader:'Peacekeeper', map:'Shoreline', req:'Eagle Eye', note:'UNTAR装備でScav撃破、トラック設置', items:'UNTAR Armor/Helmet, MS2000 ×2', kappa:true},
+  {id:'pk_8', name:'The Cult - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Humanitarian Supplies', note:'カルトの儀式場調査', kappa:true},
+  {id:'pk_9', name:'The Cult - Part 2', trader:'Peacekeeper', map:'Customs / Woods', req:'The Cult 1', note:'夜間にカルト痕跡にマーカー設置', items:'MS2000 Marker ×2', kappa:true},
+  {id:'pk_10', name:'Spa Tour - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Fishing Gear', note:'12GショットガンヘッドショットでScav撃破', kappa:true},
+  {id:'pk_11', name:'Spa Tour - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour 1', note:'ヘリ・発電所にマーカー設置', items:'MS2000 Marker ×2', kappa:true},
+  {id:'pk_12', name:'Spa Tour - Part 3', trader:'Peacekeeper', map:'Any', req:'Spa Tour 2', note:'指定発電機パーツ等納品', items:'WD-40, Corrugated hose等', kappa:true},
+  {id:'pk_13', name:'Spa Tour - Part 4', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour 3', note:'西棟220号室・東棟220号室調査', kappa:true},
+  {id:'pk_14', name:'Spa Tour - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour 4', note:'鍵持参で療養所密輸ルート調査', items:'Resort key', kappa:true},
+  {id:'pk_15', name:'Spa Tour - Part 6', trader:'Peacekeeper', map:'Any', req:'Spa Tour 5', note:'8,000ドル納品', items:'$8,000 Cash', kappa:true},
+  {id:'pk_16', name:'Wet Job - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour 6', note:'サプレッサーM4A1等でScav 10体撃破', kappa:true},
+  {id:'pk_17', name:'Wet Job - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job 1', note:'島周辺の無線トランスミッター調査', kappa:true},
+  {id:'pk_18', name:'Wet Job - Part 3', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job 2', note:'Arpeggio車捜索・生還', kappa:true},
+  {id:'pk_19', name:'Wet Job - Part 4', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job 3', note:'テラグループインフォメーション画像回収', kappa:true},
+  {id:'pk_20', name:'Wet Job - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job 4', note:'スナイパースキルLevel 7到達', kappa:true},
+  {id:'pk_21', name:'Wet Job - Part 6', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job 5', note:'指定ポイントでスナイパーキル', kappa:true},
+  {id:'pk_22', name:'Cargo X - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'PMC Level 20', note:'療養所東棟地下調査', kappa:true},
+  {id:'pk_23', name:'Cargo X - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Cargo X 1', note:'西棟部屋調査', kappa:true},
+  {id:'pk_24', name:'Cargo X - Part 3', trader:'Peacekeeper', map:'Shoreline', req:'Cargo X 2', note:'隠し倉庫調査', kappa:true},
+  {id:'pk_25', name:'Revision - Part 1', trader:'Peacekeeper', map:'Reserve', req:'PMC Level 20', note:'BMP装甲車4台にマーカー設置', items:'MS2000 Marker ×4', kappa:true},
+  {id:'pk_26', name:'Revision - Part 2', trader:'Peacekeeper', map:'Lighthouse', req:'PMC Level 20', note:'ライトハウスの装甲車にマーカー設置', items:'MS2000 Marker ×4', kappa:true},
+
+  // --- MECHANIC ---
+  {id:'mc_1', name:'Saving the Mole', trader:'Mechanic', map:'Ground Zero', req:'PMC Level 1', note:'研究データ回収', items:'Scientist key', kappa:false},
+  {id:'mc_2', name:'Introduction', trader:'Mechanic', map:'Woods', req:'PMC Level 10', note:'イェーガーのキャンプから手紙入手', kappa:true},
+  {id:'mc_gs1', name:'Gunsmith - Part 1', trader:'Mechanic', map:'Any', req:'PMC Level 12', note:'カスタムMP-133納品', items:'MP-133 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs2', name:'Gunsmith - Part 2', trader:'Mechanic', map:'Any', req:'Gunsmith 1', note:'カスタムAKS-74U納品', items:'AKS-74U (指定パーツ構成)', kappa:true},
+  {id:'mc_gs3', name:'Gunsmith - Part 3', trader:'Mechanic', map:'Any', req:'Gunsmith 2', note:'カスタムMP5納品', items:'MP5 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs4', name:'Gunsmith - Part 4', trader:'Mechanic', map:'Any', req:'Gunsmith 3', note:'カスタムM4A1納品', items:'M4A1 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs5', name:'Gunsmith - Part 5', trader:'Mechanic', map:'Any', req:'Gunsmith 4', note:'カスタムDVL-10納品', items:'DVL-10 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs6', name:'Gunsmith - Part 6', trader:'Mechanic', map:'Any', req:'Gunsmith 5', note:'カスタムAKM納品', items:'AKM (指定パーツ構成)', kappa:true},
+  {id:'mc_gs7', name:'Gunsmith - Part 7', trader:'Mechanic', map:'Any', req:'Gunsmith 6', note:'カスタムM870納品', items:'M870 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs8', name:'Gunsmith - Part 8', trader:'Mechanic', map:'Any', req:'Gunsmith 7', note:'カスタムAK-74N納品', items:'AK-74N (指定パーツ構成)', kappa:true},
+  {id:'mc_gs9', name:'Gunsmith - Part 9', trader:'Mechanic', map:'Any', req:'Gunsmith 8', note:'カスタムAKS-74N納品', items:'AKS-74N (指定パーツ構成)', kappa:true},
+  {id:'mc_gs10', name:'Gunsmith - Part 10', trader:'Mechanic', map:'Any', req:'Gunsmith 9', note:'カスタムAK-105納品', items:'AK-105 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs11', name:'Gunsmith - Part 11', trader:'Mechanic', map:'Any', req:'Gunsmith 10', note:'カスタムVector 9x19納品', items:'Vector 9x19 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs12', name:'Gunsmith - Part 12', trader:'Mechanic', map:'Any', req:'Gunsmith 11', note:'カスタムAK-102納品', items:'AK-102 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs13', name:'Gunsmith - Part 13', trader:'Mechanic', map:'Any', req:'Gunsmith 12', note:'カスタムMPX納品', items:'MPX (指定パーツ構成)', kappa:true},
+  {id:'mc_gs14', name:'Gunsmith - Part 14', trader:'Mechanic', map:'Any', req:'Gunsmith 13', note:'カスタムHK 416A5納品', items:'HK 416A5 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs15', name:'Gunsmith - Part 15', trader:'Mechanic', map:'Any', req:'Gunsmith 14', note:'カスタムAS VAL納品', items:'AS VAL (指定パーツ構成)', kappa:true},
+  {id:'mc_gs16', name:'Gunsmith - Part 16', trader:'Mechanic', map:'Any', req:'Gunsmith 15', note:'カスタムM1A納品', items:'M1A (指定パーツ構成)', kappa:true},
+  {id:'mc_gs17', name:'Gunsmith - Part 17', trader:'Mechanic', map:'Any', req:'Gunsmith 16', note:'カスタムAK-101納品', items:'AK-101 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs18', name:'Gunsmith - Part 18', trader:'Mechanic', map:'Any', req:'Gunsmith 17', note:'カスタムAKM(高級)納品', items:'AKM (指定パーツ構成)', kappa:true},
+  {id:'mc_gs19', name:'Gunsmith - Part 19', trader:'Mechanic', map:'Any', req:'Gunsmith 18', note:'カスタムSVD納品', items:'SVD (指定パーツ構成)', kappa:true},
+  {id:'mc_gs20', name:'Gunsmith - Part 20', trader:'Mechanic', map:'Any', req:'Gunsmith 19', note:'カスタムM4A1(高級)納品', items:'M4A1 (指定パーツ構成)', kappa:true},
+  {id:'mc_gs21', name:'Gunsmith - Part 21', trader:'Mechanic', map:'Any', req:'Gunsmith 20', note:'カスタムRSASS納品', items:'RSASS (指定パーツ構成)', kappa:true},
+  {id:'mc_gs22', name:'Gunsmith - Part 22', trader:'Mechanic', map:'Any', req:'Gunsmith 21', note:'カスタムM1A(SASS)納品', items:'M1A (指定パーツ構成)', kappa:true},
+  {id:'mc_3', name:'Signal - Part 1', trader:'Mechanic', map:'Shoreline', req:'PMC Level 12', note:'電波塔2箇所調査', kappa:true},
+  {id:'mc_4', name:'Signal - Part 2', trader:'Mechanic', map:'Any', req:'Signal 1', note:'基板等電子パーツ納品', items:'Printed circuit board ×3, CPU fan ×2等', kappa:true},
+  {id:'mc_5', name:'Signal - Part 3', trader:'Mechanic', map:'Shoreline', req:'Signal 2', note:'3箇所にジャマー設置', items:'Jammer ×3', kappa:true},
+  {id:'mc_6', name:'Signal - Part 4', trader:'Mechanic', map:'Any', req:'Signal 3', note:'メモリスキルLevel 4到達', kappa:true},
+  {id:'mc_7', name:'Farming - Part 1', trader:'Mechanic', map:'Factory', req:'PMC Level 12', note:'制御板2箇所修理', items:'Tool set ×2', kappa:true},
+  {id:'mc_8', name:'Farming - Part 2', trader:'Mechanic', map:'Any', req:'Farming 1', note:'電源コード等納品', items:'Power cord ×2, T-Shaped plug ×2 (FIR)', kappa:true},
+  {id:'mc_9', name:'Farming - Part 3', trader:'Mechanic', map:'Customs', req:'Farming 2', note:'グラボ盗難パッケージ回収', kappa:true},
+  {id:'mc_10', name:'Farming - Part 4', trader:'Mechanic', map:'Any', req:'Farming 3', note:'グラフィックボード5枚納品', items:'Graphics card ×5 (FIR)', kappa:true},
+  {id:'mc_11', name:'Bad Habit', trader:'Mechanic', map:'Any', req:'PMC Level 12', note:'タバコ各3箱納品', items:'Wilton ×3, Strike ×3, Malboro ×3 (FIR)', kappa:true},
+  {id:'mc_12', name:'Shooter Born in Heaven', trader:'Mechanic', map:'Multiple', req:'PMC Level 30', note:'各指定マップでボルトアクション100m以上HS PMCキル', kappa:true},
+
+  // --- RAGMAN ---
+  {id:'rg_1', name:'Only Business', trader:'Ragman', map:'Any', req:'PMC Level 15', note:'Ragman信頼度レベル向上', kappa:false},
+  {id:'rg_2', name:'Make ULTRA Great Again', trader:'Ragman', map:'Interchange', req:'Only Business', note:'InterchangeでScav 25体撃破', kappa:true},
+  {id:'rg_3', name:'Big Sale', trader:'Ragman', map:'Interchange', req:'Only Business', note:'ショッピングモール内5店舗確認', kappa:true},
+  {id:'rg_4', name:'The Delicious Sausage', trader:'Ragman', map:'Streets of Tarkov', req:'PMC Level 15', note:'ソーセージ店確認・ソーセージ納品', items:'Sausage ×1 (FIR)', kappa:true},
+  {id:'rg_5', name:'Database - Part 1', trader:'Ragman', map:'Interchange', req:'Big Sale', note:'OLI・Goshanの書類回収', kappa:true},
+  {id:'rg_6', name:'Database - Part 2', trader:'Ragman', map:'Interchange', req:'Database 1', note:'IDEAの書類回収', kappa:true},
+  {id:'rg_7', name:'Sew it Good - Part 1', trader:'Ragman', map:'Any', req:'PMC Level 15', note:'Pilgrimバックパック2個納品', items:'Pilgrim backpack ×2 (FIR)', kappa:true},
+  {id:'rg_8', name:'Sew it Good - Part 2', trader:'Ragman', map:'Any', req:'Sew it Good 1', note:'Gzhel-Kアーマー2着(指定耐久)納品', items:'Gzhel-K ×2', kappa:true},
+  {id:'rg_9', name:'Sew it Good - Part 3', trader:'Ragman', map:'Any', req:'Sew it Good 2', note:'6B43 6Aアーマー2着(指定耐久)納品', items:'6B43 6A ×2', kappa:true},
+  {id:'rg_10', name:'Sew it Good - Part 4', trader:'Ragman', map:'Any', req:'Sew it Good 3', note:'Wartechベスト、Raidバックパック納品', items:'TV-109 ×2, Raid backpack ×1 (FIR)', kappa:true},
+  {id:'rg_11', name:'Sales Night', trader:'Ragman', map:'Interchange', req:'PMC Level 25', note:'Interchangeから夜間に7回脱出', kappa:true},
+  {id:'rg_12', name:'The Style', trader:'Ragman', map:'Interchange', req:'PMC Level 40', note:'Killa 100体撃破 (アディダスジャージ解放)', kappa:false},
+
+  // --- JAEGER ---
+  {id:'jg_1', name:'The Survivalist Path - Unspoiled Integrity', trader:'Jaeger', map:'Woods', req:'Introduction', note:'Scavを殺さずにWoods脱出', kappa:true},
+  {id:'jg_2', name:'The Survivalist Path - Thrifty', trader:'Jaeger', map:'Reserve', req:'Introduction', note:'ZibboとIskraを隠し場所に埋設', items:'Zibbo ×1, Iskra MRE ×1', kappa:true},
+  {id:'jg_3', name:'The Survivalist Path - Zhivchik', trader:'Jaeger', map:'Woods', req:'Introduction', note:'脱水症状で5分間生存して生還', kappa:true},
+  {id:'jg_4', name:'The Survivalist Path - Wounded Beast', trader:'Jaeger', map:'Any', req:'Introduction', note:'体力が低下した状態でScav 3体撃破', kappa:true},
+  {id:'jg_5', name:'The Survivalist Path - Tough Guy', trader:'Jaeger', map:'Woods', req:'Introduction', note:'回復アイテムを使わずにScav 6体撃破', kappa:true},
+  {id:'jg_6', name:'The Survivalist Path - Cold Blood', trader:'Jaeger', map:'Any', req:'Introduction', note:'頭部振戦(震え)状態でPMC 2体頭部撃破', kappa:true},
+  {id:'jg_7', name:'The Survivalist Path - Eagle-Owl', trader:'Jaeger', map:'Woods', req:'Introduction', note:'暗闇(21:00-04:00)でNVG/熱源なしでScav 6体撃破', kappa:true},
+  {id:'jg_8', name:'The Survivalist Path - Combat Medic', trader:'Jaeger', map:'Any', req:'Introduction', note:'VitalityスキルLevel 5到達', kappa:true},
+  {id:'jg_9', name:'The Tarkov Shooter - Part 1', trader:'Jaeger', map:'Woods', req:'Introduction', note:'アイアンサイトボルトアクションで40m以上でScav 5体撃破', kappa:true},
+  {id:'jg_10', name:'The Tarkov Shooter - Part 2', trader:'Jaeger', map:'Woods', req:'Tarkov Shooter 1', note:'ボルトアクションで40m以上で脚部ヒット3回＆HS 2回', kappa:true},
+  {id:'jg_11', name:'The Tarkov Shooter - Part 3', trader:'Jaeger', map:'Factory', req:'Tarkov Shooter 2', note:'ボルトアクションで25m以内でPMC 3体撃破', kappa:true},
+  {id:'jg_12', name:'The Tarkov Shooter - Part 4', trader:'Jaeger', map:'Any', req:'Tarkov Shooter 3', note:'ボルトアクションで80m以上でPMC 5体撃破', kappa:true},
+  {id:'jg_13', name:'The Tarkov Shooter - Part 5', trader:'Jaeger', map:'Customs', req:'Tarkov Shooter 4', note:'ボルトアクションでCustomsでScav 8体撃破', kappa:true},
+  {id:'jg_14', name:'The Tarkov Shooter - Part 6', trader:'Jaeger', map:'Woods', req:'Tarkov Shooter 5', note:'ボルトアクションでSniper Scav 5体撃破', kappa:true},
+  {id:'jg_15', name:'The Tarkov Shooter - Part 7', trader:'Jaeger', map:'Any', req:'Tarkov Shooter 6', note:'サプレッサー付きボルトアクションで45m以上でPMC 5体撃破', kappa:true},
+  {id:'jg_16', name:'The Tarkov Shooter - Part 8', trader:'Jaeger', map:'Woods', req:'Tarkov Shooter 7', note:'Woodsで1レイド中にボルトアクションでPMC 3体撃破', kappa:true},
+  {id:'jg_17', name:'Huntsman Path - Trophy', trader:'Jaeger', map:'Resala', req:'PMC Level 15', note:'Reshala撃破、金TTピストル納品', items:'Golden TT pistol (FIR)', kappa:true},
+  {id:'jg_18', name:'Huntsman Path - Justice', trader:'Jaeger', map:'Customs', req:'PMC Level 15', note:'CustomsでShturman/Scav 撃破', kappa:true},
+  {id:'jg_19', name:'Huntsman Path - Woods Keeper', trader:'Jaeger', map:'Woods', req:'PMC Level 15', note:'Shturman撃破、鍵納品', items:'Shturman key (FIR)', kappa:true},
+  {id:'jg_20', name:'Huntsman Path - Selling Opium', trader:'Jaeger', map:'Shoreline', req:'PMC Level 20', note:'Sanitar撃破', kappa:true},
+  {id:'jg_21', name:'Huntsman Path - Eraser - Part 1', trader:'Jaeger', map:'Reserve', req:'PMC Level 20', note:'Glukhar撃破', kappa:true},
+
+  // --- FENCE ---
+  {id:'fn_collector', name:'Collector', trader:'Fence', map:'Any', req:'全Kappa前提タスク完了 + PMC Level 55', note:'全44点のストリーマー＆コレクターアイテム納品', items:'Collector全44品 (FIR)', kappa:true}
 ];
 
 const collectorData=[
@@ -318,7 +459,7 @@ const collectorData=[
 {en: 'Missam forklift key', ja: 'Missam フォークリフトキー', file: 'Missamkey_icon.png'},
 {en: 'Nut Sack balaclava', ja: 'Nut Sack バラクラバ', file: 'GFa-Nut-Sack-icon.png'},
 {en: 'Pestily plague mask', ja: 'Pestily ペストマスク', file: 'Plague_mask_icon.png'},
-{en: 'Press pass (issued for NoiceGuy)', ja: 'プレスパス (NoiceGuy発行)', count: 1, file: 'NoiceguyPass_icon.png'},
+{en: 'Press pass (issued for NoiceGuy)', ja: 'プレスパス (NoiceGuy発行)', file: 'NoiceguyPass_icon.png'},
 {en: 'Raven figurine', ja: 'カラスの置物', file: 'Raven_figurine_icon.png'},
 {en: 'SheefGG piggy bank', ja: 'SheefGG 貯金箱', file: 'GSt-SheefGG-piggy-bank-icon.png'},
 {en: 'Shroud half-mask', ja: 'Shroud ハーフマスク', file: 'Shroud_Icon.png'},
@@ -333,143 +474,40 @@ const collectorData=[
 ];
 
 const hideoutStations = [
-  {
-    id: 'stash', name: {en: 'Stash', ja: 'スタッシュ'},
-    levels: [
-      {level: 1, items: []},
-      {level: 2, items: [['Pliers', 2, false], ['Wrench', 2, false], ['Corrugated hose', 3, false], ['₽', 2500000, false]]},
-      {level: 3, items: [['Wi-Fi Camera', 2, true], ['Phase control relay', 4, false], ['FP-100 filter absorber', 2, false], ['Secure Flash drive', 5, true], ['₽', 8500000, false]]},
-      {level: 4, items: []}
-    ]
-  },
-  {
-    id: 'security', name: {en: 'Security', ja: 'セキュリティ'},
-    levels: [
-      {level: 1, items: [['Construction measuring tape', 1, false], ['₽', 20000, false]]},
-      {level: 2, items: [['Power cord', 2, false], ['Energy-saving lamp', 4, false], ['Pliers', 1, false], ['₽', 75000, false]]},
-      {level: 3, items: [['NIXXIE technical data book', 1, true], ['Vpx Flash Storage Module', 1, true], ['Phase control relay', 1, false], ['₽', 250000, false]]}
-    ]
-  },
-  {
-    id: 'generator', name: {en: 'Generator', ja: '発電機'},
-    levels: [
-      {level: 1, items: [['Spark plug', 1, false], ['₽', 100000, false]], req: 'Security Lv.1'},
-      {level: 2, items: [['Tushonka (Large)', 2, false], ['Phase control relay', 2, false], ['Spark plug', 3, false], ['₽', 450000, false]], req: 'Security Lv.2'},
-      {level: 3, items: [['Mulled Catalyst chemical pack', 2, false], ['Toolset', 2, true], ['FP-100 filter absorber', 2, false], ['₽', 1800000, false]], req: 'Illumination Lv.3'}
-    ]
-  },
-  {
-    id: 'illumination', name: {en: 'Illumination', ja: '照明'},
-    levels: [
-      {level: 1, items: [['Crickent lighter', 1, false], ['₽', 10000, false]]},
-      {level: 2, items: [['Energy-saving lamp', 3, false], ['Bulb', 3, false], ['₽', 50000, false]]},
-      {level: 3, items: [['UV lamp', 5, false], ['FP-100 filter absorber', 1, false], ['₽', 200000, false]]}
-    ]
-  },
-  {
-    id: 'vents', name: {en: 'Vents', ja: '通気口'},
-    levels: [
-      {level: 1, items: [['Corrugated hose', 2, false], ['Metal spare parts', 2, false], ['₽', 35000, false]], req: 'Generator Lv.1'},
-      {level: 2, items: [['Electric motor', 1, false], ['Toolset', 1, false], ['Corrugated hose', 3, false], ['₽', 150000, false]], req: 'Generator Lv.2'},
-      {level: 3, items: [['Milpulse tactical burner', 1, false], ['Electric motor', 1, false], ['Corrugated hose', 5, false], ['₽', 500000, false]], req: 'Generator Lv.3'}
-    ]
-  },
-  {
-    id: 'workbench', name: {en: 'Workbench', ja: 'ワークベンチ'},
-    levels: [
-      {level: 1, items: [['Screw nuts', 2, false], ['Bolts', 2, false], ['Leatherman Multitool', 1, false]], req: 'Security Lv.1'},
-      {level: 2, items: [['Toolset', 1, false], ['WD-40 (100ml)', 1, false], ['Pliers Elite', 1, true], ['₽', 100000, false]], req: 'Vents Lv.1'},
-      {level: 3, items: [['Milpulse tactical burner', 1, false], ['Electric motor', 2, false], ['Wires', 15, false], ['₽', 450000, false]], req: 'Vents Lv.2'}
-    ]
-  },
-  {
-    id: 'lavatory', name: {en: 'Lavatory', ja: '洗面所'},
-    levels: [
-      {level: 1, items: [['Tube of Poxeram cold welding', 1, false], ['Soap', 1, false], ['₽', 10000, false]]},
-      {level: 2, items: [['Teapot', 1, false], ['Wrench', 1, false], ['Corrugated hose', 2, false], ['₽', 50000, false]]},
-      {level: 3, items: [['Clean Water', 2, true], ['Corrugated hose', 4, false], ['Toolset', 1, false], ['₽', 200000, false]]}
-    ]
-  },
-  {
-    id: 'water_collector', name: {en: 'Water Collector', ja: '集水器'},
-    levels: [
-      {level: 1, items: [['Duct tape', 3, false], ['Screw nuts', 5, false], ['Bolts', 5, false], ['Corrugated hose', 4, false]], req: 'Lavatory Lv.2'},
-      {level: 2, items: [['Toolset', 2, false], ['Corrugated hose', 6, false], ['Electric motor', 2, false], ['KEKTAPE duct tape', 5, false]], req: 'Workbench Lv.1'},
-      {level: 3, items: [['Phase control relay', 2, false], ['Water filter', 2, false], ['Electric motor', 1, false], ['₽', 500000, false]], req: 'Generator Lv.2'}
-    ]
-  },
-  {
-    id: 'medstation', name: {en: 'Medstation', ja: 'メディステーション'},
-    levels: [
-      {level: 1, items: [['Salewa first aid kit', 1, true], ['Disposable syringe', 3, false], ['Hydrogen peroxide', 1, false], ['₽', 25000, false]]},
-      {level: 2, items: [['Vaseline', 1, false], ['Augmentin pill pack', 2, false], ['Ibuprofen painkillers', 1, false], ['₽', 120000, false]], req: 'Water Collector Lv.1'},
-      {level: 3, items: [['LEDX Skin Transilluminator', 1, true], ['Ophthalmoscope', 1, true], ['UHF RFID Reader', 1, true], ['₽', 600000, false]], req: 'Intel Center Lv.2'}
-    ]
-  },
-  {
-    id: 'nutrition', name: {en: 'Nutrition Unit', ja: '栄養ユニット'},
-    levels: [
-      {level: 1, items: [['Pack of juice', 1, false], ['MRE ration pack', 1, false], ['Emelya rye croutons', 1, false], ['₽', 15000, false]], req: 'Lavatory Lv.1'},
-      {level: 2, items: [['Can of beef stew', 2, false], ['Condensed milk', 1, false], ['Pack of instant noodles', 2, false], ['₽', 75000, false]], req: 'Medstation Lv.1'},
-      {level: 3, items: [['Aseptic bandage', 3, false], ['Can of TarCola', 3, false], ['Purewater', 1, true], ['₽', 300000, false]], req: 'Water Collector Lv.2'}
-    ]
-  },
-  {
-    id: 'intel', name: {en: 'Intelligence Center', ja: 'インテリジェンスセンター'},
-    levels: [
-      {level: 1, items: [['Secure Flash drive', 3, true], ['CD-ROM', 3, false], ['DVD drive', 3, false], ['₽', 150000, false]], req: 'Security Lv.2'},
-      {level: 2, items: [['Intelligence folder', 4, true], ['VPX Flash Storage Module', 2, true], ['Phase control relay', 3, false], ['₽', 600000, false]], req: 'Generator Lv.2'},
-      {level: 3, items: [['Encrusted flash drive', 2, true], ['SJ9 TGLabs combat stimulant', 2, true], ['Military flash drive', 4, true], ['₽', 2500000, false]], req: 'Generator Lv.3'}
-    ]
-  },
-  {
-    id: 'bitcoin', name: {en: 'Bitcoin Farm', ja: 'ビットコインファーム'},
-    levels: [
-      {level: 1, items: [['T-Shaped plug', 10, false], ['VPX Flash Storage Module', 2, false], ['Power cord', 15, false], ['Power supply unit', 10, true], ['CPU fan', 15, false]], req: 'Intel Center Lv.2'},
-      {level: 2, items: [['CPU fan', 15, false], ['Power supply unit', 10, false], ['Printed circuit board', 15, true], ['Phase control relay', 10, false], ['Military power filter', 5, false]], req: 'Generator Lv.3'},
-      {level: 3, items: [['Physical Bitcoin', 25, true], ['Graphics card', 50, false], ['UHF RFID Reader', 3, true], ['Miltrade battery', 3, false]], req: 'Generator Lv.3'}
-    ]
-  }
+  {id:'stash', name:{en:'Stash', ja:'スタッシュ'}, levels:[{level:1, items:[]},{level:2, items:[['Pliers',2,false],['Wrench',2,false],['Corrugated hose',3,false],['₽',2500000,false]]},{level:3, items:[['Wi-Fi Camera',2,true],['Phase control relay',4,false],['FP-100 filter absorber',2,false],['Secure Flash drive',5,true],['₽',8500000,false]]},{level:4, items:[]}]},
+  {id:'security', name:{en:'Security', ja:'セキュリティ'}, levels:[{level:1, items:[['Construction measuring tape',1,false],['₽',20000,false]]},{level:2, items:[['Power cord',2,false],['Energy-saving lamp',4,false],['Pliers',1,false],['₽',75000,false]]},{level:3, items:[['NIXXIE technical data book',1,true],['Vpx Flash Storage Module',1,true],['Phase control relay',1,false],['₽',250000,false]]}]},
+  {id:'generator', name:{en:'Generator', ja:'発電機'}, levels:[{level:1, items:[['Spark plug',1,false],['₽',100000,false]], req:'Security Lv.1'},{level:2, items:[['Tushonka (Large)',2,false],['Phase control relay',2,false],['Spark plug',3,false],['₽',450000,false]], req:'Security Lv.2'},{level:3, items:[['Mulled Catalyst chemical pack',2,false],['Toolset',2,true],['FP-100 filter absorber',2,false],['₽',1800000,false]], req:'Illumination Lv.3'}]},
+  {id:'illumination', name:{en:'Illumination', ja:'照明'}, levels:[{level:1, items:[['Crickent lighter',1,false],['₽',10000,false]]},{level:2, items:[['Energy-saving lamp',3,false],['Bulb',3,false],['₽',50000,false]]},{level:3, items:[['UV lamp',5,false],['FP-100 filter absorber',1,false],['₽',200000,false]]}]},
+  {id:'vents', name:{en:'Vents', ja:'通気口'}, levels:[{level:1, items:[['Corrugated hose',2,false],['Metal spare parts',2,false],['₽',35000,false]], req:'Generator Lv.1'},{level:2, items:[['Electric motor',1,false],['Toolset',1,false],['Corrugated hose',3,false],['₽',150000,false]], req:'Generator Lv.2'},{level:3, items:[['Milpulse tactical burner',1,false],['Electric motor',1,false],['Corrugated hose',5,false],['₽',500000,false]], req:'Generator Lv.3'}]},
+  {id:'workbench', name:{en:'Workbench', ja:'ワークベンチ'}, levels:[{level:1, items:[['Screw nuts',2,false],['Bolts',2,false],['Leatherman Multitool',1,false]], req:'Security Lv.1'},{level:2, items:[['Toolset',1,false],['WD-40 (100ml)',1,false],['Pliers Elite',1,true],['₽',100000,false]], req:'Vents Lv.1'},{level:3, items:[['Milpulse tactical burner',1,false],['Electric motor',2,false],['Wires',15,false],['₽',450000,false]], req:'Vents Lv.2'}]},
+  {id:'lavatory', name:{en:'Lavatory', ja:'洗面所'}, levels:[{level:1, items:[['Tube of Poxeram cold welding',1,false],['Soap',1,false],['₽',10000,false]]},{level:2, items:[['Teapot',1,false],['Wrench',1,false],['Corrugated hose',2,false],['₽',50000,false]]},{level:3, items:[['Clean Water',2,true],['Corrugated hose',4,false],['Toolset',1,false],['₽',200000,false]]}]},
+  {id:'water_collector', name:{en:'Water Collector', ja:'集水器'}, levels:[{level:1, items:[['Duct tape',3,false],['Screw nuts',5,false],['Bolts',5,false],['Corrugated hose',4,false]], req:'Lavatory Lv.2'},{level:2, items:[['Toolset',2,false],['Corrugated hose',6,false],['Electric motor',2,false],['KEKTAPE duct tape',5,false]], req:'Workbench Lv.1'},{level:3, items:[['Phase control relay',2,false],['Water filter',2,false],['Electric motor',1,false],['₽',500000,false]], req:'Generator Lv.2'}]},
+  {id:'medstation', name:{en:'Medstation', ja:'メディステーション'}, levels:[{level:1, items:[['Salewa first aid kit',1,true],['Disposable syringe',3,false],['Hydrogen peroxide',1,false],['₽',25000,false]]},{level:2, items:[['Vaseline',1,false],['Augmentin pill pack',2,false],['Ibuprofen painkillers',1,false],['₽',120000,false]], req:'Water Collector Lv.1'},{level:3, items:[['LEDX Skin Transilluminator',1,true],['Ophthalmoscope',1,true],['UHF RFID Reader',1,true],['₽',600000,false]], req:'Intel Center Lv.2'}]},
+  {id:'nutrition', name:{en:'Nutrition Unit', ja:'栄養ユニット'}, levels:[{level:1, items:[['Pack of juice',1,false],['MRE ration pack',1,false],['Emelya rye croutons',1,false],['₽',15000,false]], req:'Lavatory Lv.1'},{level:2, items:[['Can of beef stew',2,false],['Condensed milk',1,false],['Pack of instant noodles',2,false],['₽',75000,false]], req:'Medstation Lv.1'},{level:3, items:[['Aseptic bandage',3,false],['Can of TarCola',3,false],['Purewater',1,true],['₽',300000,false]], req:'Water Collector Lv.2'}]},
+  {id:'intel', name:{en:'Intelligence Center', ja:'インテリジェンスセンター'}, levels:[{level:1, items:[['Secure Flash drive',3,true],['CD-ROM',3,false],['DVD drive',3,false],['₽',150000,false]], req:'Security Lv.2'},{level:2, items:[['Intelligence folder',4,true],['VPX Flash Storage Module',2,true],['Phase control relay',3,false],['₽',600000,false]], req:'Generator Lv.2'},{level:3, items:[['Encrusted flash drive',2,true],['SJ9 TGLabs combat stimulant',2,true],['Military flash drive',4,true],['₽',2500000,false]], req:'Generator Lv.3'}]},
+  {id:'bitcoin', name:{en:'Bitcoin Farm', ja:'ビットコインファーム'}, levels:[{level:1, items:[['T-Shaped plug',10,false],['VPX Flash Storage Module',2,false],['Power cord',15,false],['Power supply unit',10,true],['CPU fan',15,false]], req:'Intel Center Lv.2'},{level:2, items:[['CPU fan',15,false],['Power supply unit',10,false],['Printed circuit board',15,true],['Phase control relay',10,false],['Military power filter',5,false]], req:'Generator Lv.3'},{level:3, items:[['Physical Bitcoin',25,true],['Graphics card',50,false],['UHF RFID Reader',3,true],['Miltrade battery',3,false]], req:'Generator Lv.3'}]}
 ];
 
 function createEmptySlot(name = '') {
-  return {
-    name: name,
-    tasks: {},
-    collector: {},
-    hideoutLevels: {},
-    hideoutCounts: {}
-  };
+  return { name: name, faction: 'USEC', tasks: {}, collector: {}, hideoutLevels: {}, hideoutCounts: {} };
 }
 
-let state = {
-  slot: 0,
-  lang: 'ja',
-  slots: Array.from({length: 10}, (_, i) => createEmptySlot(`スロット ${i + 1}`))
-};
+let state = { slot: 0, lang: 'ja', slots: Array.from({length: 10}, (_, i) => createEmptySlot(`スロット ${i + 1}`)) };
 
 function load(){
   try{
     const s = JSON.parse(localStorage.getItem(KEY));
-    if(s && s.slots && s.slots.length === 10){
-      state = s;
-      if(s.lang) currentLang = s.lang;
-    } else {
-      save();
-    }
-  }catch(e){
-    save();
-  }
+    if(s && s.slots && s.slots.length === 10){ state = s; if(s.lang) currentLang = s.lang; }
+    else save();
+  }catch(e){ save(); }
 }
 
 function save(){
   try{
-    state.lang = currentLang;
+    state.lang = currentLang; cur().faction = currentFaction;
     localStorage.setItem(KEY, JSON.stringify(state));
     const statusEl = document.getElementById('saveStatus');
-    if(statusEl) {
-      statusEl.textContent = (currentLang==='ja'?'自動保存済み：':'Auto-saved: ') + new Date().toLocaleString(currentLang==='ja'?'ja-JP':'en-US');
-    }
+    if(statusEl) statusEl.textContent = (currentLang==='ja'?'自動保存済み：':'Auto-saved: ') + new Date().toLocaleString(currentLang==='ja'?'ja-JP':'en-US');
   }catch(e){}
   updateStats();
 }
@@ -477,75 +515,55 @@ function save(){
 function cur(){
   if(state.slot === undefined || state.slot < 0 || state.slot >= 10) state.slot = 0;
   if(!state.slots[state.slot]) state.slots[state.slot] = createEmptySlot(`スロット ${state.slot + 1}`);
-  if(!state.slots[state.slot].tasks) state.slots[state.slot].tasks = {};
-  if(!state.slots[state.slot].collector) state.slots[state.slot].collector = {};
-  if(!state.slots[state.slot].hideoutLevels) state.slots[state.slot].hideoutLevels = {};
-  if(!state.slots[state.slot].hideoutCounts) state.slots[state.slot].hideoutCounts = {};
   return state.slots[state.slot];
 }
 
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
+function setFaction(fac){
+  currentFaction = fac; cur().faction = fac;
+  document.querySelectorAll('.faction-btn').forEach(b => b.classList.toggle('active', b.classList.contains(fac.toLowerCase())));
+  save(); renderAll();
+}
+
 function setLang(lang){
   currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
   const t = i18n[lang];
-  
   document.getElementById('t-title').textContent = t.title;
   document.getElementById('t-subtitle').textContent = t.subtitle;
   document.getElementById('t-stat-tasks').textContent = t.statTasks;
   document.getElementById('t-stat-items').textContent = t.statItems;
   document.getElementById('t-stat-slot').textContent = t.statSlot;
   document.getElementById('t-stat-auto').textContent = t.statAuto;
-  
-  document.getElementById('t-tab-tasks').textContent = t.tabTasks;
+  document.getElementById('t-tab-kappa').textContent = t.tabKappa;
+  document.getElementById('t-tab-nonkappa').textContent = t.tabNonKappa;
+  document.getElementById('t-tab-all').textContent = t.tabAll;
   document.getElementById('t-tab-trader').textContent = t.tabTrader;
   document.getElementById('t-tab-map').textContent = t.tabMap;
   document.getElementById('t-tab-hideout').textContent = t.tabHideout;
-  document.getElementById('t-tab-route').textContent = t.tabRoute;
   document.getElementById('t-tab-save').textContent = t.tabSave;
-  
-  document.getElementById('t-all-tasks-title').textContent = t.allTasksTitle;
-  document.getElementById('t-all-tasks-desc').textContent = t.allTasksDesc;
-  document.getElementById('t-all-tasks-info').textContent = t.allTasksInfo;
-  document.getElementById('t-opt-all').textContent = t.optAll;
-  document.getElementById('t-opt-todo').textContent = t.optTodo;
-  document.getElementById('t-opt-done').textContent = t.optDone;
-
-  document.getElementById('h-opt-all').textContent = t.hOptAll;
-  document.getElementById('h-opt-todo').textContent = t.hOptTodo;
-  document.getElementById('h-opt-done').textContent = t.hOptDone;
-  
+  document.getElementById('t-kappa-title').textContent = t.kappaTitle;
+  document.getElementById('t-nonkappa-title').textContent = t.nonKappaTitle;
+  document.getElementById('t-alltasks-title').textContent = t.allTasksTitle;
   document.getElementById('t-collector-title').textContent = t.collectorTitle;
-  document.getElementById('t-collector-desc').textContent = t.collectorDesc;
-  document.getElementById('t-link-en-collector').textContent = t.linkEnCollector;
-  document.getElementById('t-link-jp-collector').textContent = t.linkJpCollector;
-  
   document.getElementById('t-trader-title').textContent = t.traderTitle;
-  document.getElementById('t-trader-desc').textContent = t.traderDesc;
   document.getElementById('t-map-title').textContent = t.mapTitle;
-  document.getElementById('t-map-desc').textContent = t.mapDesc;
-  
   document.getElementById('t-hideout-title').textContent = t.hideoutTitle;
-  document.getElementById('t-hideout-subtitle').textContent = t.hideoutSubtitle;
-  
-  document.getElementById('t-route-title').textContent = t.routeTitle;
   document.getElementById('t-save-title').textContent = t.saveTitle;
   document.getElementById('t-slot-label').textContent = t.slotLabel;
   document.getElementById('exportBtn').textContent = t.exportBtn;
   document.getElementById('importBtn').textContent = t.importBtn;
-  
-  document.getElementById('t-reset-title').textContent = t.resetTitle;
-  document.getElementById('resetBtn').textContent = t.resetBtn1;
-  document.getElementById('resetHint').textContent = t.resetHint1;
-  
   document.getElementById('t-footer').textContent = t.footer;
-  document.getElementById('allTasksSearch').placeholder = t.searchAll;
-  document.getElementById('hideoutSearch').placeholder = t.searchHideout;
-  
-  save();
-  updateSlotDropdown();
-  renderAll();
+  save(); updateSlotDropdown(); renderAll();
+}
+
+function getFilteredTasksList(kappaOnly = null) {
+  return allTasksData.filter(d => {
+    if (d.faction && d.faction !== currentFaction) return false;
+    if (kappaOnly !== null && d.kappa !== kappaOnly) return false;
+    return true;
+  });
 }
 
 function renderTaskCard(d){
@@ -553,74 +571,93 @@ function renderTaskCard(d){
   let done = !!cur().tasks[d.id];
   const el = document.createElement('div');
   el.className = 'entry' + (done ? ' done' : '');
+
+  let jpUrl = `https://wikiwiki.jp/eft/${encodeURIComponent(d.trader)}/${encodeURIComponent(d.name)}`;
+  let enUrl = `https://escapefromtarkov.fandom.com/wiki/${encodeURIComponent(d.name)}`;
+
+  let reqItemsHtml = d.items ? `<div class="req-items"><strong>${t.reqItemsLabel}</strong>${esc(d.items)}</div>` : '';
+  let factionTag = d.faction ? `<span class="tag ${d.faction.toLowerCase()}">${d.faction}</span>` : '';
+
   el.innerHTML = `
     <div class="entryhead">
-      <input type="checkbox" ${done ? 'checked':''} data-id="${d.id}" aria-label="done">
-      <div>
+      <input type="checkbox" ${done ? 'checked':''} data-id="${d.id}">
+      <div style="flex:1;">
         <h3>${esc(d.name)}</h3>
         <p>${currentLang==='ja'?'トレーダー：':'Trader: '}${esc(d.trader)} | ${currentLang==='ja'?'マップ：':'Map: '}${esc(d.map)}</p>
         <p style="color:var(--accent);"><strong>${t.reqLabel}</strong>${esc(d.req)}</p>
+        ${reqItemsHtml}
         <p>${esc(d.note)}</p>
-        <span class="tag ${d.kappa ? 'kappa':''}">${d.kappa ? t.kappaBadge : t.generalBadge}</span>
-        <p class="sources"><a href="https://tarkov.dev/tasks/" target="_blank" rel="noopener">${t.taskInfo}</a></p>
+        <div>
+          <span class="tag ${d.kappa ? 'kappa':'no'}">${d.kappa ? t.kappaBadge : t.nonKappaBadge}</span>
+          ${factionTag}
+        </div>
+        <div class="sources">
+          <a href="${jpUrl}" target="_blank" rel="noopener">${t.wikiJp}</a>
+          <a href="${enUrl}" target="_blank" rel="noopener">${t.wikiEn}</a>
+        </div>
       </div>
     </div>`;
   el.querySelector('input').onchange = e => {
     cur().tasks[d.id] = e.target.checked;
-    save();
-    renderAll();
+    save(); renderAll();
   };
   return el;
 }
 
-function renderAllTasks(){
-  const t = i18n[currentLang];
-  const root = document.getElementById('allTasksList');
+function renderTaskListContainer(targetId, tasks) {
+  const root = document.getElementById(targetId);
   if(!root) return;
   root.innerHTML = '';
-  const search = (document.getElementById('allTasksSearch')?.value || '').toLowerCase();
-  const filter = document.getElementById('allTasksFilter')?.value || 'all';
-  
-  let list = allTasksData.filter(d => {
+  if(!tasks.length){ root.innerHTML = `<div class="empty">該当するタスクはありません。</div>`; return; }
+  tasks.forEach(d => root.appendChild(renderTaskCard(d)));
+}
+
+function renderKappaTasks(){
+  const search = (document.getElementById('kappaTasksSearch')?.value || '').toLowerCase();
+  const filter = document.getElementById('kappaTasksFilter')?.value || 'all';
+  let list = getFilteredTasksList(true).filter(d => {
     let done = !!cur().tasks[d.id];
-    let matchText = (d.name + d.trader + d.map + d.req + d.note).toLowerCase().includes(search);
+    let matchText = (d.name + d.trader + d.map + d.req + d.note + (d.items || '')).toLowerCase().includes(search);
     let matchFilter = (filter === 'all' || (filter === 'done' ? done : !done));
     return matchText && matchFilter;
   });
-  
-  if(!list.length){
-    root.innerHTML = `<div class="empty">${t.noMatch}</div>`;
-    return;
-  }
-  list.forEach(d => root.appendChild(renderTaskCard(d)));
+  renderTaskListContainer('kappaTasksList', list);
+}
+
+function renderNonKappaTasks(){
+  const search = (document.getElementById('nonKappaSearch')?.value || '').toLowerCase();
+  const filter = document.getElementById('nonKappaFilter')?.value || 'all';
+  let list = getFilteredTasksList(false).filter(d => {
+    let done = !!cur().tasks[d.id];
+    let matchText = (d.name + d.trader + d.map + d.req + d.note + (d.items || '')).toLowerCase().includes(search);
+    let matchFilter = (filter === 'all' || (filter === 'done' ? done : !done));
+    return matchText && matchFilter;
+  });
+  renderTaskListContainer('nonKappaTasksList', list);
+}
+
+function renderAllTasksPage(){
+  const search = (document.getElementById('allTasksSearch')?.value || '').toLowerCase();
+  const filter = document.getElementById('allTasksFilter')?.value || 'all';
+  let list = getFilteredTasksList(null).filter(d => {
+    let done = !!cur().tasks[d.id];
+    let matchText = (d.name + d.trader + d.map + d.req + d.note + (d.items || '')).toLowerCase().includes(search);
+    let matchFilter = (filter === 'all' || (filter === 'done' ? done : !done));
+    return matchText && matchFilter;
+  });
+  renderTaskListContainer('allTasksPageList', list);
 }
 
 function renderTraderTasks(){
-  const root = document.getElementById('traderTasksList');
-  if(!root) return;
-  root.innerHTML = '';
   const selectedTrader = document.getElementById('traderSelect')?.value || 'Prapor';
-  let list = allTasksData.filter(d => d.trader === selectedTrader);
-  
-  if(!list.length){
-    root.innerHTML = `<div class="empty">${i18n[currentLang].noMatch}</div>`;
-    return;
-  }
-  list.forEach(d => root.appendChild(renderTaskCard(d)));
+  let list = getFilteredTasksList(null).filter(d => d.trader === selectedTrader);
+  renderTaskListContainer('traderTasksList', list);
 }
 
 function renderMapTasks(){
-  const root = document.getElementById('mapTasksList');
-  if(!root) return;
-  root.innerHTML = '';
   const selectedMap = document.getElementById('mapSelect')?.value || 'Customs';
-  let list = allTasksData.filter(d => d.map === selectedMap || d.map.includes(selectedMap) || d.map === 'Any');
-  
-  if(!list.length){
-    root.innerHTML = `<div class="empty">${i18n[currentLang].noMatch}</div>`;
-    return;
-  }
-  list.forEach(d => root.appendChild(renderTaskCard(d)));
+  let list = getFilteredTasksList(null).filter(d => d.map === selectedMap || d.map.includes(selectedMap) || d.map === 'Any');
+  renderTaskListContainer('mapTasksList', list);
 }
 
 function renderCollector(){
@@ -638,8 +675,7 @@ function renderCollector(){
       <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" ${v?'checked':''} style="accent-color:var(--green);width:18px;height:18px;"> ${esc(itemName)}</label>`;
     row.querySelector('input').onchange = e => {
       cur().collector[i] = e.target.checked;
-      save();
-      renderAll();
+      save(); renderAll();
     };
     root.appendChild(row);
   });
@@ -653,8 +689,6 @@ function renderHideout(){
   const q = (document.getElementById('hideoutSearch')?.value || '').toLowerCase();
   const filter = document.getElementById('hideoutFilter')?.value || 'all';
 
-  let hasVisible = false;
-
   hideoutStations.forEach(station => {
     let stationName = (currentLang === 'ja' ? station.name.ja : station.name.en);
     if(q && !stationName.toLowerCase().includes(q)) return;
@@ -666,185 +700,61 @@ function renderHideout(){
     if(filter === 'todo' && isMax) return;
     if(filter === 'done' && !isMax) return;
 
-    hasVisible = true;
     let card = document.createElement('div');
     card.className = 'entry' + (isMax ? ' done' : '');
-    
-    let html = `
-      <div class="section-title">
-        <h3>${esc(stationName)}</h3>
-        <span class="tag ${isMax ? 'no' : 'raid'}">${t.currentLv} ${currentLv}</span>
-      </div>
-    `;
+    let html = `<div class="section-title"><h3>${esc(stationName)}</h3><span class="tag ${isMax ? 'no' : 'raid'}">${t.currentLv} ${currentLv}</span></div>`;
 
-    if(filter === 'all') {
-      html += `<div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;">`;
-      station.levels.forEach(lvlObj => {
-        let isLvlDone = lvlObj.level <= currentLv;
-        html += `<p style="margin:8px 0 4px; font-weight:bold; font-size:13px; color:${isLvlDone ? 'var(--green)' : 'var(--accent)'};">Lv.${lvlObj.level} ${isLvlDone ? '(完了)' : '(現在/未完了)'}</p>`;
-        
-        if(lvlObj.items.length === 0) {
-          html += `<p class="muted" style="font-size:12px; margin-bottom:6px;">（必要素材なし）</p>`;
-        } else {
-          lvlObj.items.forEach((item, idx) => {
-            let reqFir = item[2] ? t.firNote : '';
-            let itemKey = `${station.id}_${lvlObj.level}_${idx}`;
-            let currentOwned = cur().hideoutCounts[itemKey] || 0;
-            let requiredQty = item[1];
-            let isItemDone = currentOwned >= requiredQty;
-
-            html += `
-              <div class="itemrow" style="padding:4px 0;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isItemDone ? 'checked' : ''} title="チェックで必要数に自動設定" style="accent-color:var(--green);width:16px;height:16px;">
-                  <span style="font-size:13px;">${esc(item[0])}${reqFir}</span>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <div class="count-controls">
-                    <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">-</button>
-                    <span style="font-size:13px; min-width:35px;">${currentOwned} / ${requiredQty.toLocaleString()}</span>
-                    <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">+</button>
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-        }
-      });
-      html += `</div>`;
-      html += `<div style="display:flex; gap:8px; margin-top:12px;">`;
-      if(!isMax) {
-        html += `<button class="btn primary" data-action="up" data-station="${station.id}">${t.upgradeBtn}</button>`;
-      }
-      if(currentLv > 0) {
-        html += `<button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button>`;
-      }
-      html += `</div>`;
-
-    } else if(isMax) {
-      let maxLvObj = station.levels[station.levels.length - 1];
+    if(isMax) {
       html += `<p class="muted" style="margin-top:10px; color:var(--green); font-weight:700;">${t.maxLevel}</p>`;
-      if(maxLvObj && maxLvObj.items && maxLvObj.items.length > 0) {
-        html += `<p class="muted" style="margin-top:8px; font-size:13px;">${t.finishedLabel}</p>`;
-        html += `<div style="margin:6px 0; border-top:1px solid var(--line); padding-top:4px;">`;
-        maxLvObj.items.forEach((item, idx) => {
-          let reqFir = item[2] ? t.firNote : '';
-          let itemKey = `${station.id}_${maxLvObj.level}_${idx}`;
-          let currentOwned = cur().hideoutCounts[itemKey] || 0;
-          let requiredQty = item[1];
-          let isItemDone = currentOwned >= requiredQty;
-          html += `
-            <div class="itemrow" style="padding:4px 0;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isItemDone ? 'checked' : ''} style="accent-color:var(--green);width:16px;height:16px;">
-                <span style="font-size:13px;">${esc(item[0])}${reqFir}</span>
-              </div>
-              <div class="count-controls">
-                <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">-</button>
-                <span style="font-size:13px; min-width:35px;">${currentOwned} / ${requiredQty.toLocaleString()}</span>
-                <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">+</button>
-              </div>
-            </div>
-          `;
-        });
-        html += `</div>`;
-      }
-      html += `<div style="margin-top:12px;"><button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button></div>`;
     } else {
-      html += `<p class="muted" style="margin-top:6px;">${t.nextUpgrade} Lv.${nextLvObj.level}${nextLvObj.req ? ' (Req: ' + esc(nextLvObj.req) + ')' : ''}</p>`;
-      html += `<div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;" class="hideout-items-list">`;
-      
-      if(nextLvObj.items.length === 0) {
-        html += `<p class="muted" style="padding:6px 0;">（必要素材なし）</p>`;
-      } else {
-        nextLvObj.items.forEach((item, idx) => {
-          let reqFir = item[2] ? t.firNote : '';
-          let itemKey = `${station.id}_${nextLvObj.level}_${idx}`;
-          let currentOwned = cur().hideoutCounts[itemKey] || 0;
-          let requiredQty = item[1];
-          let isDone = currentOwned >= requiredQty;
-
-          html += `
-            <div class="itemrow" style="padding:6px 0;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isDone ? 'checked' : ''} title="チェックで必要数に自動設定" style="accent-color:var(--green);width:18px;height:18px;">
-                <span style="font-size:14px;">${esc(item[0])}${reqFir}</span>
-              </div>
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div class="count-controls">
-                  <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}">-</button>
-                  <span>${currentOwned} / ${requiredQty.toLocaleString()}</span>
-                  <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}">+</button>
-                </div>
-              </div>
+      html += `<p class="muted" style="margin-top:6px;">${t.nextUpgrade} Lv.${nextLvObj.level}</p><div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;">`;
+      nextLvObj.items.forEach((item, idx) => {
+        let itemKey = `${station.id}_${nextLvObj.level}_${idx}`;
+        let currentOwned = cur().hideoutCounts[itemKey] || 0;
+        let requiredQty = item[1];
+        let isDone = currentOwned >= requiredQty;
+        html += `
+          <div class="itemrow" style="padding:4px 0;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isDone ? 'checked' : ''} style="accent-color:var(--green);width:16px;height:16px;">
+              <span style="font-size:13px;">${esc(item[0])}</span>
             </div>
-          `;
-        });
-      }
-      html += `</div>`;
-      html += `<div style="display:flex; gap:8px; margin-top:12px;">`;
-      html += `<button class="btn primary" data-action="up" data-station="${station.id}">${t.upgradeBtn}</button>`;
-      if(currentLv > 0) {
-        html += `<button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button>`;
-      }
-      html += `</div>`;
+            <div class="count-controls">
+              <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}">-</button>
+              <span style="font-size:13px; min-width:35px;">${currentOwned} / ${requiredQty}</span>
+              <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}">+</button>
+            </div>
+          </div>`;
+      });
+      html += `</div><div style="display:flex; gap:8px; margin-top:12px;"><button class="btn primary" data-action="up" data-station="${station.id}">${t.upgradeBtn}</button></div>`;
     }
 
     card.innerHTML = html;
-
     card.querySelectorAll('button[data-action]').forEach(btn => {
       btn.onclick = () => {
         let stId = btn.dataset.station;
-        let act = btn.dataset.action;
         let curL = cur().hideoutLevels[stId] || 0;
-        let stObj = hideoutStations.find(s => s.id === stId);
-        
-        if(act === 'up') {
-          let maxL = stObj.levels.length;
-          if(curL < maxL) cur().hideoutLevels[stId] = curL + 1;
-        } else if(act === 'down') {
-          if(curL > 0) cur().hideoutLevels[stId] = curL - 1;
-        }
-        save();
-        renderAll();
+        cur().hideoutLevels[stId] = curL + 1;
+        save(); renderAll();
       };
     });
-
     card.querySelectorAll('.plus-btn, .minus-btn').forEach(btn => {
       btn.onclick = () => {
         let key = btn.dataset.key;
         let max = parseInt(btn.dataset.max, 10);
         let curVal = cur().hideoutCounts[key] || 0;
-        if(btn.classList.contains('plus-btn')) {
-          if(curVal < max) cur().hideoutCounts[key] = curVal + 1;
-        } else {
-          if(curVal > 0) cur().hideoutCounts[key] = curVal - 1;
-        }
-        save();
-        renderAll();
+        cur().hideoutCounts[key] = btn.classList.contains('plus-btn') ? Math.min(max, curVal + 1) : Math.max(0, curVal - 1);
+        save(); renderAll();
       };
     });
-
     card.querySelectorAll('.hideout-check').forEach(chk => {
       chk.onchange = (e) => {
-        let key = e.target.dataset.key;
-        let max = parseInt(e.target.dataset.max, 10);
-        if(e.target.checked) {
-          cur().hideoutCounts[key] = max;
-        } else {
-          cur().hideoutCounts[key] = 0;
-        }
-        save();
-        renderAll();
+        cur().hideoutCounts[e.target.dataset.key] = e.target.checked ? parseInt(e.target.dataset.max, 10) : 0;
+        save(); renderAll();
       };
     });
-
     root.appendChild(card);
   });
-
-  if(!hasVisible) {
-    root.innerHTML = `<div class="empty">${t.noMatch}</div>`;
-  }
 }
 
 function updateSlotDropdown() {
@@ -858,16 +768,14 @@ function updateSlotDropdown() {
     slotSelect.appendChild(o);
   });
   slotSelect.value = state.slot;
-  
-  const input = document.getElementById('slotNameInput');
-  if(input) input.value = cur().name || `スロット ${state.slot + 1}`;
-  
-  const headerInput = document.getElementById('headerSlotNameInput');
-  if(headerInput) headerInput.value = cur().name || `スロット ${state.slot + 1}`;
+  document.getElementById('slotNameInput').value = cur().name || `スロット ${state.slot + 1}`;
+  document.getElementById('headerSlotNameInput').value = cur().name || `スロット ${state.slot + 1}`;
 }
 
 function renderAll(){
-  renderAllTasks();
+  renderKappaTasks();
+  renderNonKappaTasks();
+  renderAllTasksPage();
   renderTraderTasks();
   renderMapTasks();
   renderCollector();
@@ -876,19 +784,14 @@ function renderAll(){
 }
 
 function updateStats(){
-  let kt = Object.values(cur().tasks).filter(Boolean).length;
-  const taskCountEl = document.getElementById('taskCount');
-  if(taskCountEl) taskCountEl.textContent = kt + ' / ' + allTasksData.length;
-  const taskBarEl = document.getElementById('taskBar');
-  if(taskBarEl) taskBarEl.style.width = (kt / allTasksData.length * 100) + '%';
+  let kappaTasks = getFilteredTasksList(true);
+  let doneCount = kappaTasks.filter(d => !!cur().tasks[d.id]).length;
+  document.getElementById('taskCount').textContent = doneCount + ' / ' + kappaTasks.length;
+  document.getElementById('taskBar').style.width = (kappaTasks.length ? (doneCount / kappaTasks.length * 100) : 0) + '%';
   
-  let totalCollector = collectorData.length;
   let doneCollector = Object.values(cur().collector).filter(Boolean).length;
-  
-  const itemCountEl = document.getElementById('itemCount');
-  if(itemCountEl) itemCountEl.textContent = doneCollector + ' / ' + totalCollector;
-  const itemBarEl = document.getElementById('itemBar');
-  if(itemBarEl) itemBarEl.style.width = (doneCollector / totalCollector * 100) + '%';
+  document.getElementById('itemCount').textContent = doneCollector + ' / ' + collectorData.length;
+  document.getElementById('itemBar').style.width = (doneCollector / collectorData.length * 100) + '%';
 }
 
 function switchTab(id){
@@ -897,118 +800,37 @@ function switchTab(id){
   renderAll();
 }
 
-// 初期化処理
 document.addEventListener('DOMContentLoaded', () => {
   load();
-
+  if(cur().faction) {
+    currentFaction = cur().faction;
+    document.querySelectorAll('.faction-btn').forEach(b => b.classList.toggle('active', b.classList.contains(currentFaction.toLowerCase())));
+  }
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
-  document.getElementById('allTasksSearch')?.addEventListener('input', renderAllTasks);
-  document.getElementById('allTasksFilter')?.addEventListener('change', renderAllTasks);
-  document.getElementById('traderSelect')?.addEventListener('change', renderTraderTasks);
-  document.getElementById('mapSelect')?.addEventListener('change', renderMapTasks);
-  document.getElementById('hideoutSearch')?.addEventListener('input', renderHideout);
-  document.getElementById('hideoutFilter')?.addEventListener('change', renderHideout);
 
   document.getElementById('headerSlotNameInput')?.addEventListener('input', (e) => {
-    let val = e.target.value;
-    cur().name = val;
-    updateSlotDropdown();
-    save();
+    cur().name = e.target.value; updateSlotDropdown(); save();
   });
-
-  const slotSelect = document.getElementById('slotSelect');
-  if(slotSelect){
-    slotSelect.onchange = () => {
-      const idx = +slotSelect.value;
-      state.slot = idx;
-      updateSlotDropdown();
-      save();
-      renderAll();
-    };
-  }
-
-  document.getElementById('slotNameInput')?.addEventListener('input', (e) => {
-    cur().name = e.target.value;
-    updateSlotDropdown();
-    save();
+  document.getElementById('slotSelect')?.addEventListener('change', (e) => {
+    state.slot = +e.target.value; if(cur().faction) currentFaction = cur().faction;
+    setFaction(currentFaction); updateSlotDropdown(); save(); renderAll();
   });
-
   document.getElementById('saveSlotBtn')?.addEventListener('click', () => {
-    const idx = +document.getElementById('slotSelect').value;
-    const nameInput = document.getElementById('slotNameInput').value.trim();
-    state.slot = idx;
-    state.slots[idx].name = nameInput || `スロット ${idx + 1}`;
-    save();
-    updateSlotDropdown();
-    renderAll();
-    alert(currentLang==='ja'?'スロットを保存しました':'Slot saved');
+    save(); alert('スロットを保存しました');
   });
-
-  document.getElementById('loadSlotBtn')?.addEventListener('click', () => {
-    const idx = +document.getElementById('slotSelect').value;
-    state.slot = idx;
-    save();
-    updateSlotDropdown();
-    renderAll();
-    alert(currentLang==='ja'?'スロットをロードしました':'Slot loaded');
-  });
-
-  document.getElementById('clearSlotBtn')?.addEventListener('click', () => {
-    const idx = +document.getElementById('slotSelect').value;
-    if(confirm(currentLang==='ja'?'選択中のスロットのデータをクリアしますか？':'Clear selected slot data?')) {
-      state.slots[idx] = createEmptySlot(`スロット ${idx + 1}`);
-      save();
-      updateSlotDropdown();
-      renderAll();
-    }
-  });
-
   document.getElementById('exportBtn')?.addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'eft-pve-tracker-backup.json'; a.click(); URL.revokeObjectURL(a.href);
   });
-
   document.getElementById('importBtn')?.addEventListener('click', () => document.getElementById('importFile').click());
   document.getElementById('importFile')?.addEventListener('change', async e => {
     let f = e.target.files[0]; if(!f) return;
     try{
-      let v = JSON.parse(await f.text());
-      if(!v.slots || v.slots.length !== 10) throw Error('Format');
-      state = v; if(state.lang) currentLang = state.lang;
-      save();
-      setLang(currentLang);
-      alert(currentLang==='ja'?'読み込みました':'Loaded successfully');
-    }catch(err){
-      alert(currentLang==='ja'?'読み込み失敗：正しいバックアップJSONを選択してください':'Import failed: Invalid backup JSON');
-    }
-    e.target.value = '';
-  });
-
-  let resetArmed = false;
-  document.getElementById('resetBtn')?.addEventListener('click', () => {
-    const t = i18n[currentLang];
-    const b = document.getElementById('resetBtn');
-    if(!resetArmed){
-      resetArmed = true;
-      b.textContent = t.resetBtn2;
-      document.getElementById('resetHint').textContent = t.resetHint1;
-      setTimeout(()=>{
-        resetArmed = false;
-        b.textContent = t.resetBtn1;
-        document.getElementById('resetHint').textContent = t.resetHint1;
-      }, 5000);
-      return;
-    }
-    cur().tasks = {}; cur().collector = {}; cur().hideoutLevels = {}; cur().hideoutCounts = {};
-    resetArmed = false;
-    b.textContent = t.resetBtn1;
-    document.getElementById('resetHint').textContent = t.resetHint2;
-    save(); renderAll();
+      state = JSON.parse(await f.text()); save(); setLang(currentLang); alert('読み込みました');
+    }catch(err){ alert('読み込み失敗'); }
   });
 
   window.addEventListener('beforeunload', save);
-  document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'hidden') save(); });
-
   setLang(currentLang);
 });
 </script>
