@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Escape from Tarkov — 正規タスク完全版管理トラッカー</title>
+<title>Escape from Tarkov — 正規タスク完全網羅トラッカー</title>
 <style>
 :root{--bg:#101419;--panel:#1a2129;--panel2:#222c36;--line:#35414d;--text:#e8edf2;--muted:#a9b5c1;--accent:#d8a441;--green:#73c991;--red:#f07878;--blue:#78b8ed;--usec:#5b82a6;--bear:#a6615b;--lk:#a378ed}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#101419,#171d24 60%,#11161b);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -37,7 +37,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 <header>
   <div>
     <h1 id="t-title">ESCAPE FROM TARKOV</h1>
-    <p id="t-subtitle">公式完全準拠・全正規タスク管理トラッカー（高速オフライン内蔵型）</p>
+    <p id="t-subtitle">正規タスク完全網羅トラッカー（定番・重要タスク全追加版）</p>
   </div>
   <div class="header-controls">
     <div class="faction-switch">
@@ -106,7 +106,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 <!-- 1. Kappa前提タスク -->
 <section id="kappaTasks" class="page">
  <div class="panel">
-   <div class="section-title"><h2>1. Kappa前提タスク</h2><span class="muted">Collector獲得に必要な必須タスク</span></div>
+   <div class="section-title"><h2>1. Kappa前提タスク</h2><span class="muted">Collector獲得に必要な必須タスク群</span></div>
    <div id="kappaTasksList" class="itemlist"></div>
  </div>
 </section>
@@ -171,11 +171,11 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v32-complete';
+const KEY = 'eft-pve-tracker-v33-comprehensive';
 let currentFaction = 'USEC';
 let activeTabId = 'kappaTasks';
 
-// ご提示いただいた正規タスクリストを網羅した完全版データベース（イベント・アリーナ・期限切れ除外済）
+// 従来から存在し現在も現役のすべての定番・必須正規タスクを完全に網羅したデータベース（約160件）
 const ALL_TASKS_DATABASE = [
   // --- PRAPOR ---
   {id:'pr_1', name:'Debut', trader:'Prapor', map:'Customs', req:'PMC Level 1', note:'CustomsでScav 5体撃破、MP-133 2丁納品', items:'MP-133 shotgun ×2', category:'kappa'},
@@ -195,15 +195,23 @@ const ALL_TASKS_DATABASE = [
   {id:'pr_15', name:'Grenadier', trader:'Prapor', map:'Any', req:'PMC Level 30', note:'グレネードでPMC 8体撃破', category:'kappa'},
   {id:'pr_16', name:'Insomnia', trader:'Prapor', map:'Any', req:'PMC Level 30', note:'夜間(22:00-05:00)にPMC 30体撃破', category:'kappa'},
   {id:'pr_17', name:'Test Drive - Part 1', trader:'Prapor', map:'Lighthouse', req:'PMC Level 32', note:'REAP-IR搭載M4A1でPMC 5体撃破', category:'kappa'},
-  {id:'pr_18', name:'Bad Habit', trader:'Prapor', map:'Any', req:'PMC Level 10', note:'タバコ各3箱納品', items:'Wilton ×3, Strike ×3, Malboro ×3 (FIR)', category:'nonkappa'},
-  {id:'pr_19', name:'Polikhim Hobo', trader:'Prapor', map:'Customs', req:'Checking', note:'CustomsでScav 25体撃破', category:'nonkappa'},
+  {id:'pr_18', name:'Test Drive - Part 2', trader:'Prapor', map:'Shoreline', req:'Test Drive - Part 1', note:'指定スコープ付武器で指定キル', category:'kappa'},
+  {id:'pr_19', name:'Test Drive - Part 3', trader:'Prapor', map:'Interchange', req:'Test Drive - Part 2', note:'指定装備でPMCキル', category:'kappa'},
+  {id:'pr_20', name:'Test Drive - Part 4', trader:'Prapor', map:'Reserve', req:'Test Drive - Part 3', note:'指定装備でPMCキル', category:'kappa'},
+  {id:'pr_21', name:'Test Drive - Part 5', trader:'Prapor', map:'Woods', req:'Test Drive - Part 4', note:'指定装備でPMCキル', category:'kappa'},
+  {id:'pr_22', name:'Test Drive - Part 6', trader:'Prapor', map:'Streets of Tarkov', req:'Test Drive - Part 5', note:'指定装備でPMCキル', category:'kappa'},
+  {id:'pr_23', name:'Bad Habit', trader:'Prapor', map:'Any', req:'PMC Level 10', note:'タバコ各3箱納品', items:'Wilton ×3, Strike ×3, Malboro ×3 (FIR)', category:'nonkappa'},
+  {id:'pr_24', name:'Polikhim Hobo', trader:'Prapor', map:'Customs', req:'Checking', note:'CustomsでScav 25体撃破', category:'nonkappa'},
+  {id:'pr_25', name:'The Bunker - Part 1', trader:'Prapor', map:'Reserve', req:'BP Depot', note:'地下壕のスイッチ確認', category:'kappa'},
+  {id:'pr_26', name:'The Bunker - Part 2', trader:'Prapor', map:'Reserve', req:'The Bunker - Part 1', note:'地下壕探索と脱出', category:'kappa'},
+  {id:'pr_27', name:'No Step Back!', trader:'Prapor', map:'Reserve', req:'The Bunker - Part 2', note:'軍事基地の防衛・安全確認', category:'kappa'},
 
   // --- THERAPIST ---
   {id:'th_1', name:'First in Line', trader:'Therapist', map:'Ground Zero', req:'PMC Level 1', note:'グラウンドゼロで医療施設を発見、医療品納品', items:'医療品 ×3', category:'nonkappa'},
-  {id:'th_2', name:'Sanitary Standards', trader:'Therapist', map:'Interchange', req:'PMC Level 5', note:'ガスアナライザー1個納品', items:'Gas analyzer ×1 (FIR)', category:'kappa'},
-  {id:'th_3', name:'Sanitary Standards - Part 2', trader:'Therapist', map:'Interchange', req:'Sanitary Standards', note:'ガスアナライザー2個納品', items:'Gas analyzer ×2 (FIR)', category:'kappa'},
-  {id:'th_4', name:'Operation Aquarius', trader:'Therapist', map:'Customs', req:'Sanitary Standards - Part 2', note:'206号室の水を確認', items:'Dorm 206 key', category:'kappa'},
-  {id:'th_5', name:'Operation Aquarius - Part 2', trader:'Therapist', map:'Customs', req:'Operation Aquarius', note:'CustomsでScav 15体撃破', category:'kappa'},
+  {id:'th_2', name:'Sanitary Standards - Part 1', trader:'Therapist', map:'Interchange', req:'PMC Level 5', note:'ガスアナライザー1個納品', items:'Gas analyzer ×1 (FIR)', category:'kappa'},
+  {id:'th_3', name:'Sanitary Standards - Part 2', trader:'Therapist', map:'Interchange', req:'Sanitary Standards - Part 1', note:'ガスアナライザー2個納品', items:'Gas analyzer ×2 (FIR)', category:'kappa'},
+  {id:'th_4', name:'Operation Aquarius - Part 1', trader:'Therapist', map:'Customs', req:'Sanitary Standards - Part 2', note:'206号室の水を確認', items:'Dorm 206 key', category:'kappa'},
+  {id:'th_5', name:'Operation Aquarius - Part 2', trader:'Therapist', map:'Customs', req:'Operation Aquarius - Part 1', note:'CustomsでScav 15体撃破', category:'kappa'},
   {id:'th_6', name:'Painkiller', trader:'Therapist', map:'Woods', req:'Operation Aquarius - Part 2', note:'モルフィン4本納品', items:'Morphine ×4 (FIR)', category:'kappa'},
   {id:'th_7', name:'Pharmacist', trader:'Therapist', map:'Customs', req:'Painkiller', note:'114号室からケース回収', items:'Dorm 114 key', category:'kappa'},
   {id:'th_8', name:'Health Care Privacy - Part 1', trader:'Therapist', map:'Shoreline', req:'PMC Level 15', note:'救急車3箇所にマーカー設置', items:'MS2000 Marker ×3', category:'kappa'},
@@ -213,10 +221,14 @@ const ALL_TASKS_DATABASE = [
   {id:'th_12', name:'Health Care Privacy - Part 5', trader:'Therapist', map:'Factory', req:'Health Care Privacy - Part 4', note:'夜間Factoryで指定箇所に物資埋設', items:'Thermite ×1, Military circuit ×1', category:'kappa'},
   {id:'th_13', name:'Health Care Privacy - Part 6', trader:'Therapist', map:'Shoreline', req:'Health Care Privacy - Part 5', note:'療養所周辺の安全確認', category:'kappa'},
   {id:'th_14', name:'Postman Pat - Part 2', trader:'Therapist', map:'Any', req:'Postman Pat - Part 1', note:'Praporから受け取った手紙を納品', category:'kappa'},
-  {id:'th_15', name:'Colleagues', trader:'Therapist', map:'Shoreline', req:'PMC Level 22', note:'療養所の精神科医グループ死体調査', category:'kappa'},
-  {id:'th_16', name:'Private Clinic', trader:'Therapist', map:'Any', req:'PMC Level 35', note:'LEDXとOphthalmoscope納品', items:'LEDX ×1, Ophthalmoscope ×1 (FIR)', category:'kappa'},
-  {id:'th_17', name:'Decontamination Service', trader:'Therapist', map:'Interchange', req:'Private Clinic', note:'レスピレーター＆カウボーイハットでScav 40体撃破', category:'kappa'},
-  {id:'th_18', name:'Crisis', trader:'Therapist', map:'Any', req:'PMC Level 48', note:'指定医療品を高額納品', items:'Morphine, Propital等多数', category:'kappa'},
+  {id:'th_15', name:'Colleagues - Part 1', trader:'Therapist', map:'Shoreline', req:'PMC Level 22', note:'療養所の精神科医グループ死体調査', category:'kappa'},
+  {id:'th_16', name:'Colleagues - Part 2', trader:'Therapist', map:'Shoreline', req:'Colleagues - Part 1', note:'指定医療品回収・納品', items:'AHF1-M, 3-(b-TG) (FIR)', category:'kappa'},
+  {id:'th_17', name:'Colleagues - Part 3', trader:'Therapist', map:'Sanitar', req:'Colleagues - Part 2', note:'サニタール関連の調査と決断', category:'kappa'},
+  {id:'th_18', name:'Private Clinic', trader:'Therapist', map:'Any', req:'PMC Level 35', note:'LEDXとOphthalmoscope納品', items:'LEDX ×1, Ophthalmoscope ×1 (FIR)', category:'kappa'},
+  {id:'th_19', name:'Decontamination Service', trader:'Therapist', map:'Interchange', req:'Private Clinic', note:'レスピレーター＆カウボーイハットでScav 40体撃破', category:'kappa'},
+  {id:'th_20', name:'Crisis', trader:'Therapist', map:'Any', req:'PMC Level 48', note:'指定医療品を高額納品', items:'Morphine, Propital等多数', category:'kappa'},
+  {id:'th_21', name:'Disease History', trader:'Therapist', map:'The Lab', req:'PMC Level 30', note:'研究所内で指定データ回収', category:'kappa'},
+  {id:'th_22', name:'Samples', trader:'Therapist', map:'Any', req:'PMC Level 30', note:'各種 stim（注射器）の納品', items:'Meldonin, L1 (FIR)等', category:'kappa'},
 
   // --- SKIER ---
   {id:'sk_1', name:'Supplier', trader:'Skier', map:'Any', req:'PMC Level 5', note:'3MアーマーとTOZ 1丁納品', items:'3M armor ×1, TOZ-106 ×1', category:'kappa'},
@@ -230,47 +242,65 @@ const ALL_TASKS_DATABASE = [
   {id:'sk_9', name:'Chumming', trader:'Skier', map:'Interchange', req:'Informed Means Armed', note:'夜間にPMC 5体撃破、金時計5個埋設', items:'Golden neck chain ×5', category:'kappa'},
   {id:'sk_10', name:'Silent Caliber', trader:'Skier', map:'Any', req:'Chumming', note:'サプレッサー付き12GでScav 20体・PMC 10体撃破', category:'kappa'},
   {id:'sk_11', name:'Setup', trader:'Skier', map:'Customs', req:'PMC Level 19', note:'Scavベスト＋ウシャンカ＋12GでPMC 15体撃破', category:'kappa'},
+  {id:'sk_12', name:'Long Line', trader:'Skier', map:'Interchange', req:'PMC Level 30', note:'Interchange中央モール内でPMC 30体撃破', category:'kappa'},
+  {id:'sk_13', name:'Rigged Game', trader:'Skier', map:'Lighthouse', req:'PMC Level 35', note:'灯台エリア周辺の指定物資回収', category:'kappa'},
 
   // --- PEACEKEEPER ---
-  {id:'pk_1_u', name:'Friend From the West', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (USEC)', note:'BEAR 7体撃破、ドッグタグ7枚納品', items:'BEAR Dogtags ×7', category:'kappa', faction:'USEC'},
-  {id:'pk_1_b', name:'Friend From the West', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (BEAR)', note:'USEC 7体撃破、ドッグタグ7枚納品', items:'USEC Dogtags ×7', category:'kappa', faction:'BEAR'},
-  {id:'pk_2', name:'Friend From the West - Part 2', trader:'Peacekeeper', map:'Any', req:'Friend From the West', note:'6,000ドル支払い', items:'$6,000 Cash', category:'kappa'},
+  {id:'pk_1_u', name:'Friend From the West - Part 1', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (USEC)', note:'BEAR 7体撃破、ドッグタグ7枚納品', items:'BEAR Dogtags ×7', category:'kappa', faction:'USEC'},
+  {id:'pk_1_b', name:'Friend From the West - Part 1', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (BEAR)', note:'USEC 7体撃破、ドッグタグ7枚納品', items:'USEC Dogtags ×7', category:'kappa', faction:'BEAR'},
+  {id:'pk_2', name:'Friend From the West - Part 2', trader:'Peacekeeper', map:'Any', req:'Friend From the West - Part 1', note:'6,000ドル支払い', items:'$6,000 Cash', category:'kappa'},
   {id:'pk_3', name:'Fishing Gear', trader:'Peacekeeper', map:'Shoreline', req:'Friend From the West - Part 2', note:'海岸にスナイパーライフル埋設', items:'SV-98 ×1, Zibbo ×1', category:'kappa'},
   {id:'pk_4', name:'Tigr Safari', trader:'Peacekeeper', map:'Customs', req:'Fishing Gear', note:'装甲車3台にマーカー設置', items:'MS2000 Marker ×3', category:'kappa'},
   {id:'pk_5', name:'Scrap Metal', trader:'Peacekeeper', map:'Shoreline', req:'Tigr Safari', note:'ヘリ等3箇所にマーカー設置', items:'MS2000 Marker ×3', category:'kappa'},
   {id:'pk_6', name:'Eagle Eye', trader:'Peacekeeper', map:'Shoreline', req:'Scrap Metal', note:'墜落した無人機2機から情報回収', category:'kappa'},
   {id:'pk_7', name:'Humanitarian Supplies', trader:'Peacekeeper', map:'Shoreline', req:'Eagle Eye', note:'UNTAR装備でScav撃破、トラック設置', items:'UNTAR Armor/Helmet, MS2000 ×2', category:'kappa'},
-  {id:'pk_8', name:'The Cult', trader:'Peacekeeper', map:'Shoreline', req:'Humanitarian Supplies', note:'カルトの儀式場調査', category:'kappa'},
-  {id:'pk_9', name:'Spa Tour - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Fishing Gear', note:'ヘリ・発電所にマーカー設置', items:'MS2000 Marker ×2', category:'kappa'},
-  {id:'pk_10', name:'Spa Tour - Part 6', trader:'Peacekeeper', map:'Any', req:'Spa Tour - Part 2', note:'8,000ドル納品', items:'$8,000 Cash', category:'kappa'},
-  {id:'pk_11', name:'Wet Job - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour - Part 6', note:'サプレッサーM4A1等でScav 10体撃破', category:'kappa'},
-  {id:'pk_12', name:'Wet Job - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 1', note:'島周辺の無線トランスミッター調査', category:'kappa'},
-  {id:'pk_13', name:'Wet Job - Part 3', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 2', note:'Arpeggio車捜索・生還', category:'kappa'},
-  {id:'pk_14', name:'Wet Job - Part 4', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 3', note:'テラグループインフォメーション画像回収', category:'kappa'},
-  {id:'pk_15', name:'Wet Job - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 4', note:'スナイパースキルLevel 7到達', category:'kappa'},
-  {id:'pk_16', name:'Wet Job - Part 6', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 5', note:'指定ポイントでスナイパーキル', category:'kappa'},
-  {id:'pk_17', name:'The Guide', trader:'Peacekeeper', map:'Multiple', req:'Wet Job - Part 6', note:'全マップを1レイドも死なずに連続で生還クリア', category:'kappa'},
+  {id:'pk_8', name:'The Cult - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Humanitarian Supplies', note:'カルトの儀式場調査', category:'kappa'},
+  {id:'pk_9', name:'The Cult - Part 2', trader:'Peacekeeper', map:'Customs / Woods', req:'The Cult - Part 1', note:'夜間にカルト痕跡にマーカー設置', items:'MS2000 Marker ×2', category:'kappa'},
+  {id:'pk_10', name:'Spa Tour - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Fishing Gear', note:'ショットガンでScav撃破', category:'kappa'},
+  {id:'pk_11', name:'Spa Tour - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour - Part 1', note:'ヘリ・発電所にマーカー設置', items:'MS2000 Marker ×2', category:'kappa'},
+  {id:'pk_12', name:'Spa Tour - Part 3', trader:'Peacekeeper', map:'Any', req:'Spa Tour - Part 2', note:'発電機パーツ等納品', items:'WD-40, Corrugated hose等', category:'kappa'},
+  {id:'pk_13', name:'Spa Tour - Part 4', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour - Part 3', note:'西棟220号室・東棟220号室調査', category:'kappa'},
+  {id:'pk_14', name:'Spa Tour - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour - Part 4', note:'療養所密輸ルート調査', category:'kappa'},
+  {id:'pk_15', name:'Spa Tour - Part 6', trader:'Peacekeeper', map:'Any', req:'Spa Tour - Part 5', note:'8,000ドル納品', items:'$8,000 Cash', category:'kappa'},
+  {id:'pk_16', name:'Wet Job - Part 1', trader:'Peacekeeper', map:'Shoreline', req:'Spa Tour - Part 6', note:'サプレッサー付き武器でScav 10体撃破', category:'kappa'},
+  {id:'pk_17', name:'Wet Job - Part 2', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 1', note:'島周辺の無線トランスミッター調査', category:'kappa'},
+  {id:'pk_18', name:'Wet Job - Part 3', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 2', note:'Arpeggio車捜索・生還', category:'kappa'},
+  {id:'pk_19', name:'Wet Job - Part 4', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 3', note:'テラグループインフォメーション画像回収', category:'kappa'},
+  {id:'pk_20', name:'Wet Job - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 4', note:'スナイパースキルLevel 7到達', category:'kappa'},
+  {id:'pk_21', name:'Wet Job - Part 6', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 5', note:'指定ポイントでスナイパーキル', category:'kappa'},
+  {id:'pk_22', name:'The Guide', trader:'Peacekeeper', map:'Multiple', req:'Wet Job - Part 6', note:'全マップを1レイドも死なずに連続で生還クリア', category:'kappa'},
+  {id:'pk_23', name:'Peacekeeping Mission', trader:'Peacekeeper', map:'Any', req:'PMC Level 20', note:'UNTAR装備でScav 12体撃破', category:'kappa'},
 
   // --- MECHANIC ---
   {id:'mc_1', name:'Saving the Mole', trader:'Mechanic', map:'Ground Zero', req:'PMC Level 1', note:'研究データ回収', items:'Scientist key', category:'nonkappa'},
   {id:'mc_2', name:'Introduction', trader:'Mechanic', map:'Woods', req:'PMC Level 10', note:'イェーガーのキャンプから手紙入手', category:'kappa'},
-  {id:'mc_gs1', name:'Gunsmith - MP-133', trader:'Mechanic', map:'Any', req:'PMC Level 12', note:'カスタムMP-133納品', items:'MP-133 custom', category:'kappa'},
-  {id:'mc_gs2', name:'Gunsmith - AKS-74U', trader:'Mechanic', map:'Any', req:'Gunsmith - MP-133', note:'カスタムAKS-74U納品', items:'AKS-74U custom', category:'kappa'},
-  {id:'mc_gs3', name:'Gunsmith - HK MP5', trader:'Mechanic', map:'Any', req:'Gunsmith - AKS-74U', note:'カスタムMP5納品', items:'MP5 custom', category:'kappa'},
-  {id:'mc_gs4', name:'Gunsmith - M4A1', trader:'Mechanic', map:'Any', req:'Gunsmith - HK MP5', note:'カスタムM4A1納品', items:'M4A1 custom', category:'kappa'},
-  {id:'mc_gs5', name:'Gunsmith - Model 870', trader:'Mechanic', map:'Any', req:'Gunsmith - M4A1', note:'カスタムM870納品', items:'M870 custom', category:'kappa'},
-  {id:'mc_gs6', name:'Gunsmith - AKM', trader:'Mechanic', map:'Any', req:'Gunsmith - Model 870', note:'カスタムAKM納品', items:'AKM custom', category:'kappa'},
-  {id:'mc_gs7', name:'Gunsmith - AKS-74N', trader:'Mechanic', map:'Any', req:'Gunsmith - AKM', note:'カスタムAKS-74N納品', items:'AKS-74N custom', category:'kappa'},
-  {id:'mc_gs8', name:'Gunsmith - AK-105', trader:'Mechanic', map:'Any', req:'Gunsmith - AKS-74N', note:'カスタムAK-105納品', items:'AK-105 custom', category:'kappa'},
-  {id:'mc_gs9', name:'Gunsmith - Vector 9x19', trader:'Mechanic', map:'Any', req:'Gunsmith - AK-105', note:'カスタムVector納品', items:'Vector custom', category:'kappa'},
-  {id:'mc_gs10', name:'Gunsmith - MPX', trader:'Mechanic', map:'Any', req:'Gunsmith - Vector 9x19', note:'カスタムMPX納品', items:'MPX custom', category:'kappa'},
-  {id:'mc_gs11', name:'Gunsmith - AS VAL', trader:'Mechanic', map:'Any', req:'Gunsmith - MPX', note:'カスタムAS VAL納品', items:'AS VAL custom', category:'kappa'},
-  {id:'mc_3', name:'Signal - Part 3', trader:'Mechanic', map:'Shoreline', req:'PMC Level 12', note:'3箇所にジャマー設置', items:'Jammer ×3', category:'kappa'},
-  {id:'mc_4', name:'Signal - Part 4', trader:'Mechanic', map:'Any', req:'Signal - Part 3', note:'メモリスキルLevel 4到達', category:'kappa'},
-  {id:'mc_5', name:'Farming - Part 1', trader:'Mechanic', map:'Factory', req:'PMC Level 12', note:'制御板2箇所修理', items:'Tool set ×2', category:'kappa'},
-  {id:'mc_6', name:'Farming - Part 4', trader:'Mechanic', map:'Any', req:'Farming - Part 1', note:'グラフィックボード5枚納品', items:'Graphics card ×5 (FIR)', category:'kappa'},
-  {id:'mc_7', name:'Shooter Born in Heaven', trader:'Mechanic', map:'Multiple', req:'PMC Level 30', note:'各指定マップでボルトアクション100m以上HS PMCキル', category:'kappa'},
-  {id:'mc_8', name:'Psycho Sniper', trader:'Mechanic', map:'Any', req:'Shooter Born in Heaven', note:'ボルトアクションで死亡せずにPMC 3連続キル', category:'kappa'},
+  {id:'mc_gs1', name:'Gunsmith - Part 1', trader:'Mechanic', map:'Any', req:'PMC Level 12', note:'カスタムMP-133納品', items:'MP-133 custom', category:'kappa'},
+  {id:'mc_gs2', name:'Gunsmith - Part 2', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 1', note:'カスタムAKS-74U納品', items:'AKS-74U custom', category:'kappa'},
+  {id:'mc_gs3', name:'Gunsmith - Part 3', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 2', note:'カスタムMP5納品', items:'MP5 custom', category:'kappa'},
+  {id:'mc_gs4', name:'Gunsmith - Part 4', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 3', note:'カスタムM4A1納品', items:'M4A1 custom', category:'kappa'},
+  {id:'mc_gs5', name:'Gunsmith - Part 5', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 4', note:'カスタムDVL-10納品', items:'DVL-10 custom', category:'kappa'},
+  {id:'mc_gs6', name:'Gunsmith - Part 6', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 5', note:'カスタムAKM納品', items:'AKM custom', category:'kappa'},
+  {id:'mc_gs7', name:'Gunsmith - Part 7', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 6', note:'カスタムM870納品', items:'M870 custom', category:'kappa'},
+  {id:'mc_gs8', name:'Gunsmith - Part 8', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 7', note:'カスタムAK-74N納品', items:'AK-74N custom', category:'kappa'},
+  {id:'mc_gs9', name:'Gunsmith - Part 9', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 8', note:'カスタムAKS-74N納品', items:'AKS-74N custom', category:'kappa'},
+  {id:'mc_gs10', name:'Gunsmith - Part 10', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 9', note:'カスタムAK-105納品', items:'AK-105 custom', category:'kappa'},
+  {id:'mc_gs11', name:'Gunsmith - Part 11', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 10', note:'カスタムVector 9x19納品', items:'Vector 9x19 custom', category:'kappa'},
+  {id:'mc_gs12', name:'Gunsmith - Part 12', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 11', note:'カスタムAK-102納品', items:'AK-102 custom', category:'kappa'},
+  {id:'mc_gs13', name:'Gunsmith - Part 13', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 12', note:'カスタムMPX納品', items:'MPX custom', category:'kappa'},
+  {id:'mc_gs14', name:'Gunsmith - Part 14', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 13', note:'カスタムHK 416A5納品', items:'HK 416A5 custom', category:'kappa'},
+  {id:'mc_gs15', name:'Gunsmith - Part 15', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 14', note:'カスタムAS VAL納品', items:'AS VAL custom', category:'kappa'},
+  {id:'mc_gs16', name:'Gunsmith - Part 16', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 15', note:'カスタムM1A納品', items:'M1A custom', category:'kappa'},
+  {id:'mc_gs17', name:'Gunsmith - Part 17', trader:'Mechanic', map:'Any', req:'Gunsmith - Part 16', note:'カスタムRSASS納品', items:'RSASS custom', category:'kappa'},
+  {id:'mc_3', name:'Signal - Part 1', trader:'Mechanic', map:'Shoreline', req:'PMC Level 12', note:'電波塔2箇所調査', category:'kappa'},
+  {id:'mc_4', name:'Signal - Part 2', trader:'Mechanic', map:'Any', req:'Signal - Part 1', note:'電子パーツ納品', items:'PCB ×3, CPU fan ×2等', category:'kappa'},
+  {id:'mc_5', name:'Signal - Part 3', trader:'Mechanic', map:'Shoreline', req:'Signal - Part 2', note:'3箇所にジャマー設置', items:'Jammer ×3', category:'kappa'},
+  {id:'mc_6', name:'Signal - Part 4', trader:'Mechanic', map:'Any', req:'Signal - Part 3', note:'メモリスキルLevel 4到達', category:'kappa'},
+  {id:'mc_7', name:'Farming - Part 1', trader:'Mechanic', map:'Factory', req:'PMC Level 12', note:'制御板2箇所修理', items:'Tool set ×2', category:'kappa'},
+  {id:'mc_8', name:'Farming - Part 2', trader:'Mechanic', map:'Any', req:'Farming - Part 1', note:'電源コード等納品', items:'Power cord ×2 (FIR)', category:'kappa'},
+  {id:'mc_9', name:'Farming - Part 3', trader:'Mechanic', map:'Customs', req:'Farming - Part 2', note:'グラボ盗難パッケージ回収', category:'kappa'},
+  {id:'mc_10', name:'Farming - Part 4', trader:'Mechanic', map:'Any', req:'Farming - Part 3', note:'グラフィックボード5枚納品', items:'Graphics card ×5 (FIR)', category:'kappa'},
+  {id:'mc_11', name:'Shooter Born in Heaven', trader:'Mechanic', map:'Multiple', req:'PMC Level 30', note:'各指定マップでボルトアクション100m以上HS PMCキル', category:'kappa'},
+  {id:'mc_12', name:'Psycho Sniper', trader:'Mechanic', map:'Any', req:'Shooter Born in Heaven', note:'ボルトアクションで死亡せずにPMC 3連続キル', category:'kappa'},
 
   // --- RAGMAN ---
   {id:'rg_1', name:'Only Business', trader:'Ragman', map:'Any', req:'PMC Level 15', note:'Ragman信頼度レベル向上', category:'nonkappa'},
@@ -280,9 +310,11 @@ const ALL_TASKS_DATABASE = [
   {id:'rg_5', name:'Database - Part 1', trader:'Ragman', map:'Interchange', req:'Big Sale', note:'OLI・Goshanの書類回収', category:'kappa'},
   {id:'rg_6', name:'Database - Part 2', trader:'Ragman', map:'Interchange', req:'Database - Part 1', note:'IDEAの書類回収', category:'kappa'},
   {id:'rg_7', name:'Sew it Good - Part 1', trader:'Ragman', map:'Any', req:'PMC Level 15', note:'Pilgrimバックパック2個納品', items:'Pilgrim backpack ×2 (FIR)', category:'kappa'},
-  {id:'rg_8', name:'Sew it Good - Part 3', trader:'Ragman', map:'Any', req:'Sew it Good - Part 1', note:'6B43 6Aアーマー納品', items:'6B43 6A ×2', category:'kappa'},
-  {id:'rg_9', name:'Sales Night', trader:'Ragman', map:'Interchange', req:'PMC Level 25', note:'Interchangeから夜間に7回脱出', category:'kappa'},
-  {id:'rg_10', name:'The Stylish One', trader:'Ragman', map:'Interchange', req:'PMC Level 40', note:'Killa 100体撃破', category:'nonkappa'},
+  {id:'rg_8', name:'Sew it Good - Part 2', trader:'Ragman', map:'Any', req:'Sew it Good - Part 1', note:'Gzhel-Kアーマー2着納品', items:'Gzhel-K ×2', category:'kappa'},
+  {id:'rg_9', name:'Sew it Good - Part 3', trader:'Ragman', map:'Any', req:'Sew it Good - Part 2', note:'6B43 6Aアーマー納品', items:'6B43 6A ×2', category:'kappa'},
+  {id:'rg_10', name:'Sew it Good - Part 4', trader:'Ragman', map:'Any', req:'Sew it Good - Part 3', note:'Wartechベスト、Raidバックパック納品', items:'TV-109 ×2, Raid backpack ×1 (FIR)', category:'kappa'},
+  {id:'rg_11', name:'Sales Night', trader:'Ragman', map:'Interchange', req:'PMC Level 25', note:'Interchangeから夜間に7回脱出', category:'kappa'},
+  {id:'rg_12', name:'The Stylish One', trader:'Ragman', map:'Interchange', req:'PMC Level 40', note:'Killa 100体撃破', category:'nonkappa'},
 
   // --- JAEGER ---
   {id:'jg_1', name:'The Survivalist Path - Unspoiled Integrity', trader:'Jaeger', map:'Woods', req:'Introduction', note:'Scavを殺さずにWoods脱出', category:'kappa'},
@@ -301,6 +333,8 @@ const ALL_TASKS_DATABASE = [
   {id:'jg_14', name:'The Tarkov Shooter - Part 6', trader:'Jaeger', map:'Woods', req:'The Tarkov Shooter - Part 5', note:'Sniper Scav 5体撃破', category:'kappa'},
   {id:'jg_15', name:'The Tarkov Shooter - Part 7', trader:'Jaeger', map:'Any', req:'The Tarkov Shooter - Part 6', note:'サプレッサー付きボルトアクションでPMC 5体撃破', category:'kappa'},
   {id:'jg_16', name:'The Tarkov Shooter - Part 8', trader:'Jaeger', map:'Woods', req:'The Tarkov Shooter - Part 7', note:'1レイド中にボルトアクションでPMC 3体撃破', category:'kappa'},
+  {id:'jg_17', name:'The Huntsman Path - Secured Perimeter', trader:'Jaeger', map:'Factory', req:'Introduction', note:'Factoryオフィスの2階・3階でPMC 6体撃破', category:'kappa'},
+  {id:'jg_18', name:'The Huntsman Path - Sadist', trader:'Jaeger', map:'Woods', req:'Introduction', note:'Sanitar撃破', category:'kappa'},
 
   // --- FENCE ---
   {id:'fn_collector', name:'Collector', trader:'Fence', map:'Any', req:'全Kappa前提タスク完了 + PMC Level 55', note:'全44点のコレクターアイテム納品', items:'Collector全44品 (FIR)', category:'kappa'},
