@@ -10,13 +10,14 @@
 header{padding:26px max(18px,calc((100% - 1200px)/2));border-bottom:1px solid var(--line);background:#11171deF;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
 h1{margin:0;font-size:clamp(22px,3vw,32px);letter-spacing:.02em}header p{color:var(--muted);margin:7px 0 0}
 .lang-switch{display:flex;gap:6px}.lang-btn{background:var(--panel2);color:var(--muted);border:1px solid var(--line);padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px}.lang-btn.active{background:var(--accent);color:#171717;border-color:var(--accent)}
-main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352b18;border:1px solid #725b2a;padding:12px 14px;border-radius:10px;margin-bottom:16px;color:#f4dfb4}
+main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:11px 16px;border-radius:9px;cursor:pointer;font-weight:700}.tab.active{background:var(--accent);color:#171717;border-color:var(--accent)}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 18px}.toolbar input,.toolbar select,.toolbar button,.slotrow select,.slotrow input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:8px}.toolbar input{flex:1;min-width:210px}.btn{cursor:pointer;font-weight:650}.btn.primary{background:var(--accent);color:#171717;border-color:var(--accent)}.btn.danger{border-color:#8a4141;color:#ffb0b0}.btn:hover,.tab:hover{filter:brightness(1.12)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}.stat{background:var(--panel2);padding:13px;border-radius:10px;border:1px solid var(--line)}.stat small{display:block;color:var(--muted)}.stat strong{font-size:22px}
+.stat input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:4px 8px;border-radius:6px;font-size:18px;width:100%;margin-top:2px}
 .progress{height:8px;background:#0e1216;border-radius:20px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--green);width:0}
 .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.section-title h2{margin:0;font-size:20px}.muted{color:var(--muted)}.itemlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
-.entry{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.entry.done{opacity:.8}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:4px;flex-shrink:0}.entry h3{margin:0;font-size:16px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.sources a{color:var(--blue);text-decoration:none}.sources a:hover{text-decoration:underline}
+.entry{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.entry.done{opacity:.9}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:4px;flex-shrink:0}.entry h3{margin:0;font-size:16px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.sources a{color:var(--blue);text-decoration:none}.sources a:hover{text-decoration:underline}
 .itemrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);gap:10px}.itemrow:last-child{border-bottom:0}
 .item-img{width:64px;height:64px;background:#11161b;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:2px}
 .item-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
@@ -42,11 +43,14 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
   </div>
 </header>
 <main>
-<div class="notice" id="t-notice"><strong>アップデート：</strong>ハイドアウトのフィルターに「完了済みのみ」などを追加し、完了した施設の表示切替に対応しました。</div>
 <div class="stats">
  <div class="stat"><small id="t-stat-tasks">タスク完了</small><strong id="taskCount">0 / 0</strong><div class="progress"><span id="taskBar"></span></div></div>
  <div class="stat"><small id="t-stat-items">準備アイテム</small><strong id="itemCount">0 / 0</strong><div class="progress"><span id="itemBar"></span></div></div>
- <div class="stat"><small id="t-stat-slot">現在スロット</small><strong id="activeSlotLabel">スロット 1</strong><small id="t-stat-auto">自動保存：有効</small></div>
+ <div class="stat">
+   <small id="t-stat-slot">現在スロット</small>
+   <input type="text" id="headerSlotNameInput" value="スロット 1" title="スロット名を直接変更できます">
+   <small id="t-stat-auto">自動保存：有効</small>
+ </div>
 </div>
 <div class="tabs" role="tablist">
 <button class="tab active" data-tab="tasks" id="t-tab-tasks">1. タスク管理 (全件)</button>
@@ -73,7 +77,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
    <div id="allTasksList" class="itemlist"></div>
  </div>
  <div class="panel">
-   <div class="section-title"><h2 id="t-collector-title">Collector 納品アイテム (最新44点)</h2><span class="tag raid" id="t-fir-req">全品インレイド必須</span></div>
+   <div class="section-title"><h2 id="t-collector-title">Collector 納品アイテム (最新44点)</h2></div>
    <p class="muted" id="t-collector-desc">Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。</p>
    <div id="collectorItems"></div>
    <p class="sources">
@@ -196,20 +200,19 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v17';
+const KEY = 'eft-pve-tracker-v20';
 let currentLang = 'ja';
 
 const i18n = {
   ja: {
     title: "ESCAPE FROM TARKOV PvE",
     subtitle: "日本語タスク＆ハイドアウト・準備品トラッカー",
-    notice: "<strong>アップデート：</strong>ハイドアウトのフィルターに「完了済みのみ」などを追加し、完了した施設の表示切替に対応しました。",
     statTasks: "タスク完了", statItems: "準備アイテム", statSlot: "現在スロット", statAuto: "自動保存：有効",
     tabTasks: "1. タスク管理 (全件)", tabTrader: "2. トレーダー別", tabMap: "3. マップ別", tabHideout: "4. ハイドアウト", tabRoute: "5. 建設ルート", tabSave: "保存・設定",
     allTasksTitle: "すべてのタスク一覧 (Kappa前提・主要タスク)", allTasksDesc: "全件表示中", allTasksInfo: "各タスクの解放条件や目的を確認してチェックできます。",
     optAll: "すべて表示", optTodo: "未完了のみ", optDone: "完了のみ",
     hOptAll: "すべて表示", hOptTodo: "未完了のみ", hOptDone: "完了済みのみ",
-    collectorTitle: "Collector 納品アイテム (最新44点)", firReq: "全品インレイド必須", collectorDesc: "Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。",
+    collectorTitle: "Collector 納品アイテム (最新44点)", collectorDesc: "Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。",
     linkEnCollector: "英語Wiki：Collector (Fandom) ↗", linkJpCollector: "日本語Wiki：Fence/Collector ↗",
     traderTitle: "トレーダー別タスク確認", traderDesc: "確認したいトレーダーを選択してタスクを確認できます。",
     mapTitle: "マップ別タスク確認", mapDesc: "出撃マップに合わせてタスクを確認できます。",
@@ -220,19 +223,18 @@ const i18n = {
     footer: "GitHub公開対応HTMLトラッカー。",
     searchAll: "タスク名・トレーダー・解放条件で検索…", searchHideout: "施設名で検索…",
     kappaBadge: "Kappa必須・前提", generalBadge: "一般・進行タスク", taskInfo: "Task Info ↗", noMatch: "該当する項目はありません。", reqLabel: "解放条件: ",
-    currentLv: "現在 Lv.", nextUpgrade: "次 Lv.", maxLevel: "建設完了 (MAX)", upgradeBtn: "このレベルを完了する", downgradeBtn: "レベルを戻す", firNote: " (FIR必須)",
+    currentLv: "現在 Lv.", nextUpgrade: "次 Lv.", maxLevel: "建設完了 (MAX)", upgradeBtn: "このレベルを完了する", downgradeBtn: "レベルを戻す", finishedLabel: "完了済みレベルの素材一覧：", firNote: " (FIR必須)",
     completeCheck: "完了"
   },
   en: {
     title: "ESCAPE FROM TARKOV PvE",
     subtitle: "English/Japanese Task & Hideout Tracker",
-    notice: "<strong>Update:</strong> Added 'Completed Only' filter to hideout options.",
     statTasks: "Tasks Done", statItems: "Items Ready", statSlot: "Active Slot", statAuto: "Auto-save: ON",
     tabTasks: "1. Task List (All)", tabTrader: "2. By Trader", tabMap: "3. By Map", tabHideout: "4. Hideout", tabRoute: "5. Build Route", tabSave: "Settings & Save",
     allTasksTitle: "All Tasks List (Kappa & General)", allTasksDesc: "Displaying all items", allTasksInfo: "Check tasks while verifying requirements.",
     optAll: "Show All", optTodo: "Incomplete Only", optDone: "Completed Only",
     hOptAll: "Show All", hOptTodo: "Incomplete Only", hOptDone: "Completed Only",
-    collectorTitle: "Collector Required Items (Latest 44 items)", firReq: "All FIR Required", collectorDesc: "Collector items must be Found in Raid.",
+    collectorTitle: "Collector Required Items (Latest 44 items)", collectorDesc: "Collector items must be Found in Raid.",
     linkEnCollector: "English Wiki: Collector (Fandom) ↗", linkJpCollector: "Japanese Wiki: Fence/Collector ↗",
     traderTitle: "Tasks by Trader", traderDesc: "Select a trader to manage tasks.",
     mapTitle: "Tasks by Map", mapDesc: "Check required tasks for specific maps.",
@@ -243,7 +245,7 @@ const i18n = {
     footer: "GitHub Pages Ready Tracker.",
     searchAll: "Search task, trader, or requirements...", searchHideout: "Search station...",
     kappaBadge: "Kappa Prerequisite", generalBadge: "General Task", taskInfo: "Task Info ↗", noMatch: "No matching items found.", reqLabel: "Unlock Req: ",
-    currentLv: "Current Lv.", nextUpgrade: "Next Lv.", maxLevel: "Completed (MAX)", upgradeBtn: "Complete This Level", downgradeBtn: "Lower Level", firNote: " (FIR Req)",
+    currentLv: "Current Lv.", nextUpgrade: "Next Lv.", maxLevel: "Completed (MAX)", upgradeBtn: "Complete This Level", downgradeBtn: "Lower Level", finishedLabel: "Materials for completed level:", firNote: " (FIR Req)",
     completeCheck: "Done"
   }
 };
@@ -284,50 +286,50 @@ const allTasksData = [
 ];
 
 const collectorData=[
-{en: '42 Signature Blend English Tea', ja: '42 Signature Blend English Tea', count: 1, file: 'EnglishTeaIcon.png'},
-{en: 'Antique axe', ja: 'アンティークのアックス', count: 1, file: 'Antique_Axe_icon.png'},
-{en: 'Axel parrot figurine', ja: 'Axelのオウムのフィギュア', count: 1, file: 'Axel_parrot_icon.png'},
-{en: 'BEAR Buddy plush toy', ja: 'BEAR Buddy ぬいぐるみ', count: 1, file: 'Buddy_icon.png'},
-{en: "Baddie’s red beard", ja: 'Baddieの赤い髭', count: 1, file: 'Baddie_icon.png'},
-{en: 'BakeEzy cook book', ja: 'BakeEzy クックブック', count: 1, file: 'BakeEzy_Cook_Book_icon.png'},
-{en: 'Battered antique book', ja: 'ボロボロのアンティークブック', count: 1, file: 'BatteredBookIcon.png'},
-{en: 'Bottle of YMXC water', ja: 'YMXC ウォーターボトル', count: 1, file: 'YXMC-icon.png'},
-{en: "Can of Dr. Lupo’s coffee beans", ja: 'Dr. Lupoのコーヒー豆', count: 1, file: 'Lupo_Icon.png'},
-{en: 'Can of GigaBeef meat', ja: 'GigaBeef ビーフ缶', count: 1, file: 'PF-GigaBeef-icon.png'},
-{en: 'Can of RatCola soda', ja: 'RatCola ソーダ缶', count: 1, file: 'RatCola_Icon.png'},
-{en: "Deadlyslob’s beard oil", ja: 'Deadlyslobのビアードオイル', count: 1, file: 'Deadlyslobs_beard_oil_icon.png'},
-{en: 'Desmond Pilak CD', ja: 'Desmond Pilak CD', count: 1, file: 'BV-Desmond-Pilak-CD-icon.png'},
-{en: 'Domontovich ushanka hat', ja: 'Domontovichのウシャンカ帽', count: 1, file: 'Buddy_icon.png'},
-{en: 'DRD body armor', ja: 'DRD ボディアーマー', count: 1, file: 'DRD_body_armor.png'},
-{en: 'Dunduk floppy disk', ja: 'Dundukのフロッピーディスク', count: 1, file: 'I-Dunduk-floppy-disk-icon.png'},
-{en: 'Fake mustache', ja: 'つけ髭', count: 1, file: 'Fake_Mustache_icon.png'},
-{en: '#FireKlean gun lube', ja: '#FireKlean ガンルブ', count: 1, file: 'FireKlean_icon.png'},
-{en: 'French bakery baguette', ja: 'フレンチベーカリーのバゲット', count: 1, file: 'PF-French bakery baguette-icon.png'},
-{en: 'Gingy keychain', ja: 'Gingy キーチェーン', count: 1, file: 'Gingy_keychain_icon.png'},
-{en: 'Glorious E lightweight armored mask', ja: 'Glorious E 軽量アーマードマスク', count: 1, file: 'Glori_mask_icon.png'},
-{en: 'Golden 1GPhone smartphone', ja: 'Golden 1GPhone スマートフォン', count: 1, file: '1gphone_icon.png'},
-{en: 'Golden egg', ja: '黄金の卵', count: 1, file: 'Golden_egg_icon.png'},
-{en: 'Inseq gas pipe wrench', ja: 'Inseq ガスパイプレンチ', count: 1, file: 'BT-Inseq_gas_pipe_wrench-icon.png'},
-{en: 'JohnB Liquid DNB glasses', ja: 'JohnB Liquid DNB グラス', count: 1, file: 'JohnB_icon.png'},
-{en: 'LM KC-130 model aircraft', ja: 'LM KC-130 模型飛行機', count: 1, file: 'BV-LM KC-130-icon.png'},
-{en: 'Loot Lord plushie', ja: 'Loot Lord ぬいぐるみ', count: 1, file: 'Loot_Lord_plushie_icon.png'},
-{en: "LVNDMARK’s rat poison", ja: 'LVNDMARKのネズミ駆除剤', count: 1, file: 'Lvndmark_rat_poison_icon.png'},
-{en: 'Mazoni golden dumbbell', ja: 'Mazoni ゴールデンダンベル', count: 1, file: 'BV-Mazoni-icon.png'},
-{en: 'Missam forklift key', ja: 'Missam フォークリフトキー', count: 1, file: 'Missamkey_icon.png'},
-{en: 'Nut Sack balaclava', ja: 'Nut Sack バラクラバ', count: 1, file: 'GFa-Nut-Sack-icon.png'},
-{en: 'Pestily plague mask', ja: 'Pestily ペストマスク', count: 1, file: 'Plague_mask_icon.png'},
+{en: '42 Signature Blend English Tea', ja: '42 Signature Blend English Tea', file: 'EnglishTeaIcon.png'},
+{en: 'Antique axe', ja: 'アンティークのアックス', file: 'Antique_Axe_icon.png'},
+{en: 'Axel parrot figurine', ja: 'Axelのオウムのフィギュア', file: 'Axel_parrot_icon.png'},
+{en: 'BEAR Buddy plush toy', ja: 'BEAR Buddy ぬいぐるみ', file: 'Buddy_icon.png'},
+{en: "Baddie’s red beard", ja: 'Baddieの赤い髭', file: 'Baddie_icon.png'},
+{en: 'BakeEzy cook book', ja: 'BakeEzy クックブック', file: 'BakeEzy_Cook_Book_icon.png'},
+{en: 'Battered antique book', ja: 'ボロボロのアンティークブック', file: 'BatteredBookIcon.png'},
+{en: 'Bottle of YMXC water', ja: 'YMXC ウォーターボトル', file: 'YXMC-icon.png'},
+{en: "Can of Dr. Lupo’s coffee beans", ja: 'Dr. Lupoのコーヒー豆', file: 'Lupo_Icon.png'},
+{en: 'Can of GigaBeef meat', ja: 'GigaBeef ビーフ缶', file: 'PF-GigaBeef-icon.png'},
+{en: 'Can of RatCola soda', ja: 'RatCola ソーダ缶', file: 'RatCola_Icon.png'},
+{en: "Deadlyslob’s beard oil", ja: 'Deadlyslobのビアードオイル', file: 'Deadlyslobs_beard_oil_icon.png'},
+{en: 'Desmond Pilak CD', ja: 'Desmond Pilak CD', file: 'BV-Desmond-Pilak-CD-icon.png'},
+{en: 'Domontovich ushanka hat', ja: 'Domontovichのウシャンカ帽', file: 'Buddy_icon.png'},
+{en: 'DRD body armor', ja: 'DRD ボディアーマー', file: 'DRD_body_armor.png'},
+{en: 'Dunduk floppy disk', ja: 'Dundukのフロッピーディスク', file: 'I-Dunduk-floppy-disk-icon.png'},
+{en: 'Fake mustache', ja: 'つけ髭', file: 'Fake_Mustache_icon.png'},
+{en: '#FireKlean gun lube', ja: '#FireKlean ガンルブ', file: 'FireKlean_icon.png'},
+{en: 'French bakery baguette', ja: 'フレンチベーカリーのバゲット', file: 'PF-French bakery baguette-icon.png'},
+{en: 'Gingy keychain', ja: 'Gingy キーチェーン', file: 'Gingy_keychain_icon.png'},
+{en: 'Glorious E lightweight armored mask', ja: 'Glorious E 軽量アーマードマスク', file: 'Glori_mask_icon.png'},
+{en: 'Golden 1GPhone smartphone', ja: 'Golden 1GPhone スマートフォン', file: '1gphone_icon.png'},
+{en: 'Golden egg', ja: '黄金の卵', file: 'Golden_egg_icon.png'},
+{en: 'Inseq gas pipe wrench', ja: 'Inseq ガスパイプレンチ', file: 'BT-Inseq_gas_pipe_wrench-icon.png'},
+{en: 'JohnB Liquid DNB glasses', ja: 'JohnB Liquid DNB グラス', file: 'JohnB_icon.png'},
+{en: 'LM KC-130 model aircraft', ja: 'LM KC-130 模型飛行機', file: 'BV-LM KC-130-icon.png'},
+{en: 'Loot Lord plushie', ja: 'Loot Lord ぬいぐるみ', file: 'Loot_Lord_plushie_icon.png'},
+{en: "LVNDMARK’s rat poison", ja: 'LVNDMARKのネズミ駆除剤', file: 'Lvndmark_rat_poison_icon.png'},
+{en: 'Mazoni golden dumbbell', ja: 'Mazoni ゴールデンダンベル', file: 'BV-Mazoni-icon.png'},
+{en: 'Missam forklift key', ja: 'Missam フォークリフトキー', file: 'Missamkey_icon.png'},
+{en: 'Nut Sack balaclava', ja: 'Nut Sack バラクラバ', file: 'GFa-Nut-Sack-icon.png'},
+{en: 'Pestily plague mask', ja: 'Pestily ペストマスク', file: 'Plague_mask_icon.png'},
 {en: 'Press pass (issued for NoiceGuy)', ja: 'プレスパス (NoiceGuy発行)', count: 1, file: 'NoiceguyPass_icon.png'},
-{en: 'Raven figurine', ja: 'カラスの置物', count: 1, file: 'Raven_figurine_icon.png'},
-{en: 'SheefGG piggy bank', ja: 'SheefGG 貯金箱', count: 1, file: 'GSt-SheefGG-piggy-bank-icon.png'},
-{en: 'Shroud half-mask', ja: 'Shroud ハーフマスク', count: 1, file: 'Shroud_Icon.png'},
-{en: 'Silver Badge', ja: 'シルバッジ', count: 1, file: 'Silver_Badge_icon.png'},
-{en: 'Smoke balaclava', ja: 'Smoke バラクラバ', count: 1, file: 'Smoke_icon.png'},
-{en: 'Tamatthi kunai knife replica', ja: 'Tamatthi クナイレプリカ', count: 1, file: 'BV-Tamatthi_kunai_knife_replica-icon.png'},
-{en: 'Tigzresq splint', ja: 'Tigzresq スプリント', count: 1, file: 'M-Tigzresq-splint-icon.png'},
-{en: 'Veritas guitar pick', ja: 'Veritas ギターピック', count: 1, file: 'VeritasGuitarPickIcon.png'},
-{en: 'Video cassette with the Cyborg Killer movie', ja: '映画「サイボーグキラー」のビデオカセット', count: 1, file: 'VSH_cyborg_icon.png'},
-{en: 'Viibiin sneaker', ja: 'Viibiin スニーカー', count: 1, file: 'BV-Viibiin_sneaker-icon.png'},
-{en: 'WZ Wallet', ja: 'WZ ウォレット', count: 1, file: 'WZ_Wallet_icon.png'}
+{en: 'Raven figurine', ja: 'カラスの置物', file: 'Raven_figurine_icon.png'},
+{en: 'SheefGG piggy bank', ja: 'SheefGG 貯金箱', file: 'GSt-SheefGG-piggy-bank-icon.png'},
+{en: 'Shroud half-mask', ja: 'Shroud ハーフマスク', file: 'Shroud_Icon.png'},
+{en: 'Silver Badge', ja: 'シルバッジ', file: 'Silver_Badge_icon.png'},
+{en: 'Smoke balaclava', ja: 'Smoke バラクラバ', file: 'Smoke_icon.png'},
+{en: 'Tamatthi kunai knife replica', ja: 'Tamatthi クナイレプリカ', file: 'BV-Tamatthi_kunai_knife_replica-icon.png'},
+{en: 'Tigzresq splint', ja: 'Tigzresq スプリント', file: 'M-Tigzresq-splint-icon.png'},
+{en: 'Veritas guitar pick', ja: 'Veritas ギターピック', file: 'VeritasGuitarPickIcon.png'},
+{en: 'Video cassette with the Cyborg Killer movie', ja: '映画「サイボーグキラー」のビデオカセット', file: 'VSH_cyborg_icon.png'},
+{en: 'Viibiin sneaker', ja: 'Viibiin スニーカー', file: 'BV-Viibiin_sneaker-icon.png'},
+{en: 'WZ Wallet', ja: 'WZ ウォレット', file: 'WZ_Wallet_icon.png'}
 ];
 
 const hideoutStations = [
@@ -491,7 +493,6 @@ function setLang(lang){
   
   document.getElementById('t-title').textContent = t.title;
   document.getElementById('t-subtitle').textContent = t.subtitle;
-  document.getElementById('t-notice').innerHTML = t.notice;
   document.getElementById('t-stat-tasks').textContent = t.statTasks;
   document.getElementById('t-stat-items').textContent = t.statItems;
   document.getElementById('t-stat-slot').textContent = t.statSlot;
@@ -516,7 +517,6 @@ function setLang(lang){
   document.getElementById('h-opt-done').textContent = t.hOptDone;
   
   document.getElementById('t-collector-title').textContent = t.collectorTitle;
-  document.getElementById('t-fir-req').textContent = t.firReq;
   document.getElementById('t-collector-desc').textContent = t.collectorDesc;
   document.getElementById('t-link-en-collector').textContent = t.linkEnCollector;
   document.getElementById('t-link-jp-collector').textContent = t.linkJpCollector;
@@ -632,12 +632,10 @@ function renderCollector(){
     let itemName = (currentLang === 'ja' ? d.ja : d.en);
     let row = document.createElement('div');
     row.className = 'itemrow';
-    row.style.gridTemplateColumns = 'auto 1fr auto auto';
+    row.style.gridTemplateColumns = 'auto 1fr';
     row.innerHTML = `
       <div class="item-img"><img src="images/${d.file}" alt="${esc(d.en)}" onerror="this.style.display='none';this.parentElement.textContent='📦';"></div>
-      <label><input type="checkbox" ${v?'checked':''}> ${esc(itemName)}</label>
-      <span class="qty">× ${d.count}</span>
-      <span class="tag raid">${currentLang==='ja'?'FIR必須':'FIR Req'}</span>`;
+      <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" ${v?'checked':''} style="accent-color:var(--green);width:18px;height:18px;"> ${esc(itemName)}</label>`;
     row.querySelector('input').onchange = e => {
       cur().collector[i] = e.target.checked;
       save();
@@ -655,6 +653,8 @@ function renderHideout(){
   const q = (document.getElementById('hideoutSearch')?.value || '').toLowerCase();
   const filter = document.getElementById('hideoutFilter')?.value || 'all';
 
+  let hasVisible = false;
+
   hideoutStations.forEach(station => {
     let stationName = (currentLang === 'ja' ? station.name.ja : station.name.en);
     if(q && !stationName.toLowerCase().includes(q)) return;
@@ -663,10 +663,10 @@ function renderHideout(){
     let nextLvObj = station.levels.find(l => l.level === currentLv + 1);
     let isMax = !nextLvObj;
 
-    // フィルター判定（todo: 未完了のみ / done: 完了済みのみ(MAX) / all: すべて）
     if(filter === 'todo' && isMax) return;
     if(filter === 'done' && !isMax) return;
 
+    hasVisible = true;
     let card = document.createElement('div');
     card.className = 'entry' + (isMax ? ' done' : '');
     
@@ -677,8 +677,79 @@ function renderHideout(){
       </div>
     `;
 
-    if(isMax) {
+    // 「すべて表示」の場合は、すでに完了したレベルも含めてすべてのレベルの素材を上から展開表示する
+    if(filter === 'all') {
+      html += `<div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;">`;
+      station.levels.forEach(lvlObj => {
+        let isLvlDone = lvlObj.level <= currentLv;
+        html += `<p style="margin:8px 0 4px; font-weight:bold; font-size:13px; color:${isLvlDone ? 'var(--green)' : 'var(--accent)'};">Lv.${lvlObj.level} ${isLvlDone ? '(完了)' : '(現在/未完了)'}</p>`;
+        
+        if(lvlObj.items.length === 0) {
+          html += `<p class="muted" style="font-size:12px; margin-bottom:6px;">（必要素材なし）</p>`;
+        } else {
+          lvlObj.items.forEach((item, idx) => {
+            let reqFir = item[2] ? t.firNote : '';
+            let itemKey = `${station.id}_${lvlObj.level}_${idx}`;
+            let currentOwned = cur().hideoutCounts[itemKey] || 0;
+            let requiredQty = item[1];
+            let isItemDone = currentOwned >= requiredQty;
+
+            html += `
+              <div class="itemrow" style="padding:4px 0;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isItemDone ? 'checked' : ''} title="チェックで必要数に自動設定" style="accent-color:var(--green);width:16px;height:16px;">
+                  <span style="font-size:13px;">${esc(item[0])}${reqFir}</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div class="count-controls">
+                    <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">-</button>
+                    <span style="font-size:13px; min-width:35px;">${currentOwned} / ${requiredQty.toLocaleString()}</span>
+                    <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">+</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
+      });
+      html += `</div>`;
+      html += `<div style="display:flex; gap:8px; margin-top:12px;">`;
+      if(!isMax) {
+        html += `<button class="btn primary" data-action="up" data-station="${station.id}">${t.upgradeBtn}</button>`;
+      }
+      if(currentLv > 0) {
+        html += `<button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button>`;
+      }
+      html += `</div>`;
+
+    } else if(isMax) {
+      let maxLvObj = station.levels[station.levels.length - 1];
       html += `<p class="muted" style="margin-top:10px; color:var(--green); font-weight:700;">${t.maxLevel}</p>`;
+      if(maxLvObj && maxLvObj.items && maxLvObj.items.length > 0) {
+        html += `<p class="muted" style="margin-top:8px; font-size:13px;">${t.finishedLabel}</p>`;
+        html += `<div style="margin:6px 0; border-top:1px solid var(--line); padding-top:4px;">`;
+        maxLvObj.items.forEach((item, idx) => {
+          let reqFir = item[2] ? t.firNote : '';
+          let itemKey = `${station.id}_${maxLvObj.level}_${idx}`;
+          let currentOwned = cur().hideoutCounts[itemKey] || 0;
+          let requiredQty = item[1];
+          let isItemDone = currentOwned >= requiredQty;
+          html += `
+            <div class="itemrow" style="padding:4px 0;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isItemDone ? 'checked' : ''} style="accent-color:var(--green);width:16px;height:16px;">
+                <span style="font-size:13px;">${esc(item[0])}${reqFir}</span>
+              </div>
+              <div class="count-controls">
+                <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">-</button>
+                <span style="font-size:13px; min-width:35px;">${currentOwned} / ${requiredQty.toLocaleString()}</span>
+                <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}" style="width:24px;height:24px;font-size:12px;">+</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
       html += `<div style="margin-top:12px;"><button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button></div>`;
     } else {
       html += `<p class="muted" style="margin-top:6px;">${t.nextUpgrade} Lv.${nextLvObj.level}${nextLvObj.req ? ' (Req: ' + esc(nextLvObj.req) + ')' : ''}</p>`;
@@ -697,7 +768,7 @@ function renderHideout(){
           html += `
             <div class="itemrow" style="padding:6px 0;">
               <div style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isDone ? 'checked' : ''} title="チェックで必要数に自動設定">
+                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isDone ? 'checked' : ''} title="チェックで必要数に自動設定" style="accent-color:var(--green);width:18px;height:18px;">
                 <span style="font-size:14px;">${esc(item[0])}${reqFir}</span>
               </div>
               <div style="display:flex; align-items:center; gap:12px;">
@@ -771,6 +842,10 @@ function renderHideout(){
 
     root.appendChild(card);
   });
+
+  if(!hasVisible) {
+    root.innerHTML = `<div class="empty">${t.noMatch}</div>`;
+  }
 }
 
 function updateSlotDropdown() {
@@ -780,13 +855,16 @@ function updateSlotDropdown() {
   state.slots.forEach((s, i) => {
     let o = document.createElement('option');
     o.value = i;
-    o.textContent = `[${i + 1}] ${s.name || (currentLang==='ja'?'スロット ':'Slot ')+(i + 1)}`;
+    o.textContent = `${s.name || 'スロット ' + (i + 1)}`;
     slotSelect.appendChild(o);
   });
   slotSelect.value = state.slot;
   
   const input = document.getElementById('slotNameInput');
-  if(input) input.value = cur().name || '';
+  if(input) input.value = cur().name || `スロット ${state.slot + 1}`;
+  
+  const headerInput = document.getElementById('headerSlotNameInput');
+  if(headerInput) headerInput.value = cur().name || `スロット ${state.slot + 1}`;
 }
 
 function renderAll(){
@@ -796,9 +874,6 @@ function renderAll(){
   renderCollector();
   renderHideout();
   updateStats();
-  
-  const label = document.getElementById('activeSlotLabel');
-  if(label) label.textContent = `[${state.slot + 1}] ${cur().name || 'スロット ' + (state.slot + 1)}`;
 }
 
 function updateStats(){
@@ -820,6 +895,7 @@ function updateStats(){
 function switchTab(id){
   document.querySelectorAll('.page').forEach(x => x.classList.toggle('hidden', x.id !== id));
   document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x.dataset.tab === id));
+  renderAll();
 }
 
 // 初期化処理
@@ -834,14 +910,29 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hideoutSearch')?.addEventListener('input', renderHideout);
   document.getElementById('hideoutFilter')?.addEventListener('change', renderHideout);
 
+  document.getElementById('headerSlotNameInput')?.addEventListener('input', (e) => {
+    let val = e.target.value;
+    cur().name = val;
+    updateSlotDropdown();
+    save();
+  });
+
   const slotSelect = document.getElementById('slotSelect');
   if(slotSelect){
     slotSelect.onchange = () => {
       const idx = +slotSelect.value;
-      const input = document.getElementById('slotNameInput');
-      if(input) input.value = state.slots[idx]?.name || '';
+      state.slot = idx;
+      updateSlotDropdown();
+      save();
+      renderAll();
     };
   }
+
+  document.getElementById('slotNameInput')?.addEventListener('input', (e) => {
+    cur().name = e.target.value;
+    updateSlotDropdown();
+    save();
+  });
 
   document.getElementById('saveSlotBtn')?.addEventListener('click', () => {
     const idx = +document.getElementById('slotSelect').value;
