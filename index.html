@@ -200,7 +200,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v20';
+const KEY = 'eft-pve-tracker-v21';
 let currentLang = 'ja';
 
 const i18n = {
@@ -251,38 +251,38 @@ const i18n = {
 };
 
 const allTasksData = [
-  {id: 'debut', name: 'Debut / デビュー', trader: 'Prapor', map: 'Customs', req: 'PMC Level 1 (初期)', note: 'カスタム等でScav5体撃破、MP-133ショットガン2丁納品', kappa: false},
-  {id: 'first_in_line', name: 'First in Line / 最優先事項', trader: 'Therapist', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロで医療施設を発見、医療品納品', kappa: false},
-  {id: 'shooting_cans', name: 'Shooting Cans / 空き缶撃ち', trader: 'Prapor', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロのUTY Utyos重機関銃とAGS擲弾砲の確認、Scav撃破', kappa: false},
-  {id: 'saving_mole', name: 'Saving the Mole / モグラ救出作戦', trader: 'Mechanic', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'テラグループ科学者の研究データ（ドライブ）の回収と脱出', kappa: false},
-  {id: 'burning_rubber', name: 'Burning Rubber / 焦げたゴム', trader: 'Skier', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロの有料タクシー（V-Ex）で脱出', kappa: false},
-  {id: 'checking', name: 'Checking / 調査', trader: 'Prapor', map: 'Customs', req: 'Debut完了', note: 'ブロンズのポケットウォッチをトラックから回収', kappa: false},
-  {id: 'shootout', name: 'Shootout Picnic / シュートアウト・ピクニック', trader: 'Prapor', map: 'Woods', req: 'Checking完了', note: 'ウッズでScav 15体撃破', kappa: false},
-  {id: 'bp_depot', name: 'BP Depot / BPデポ', trader: 'Prapor', map: 'Customs', req: 'Shootout Picnic完了', note: 'カスタムの燃料タンク4箇所にマーカー設置', kappa: false},
-  {id: 'delivery', name: 'Delivery from the Past / 過去からの配達', trader: 'Prapor', map: 'Customs / Factory', req: 'BP Depot完了', note: 'カスタムで機密書類回収、ファクトリーへ設置して脱出', kappa: false},
-  {id: 'ice_cream', name: 'Ice Cream Cones / アイスクリームコーン', trader: 'Prapor', map: 'Any', req: 'Delivery完了', note: '6L31 60連AKマガジン3本をFIR状態で納品', kappa: false},
-  {id: 'postman_1', name: 'Postman Pat - Part 1 / 郵便屋パット Part 1', trader: 'Prapor', map: 'Factory', req: 'PMC Level 10', note: 'ファクトリーの死体から手紙を回収して生還', kappa: true},
-  {id: 'postman_2', name: 'Postman Pat - Part 2 / 郵便屋パット Part 2', trader: 'Therapist', map: 'Any', req: 'Postman Pat - Part 1完了', note: '手紙をセラピストへ引き渡し', kappa: true},
-  {id: 'chemical_1', name: 'Chemical - Part 1 / ケミカル Part 1', trader: 'Skier', map: 'Customs', req: 'PMC Level 10', note: 'カスタムの寮で情報文書と鍵を回収', kappa: true},
-  {id: 'chemical_2', name: 'Chemical - Part 2 / ケミカル Part 2', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 1完了', note: 'カスタムで情報物回収', kappa: true},
-  {id: 'chemical_3', name: 'Chemical - Part 3 / ケミカル Part 3', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 2完了', note: 'カスタム工場で注射器箱回収 (Collector前提)', kappa: true},
-  {id: 'chemical_4', name: 'Chemical - Part 4 / ケミカル Part 4', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 3完了', note: '化学物質車両にマーカー設置（報告先選択）', kappa: true},
-  {id: 'sew_1', name: 'Sew it Good - Part 1 / きれいに縫う Part 1', trader: 'Ragman', map: 'Any', req: 'PMC Level 15', note: '指定防具（耐久度50%未満）の納品', kappa: true},
-  {id: 'sew_2', name: 'Sew it Good - Part 2 / きれいに縫う Part 2', trader: 'Ragman', map: 'Any', req: 'Sew it Good - Part 1完了', note: 'Gzhel-Kアーマー（耐久条件あり）納品 (Collector前提)', kappa: true},
-  {id: 'sbih', name: 'Shooter Born in Heaven / 天国生まれのシューター', trader: 'Mechanic', map: 'Multiple', req: 'PMC Level 30', note: '指定マップにてボルトアクションで100m以上ヘッドショットキル', kappa: true},
-  {id: 'tarkov_shooter_1', name: 'The Tarkov Shooter - Part 1 / タルコフシューター Part 1', trader: 'Jaeger', map: 'Woods', req: 'Introduction完了', note: 'アイアンサイトのボルトアクションでScavキル', kappa: true},
-  {id: 'tarkov_shooter_2', name: 'The Tarkov Shooter - Part 2 / タルコフシューター Part 2', trader: 'Jaeger', map: 'Woods', req: 'Part 1完了', note: 'ボルトアクションで脚部ヒットおよび遠距離キル', kappa: true},
-  {id: 'tarkov_shooter_3', name: 'The Tarkov Shooter - Part 3 / タルコフシューター Part 3', trader: 'Jaeger', map: 'Factory', req: 'Part 2完了', note: '25m以内の近距離ボルトアクションPMCキル', kappa: true},
-  {id: 'tarkov_shooter_4', name: 'The Tarkov Shooter - Part 4 / タルコフシューター Part 4', trader: 'Jaeger', map: 'Any', req: 'Part 3完了', note: '80m以上でのボルトアクションPMCキル (Collector前提)', kappa: true},
-  {id: 'sanitary_1', name: 'Sanitary Standards - Part 1 / 衛生基準 Part 1', trader: 'Therapist', map: 'Interchange / Customs', req: 'PMC Level 5', note: 'ガスアナライザー1個（FIR）納品', kappa: false},
-  {id: 'sanitary_2', name: 'Sanitary Standards - Part 2 / 衛生基準 Part 2', trader: 'Therapist', map: 'Interchange / Customs', req: 'Part 1完了', note: 'ガスアナライザー2個（FIR）納品', kappa: false},
-  {id: 'aquarius_1', name: 'Operation Aquarius - Part 1 / アクエリアス作戦 Part 1', trader: 'Therapist', map: 'Customs', req: 'Sanitary Standards完了', note: 'カスタム2層寮の水部屋確認・脱出', kappa: false},
-  {id: 'aquarius_2', name: 'Operation Aquarius - Part 2 / アクエリアス作戦 Part 2', trader: 'Therapist', map: 'Customs', req: 'Part 1完了', note: 'カスタムでScav 15体撃破', kappa: false},
-  {id: 'pharmacist', name: 'Pharmacist / 薬剤師', trader: 'Therapist', map: 'Customs', req: 'Aquarius完了', note: 'カスタムの2階建て寮で114号室のケース回収', kappa: false},
-  {id: 'introduction', name: 'Introduction / 自己紹介', trader: 'Mechanic', map: 'Woods', req: 'PMC Level 10', note: 'ウッズのイェーガーのキャンプで手紙を入手して脱出（Jaeger解放）', kappa: false},
-  {id: 'gunsmith_1', name: 'Gunsmith - Part 1 / ガンスミス Part 1', trader: 'Mechanic', map: 'Any', req: 'PMC Level 12', note: '指定カスタムされたMP-133ショットガン納品', kappa: true},
-  {id: 'fishing_gear', name: 'Fishing Gear / 釣り用具', trader: 'Peacekeeper', map: 'Shoreline', req: 'Friend from the West完結', note: 'ショアラインの海岸ボート横にスナイパーライフルとライター埋設', kappa: false},
-  {id: 'spa_tour_1', name: 'Spa Tour - Part 1 / スパツアー Part 1', trader: 'Peacekeeper', map: 'Shoreline', req: 'Fishing Gear完了', note: 'ショアラインで12Gショットガンによる12体Scavヘッドショット', kappa: false}
+  {id: 'debut', name: 'Debut', trader: 'Prapor', map: 'Customs', req: 'PMC Level 1 (初期)', note: 'カスタム等でScav5体撃破、MP-133ショットガン2丁納品', kappa: false},
+  {id: 'first_in_line', name: 'First in Line', trader: 'Therapist', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロで医療施設を発見、医療品納品', kappa: false},
+  {id: 'shooting_cans', name: 'Shooting Cans', trader: 'Prapor', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロのUTY Utyos重機関銃とAGS擲弾砲の確認、Scav撃破', kappa: false},
+  {id: 'saving_mole', name: 'Saving the Mole', trader: 'Mechanic', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'テラグループ科学者の研究データ（ドライブ）の回収と脱出', kappa: false},
+  {id: 'burning_rubber', name: 'Burning Rubber', trader: 'Skier', map: 'Ground Zero', req: 'PMC Level 1 (初期)', note: 'グラウンドゼロの有料タクシー（V-Ex）で脱出', kappa: false},
+  {id: 'checking', name: 'Checking', trader: 'Prapor', map: 'Customs', req: 'Debut完了', note: 'ブロンズのポケットウォッチをトラックから回収', kappa: false},
+  {id: 'shootout', name: 'Shootout Picnic', trader: 'Prapor', map: 'Woods', req: 'Checking完了', note: 'ウッズでScav 15体撃破', kappa: false},
+  {id: 'bp_depot', name: 'BP Depot', trader: 'Prapor', map: 'Customs', req: 'Shootout Picnic完了', note: 'カスタムの燃料タンク4箇所にマーカー設置', kappa: false},
+  {id: 'delivery', name: 'Delivery from the Past', trader: 'Prapor', map: 'Customs / Factory', req: 'BP Depot完了', note: 'カスタムで機密書類回収、ファクトリーへ設置して脱出', kappa: false},
+  {id: 'ice_cream', name: 'Ice Cream Cones', trader: 'Prapor', map: 'Any', req: 'Delivery完了', note: '6L31 60連AKマガジン3本をFIR状態で納品', kappa: false},
+  {id: 'postman_1', name: 'Postman Pat - Part 1', trader: 'Prapor', map: 'Factory', req: 'PMC Level 10', note: 'ファクトリーの死体から手紙を回収して生還', kappa: true},
+  {id: 'postman_2', name: 'Postman Pat - Part 2', trader: 'Therapist', map: 'Any', req: 'Postman Pat - Part 1完了', note: '手紙をセラピストへ引き渡し', kappa: true},
+  {id: 'chemical_1', name: 'Chemical - Part 1', trader: 'Skier', map: 'Customs', req: 'PMC Level 10', note: 'カスタムの寮で情報文書と鍵を回収', kappa: true},
+  {id: 'chemical_2', name: 'Chemical - Part 2', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 1完了', note: 'カスタムで情報物回収', kappa: true},
+  {id: 'chemical_3', name: 'Chemical - Part 3', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 2完了', note: 'カスタム工場で注射器箱回収 (Collector前提)', kappa: true},
+  {id: 'chemical_4', name: 'Chemical - Part 4', trader: 'Skier', map: 'Customs', req: 'Chemical - Part 3完了', note: '化学物質車両にマーカー設置（報告先選択）', kappa: true},
+  {id: 'sew_1', name: 'Sew it Good - Part 1', trader: 'Ragman', map: 'Any', req: 'PMC Level 15', note: '指定防具（耐久度50%未満）の納品', kappa: true},
+  {id: 'sew_2', name: 'Sew it Good - Part 2', trader: 'Ragman', map: 'Any', req: 'Sew it Good - Part 1完了', note: 'Gzhel-Kアーマー（耐久条件あり）納品 (Collector前提)', kappa: true},
+  {id: 'sbih', name: 'Shooter Born in Heaven', trader: 'Mechanic', map: 'Multiple', req: 'PMC Level 30', note: '指定マップにてボルトアクションで100m以上ヘッドショットキル', kappa: true},
+  {id: 'tarkov_shooter_1', name: 'The Tarkov Shooter - Part 1', trader: 'Jaeger', map: 'Woods', req: 'Introduction完了', note: 'アイアンサイトのボルトアクションでScavキル', kappa: true},
+  {id: 'tarkov_shooter_2', name: 'The Tarkov Shooter - Part 2', trader: 'Jaeger', map: 'Woods', req: 'Part 1完了', note: 'ボルトアクションで脚部ヒットおよび遠距離キル', kappa: true},
+  {id: 'tarkov_shooter_3', name: 'The Tarkov Shooter - Part 3', trader: 'Jaeger', map: 'Factory', req: 'Part 2完了', note: '25m以内の近距離ボルトアクションPMCキル', kappa: true},
+  {id: 'tarkov_shooter_4', name: 'The Tarkov Shooter - Part 4', trader: 'Jaeger', map: 'Any', req: 'Part 3完了', note: '80m以上でのボルトアクションPMCキル (Collector前提)', kappa: true},
+  {id: 'sanitary_1', name: 'Sanitary Standards - Part 1', trader: 'Therapist', map: 'Interchange / Customs', req: 'PMC Level 5', note: 'ガスアナライザー1個（FIR）納品', kappa: false},
+  {id: 'sanitary_2', name: 'Sanitary Standards - Part 2', trader: 'Therapist', map: 'Interchange / Customs', req: 'Part 1完了', note: 'ガスアナライザー2個（FIR）納品', kappa: false},
+  {id: 'aquarius_1', name: 'Operation Aquarius - Part 1', trader: 'Therapist', map: 'Customs', req: 'Sanitary Standards完了', note: 'カスタム2層寮の水部屋確認・脱出', kappa: false},
+  {id: 'aquarius_2', name: 'Operation Aquarius - Part 2', trader: 'Therapist', map: 'Customs', req: 'Part 1完了', note: 'カスタムでScav 15体撃破', kappa: false},
+  {id: 'pharmacist', name: 'Pharmacist', trader: 'Therapist', map: 'Customs', req: 'Aquarius完了', note: 'カスタムの2階建て寮で114号室のケース回収', kappa: false},
+  {id: 'introduction', name: 'Introduction', trader: 'Mechanic', map: 'Woods', req: 'PMC Level 10', note: 'ウッズのイェーガーのキャンプで手紙を入手して脱出（Jaeger解放）', kappa: false},
+  {id: 'gunsmith_1', name: 'Gunsmith - Part 1', trader: 'Mechanic', map: 'Any', req: 'PMC Level 12', note: '指定カスタムされたMP-133ショットガン納品', kappa: true},
+  {id: 'fishing_gear', name: 'Fishing Gear', trader: 'Peacekeeper', map: 'Shoreline', req: 'Friend from the West完結', note: 'ショアラインの海岸ボート横にスナイパーライフルとライター埋設', kappa: false},
+  {id: 'spa_tour_1', name: 'Spa Tour - Part 1', trader: 'Peacekeeper', map: 'Shoreline', req: 'Fishing Gear完了', note: 'ショアラインで12Gショットガンによる12体Scavヘッドショット', kappa: false}
 ];
 
 const collectorData=[
@@ -677,7 +677,6 @@ function renderHideout(){
       </div>
     `;
 
-    // 「すべて表示」の場合は、すでに完了したレベルも含めてすべてのレベルの素材を上から展開表示する
     if(filter === 'all') {
       html += `<div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;">`;
       station.levels.forEach(lvlObj => {
