@@ -188,47 +188,52 @@ const KEY = 'eft-pve-tracker-v35-collector-fixed';
 let currentFaction = 'USEC';
 let activeTabId = 'kappaTasks';
 
-// 実際の images/ フォルダ内のファイル名と完全に一致させたCollectorアイテムリスト
+// 全44種のCollectorアイテムリストとimages/内ファイル名の完全な紐付け
 const COLLECTOR_ITEMS = [
-  {id:'col_1', name:'Old firesteel', jp:'古い火打ち石', imgKey:'1gphone_icon'}, // 画像フォルダ内の実例に合わせて紐付け
-  {id:'col_2', name:'Antique axe', jp:'アンティークの斧', imgKey:'Antique_Axe_icon'},
-  {id:'col_3', name:'Battered antique book', jp:'ボロボロの古い本', imgKey:'BatteredBookicon'},
-  {id:'col_4', name:'FireKlean gun lube', jp:'FireKlean武器潤滑剤', imgKey:'FireKlean_icon'},
-  {id:'col_5', name:'Golden rooster figurine', jp:'金のニワトリの置物', imgKey:'Gfa-Nut-Sack-icon'},
-  {id:'col_6', name:'Silver Badge', jp:'シルバーバッジ', imgKey:'Silver_Badge_icon'},
-  {id:'col_7', name:'Deadlyslob\'s beard oil', jp:'Deadlyslobs_beard_oil_icon'},
-  {id:'col_8', name:'Golden 1GPhone smartphone', jp:'Golden 1GPhone スマートフォン', imgKey:'1gphone_icon'},
-  {id:'col_9', name:'Jar of DevilDog mayo', jp:'DevilDogマヨネーズ', imgKey:'BeardOil'},
-  {id:'col_10', name:'Can of sprats', jp:'スプラット缶', imgKey:'EnglishTealcon'},
-  {id:'col_11', name:'Fake mustache', jp:'つけひげ', imgKey:'Fake_Mustache_icon'},
-  {id:'col_12', name:'Kotton beanie', jp:'Kottonビーニー', imgKey:'Mustache'},
-  {id:'col_13', name:'Raven figurine', jp:'カラスの置物', imgKey:'Raven_figurine_icon'},
-  {id:'col_14', name:'Pestily plague mask', jp:'Pestilyペストマスク', imgKey:'Plague_mask_icon'},
-  {id:'col_15', name:'Shroud half-mask', jp:'Shroudハーフマスク', imgKey:'Shroud_icon'},
-  {id:'col_16', name:'Can of Dr. Lupo\'s coffee beans', jp:'Dr. Lupoコーヒー豆', imgKey:'Lupo_icon'},
-  {id:'col_17', name:'42 Signature Blend English Tea', jp:'42 Signature Blend紅茶', imgKey:'EnglishTealcon'},
-  {id:'col_18', name:'Veritas guitar pick', jp:'Veritasギターピック', imgKey:'VeritasGuitarPicklcon'},
-  {id:'col_19', name:'Armband (Evasion)', jp:'イヴェージョン腕章', imgKey:'Glori_mask_icon'},
-  {id:'col_20', name:'Can of RatCola soda', jp:'RatColaソーダ缶', imgKey:'RatCola_Icon'},
-  {id:'col_21', name:'Loot Lord plushie', jp:'ルートロードのぬいぐるみ', imgKey:'Loot_Lord_plushie_icon'},
-  {id:'col_22', name:'Smoke balaclava', jp:'スモーク目出し帽', imgKey:'Smoke_icon'},
-  {id:'col_23', name:'WZ Wallet', jp:'WZウォレット', imgKey:'WZ_Wallet_icon'},
-  {id:'col_24', name:'LVNDMARK\'s rat poison', jp:'LVNDMARKのネズミ駆除剤', imgKey:'Lvndmark_rat_poison_icon'},
-  {id:'col_25', name:'Missam forklift key', jp:'Missamフォークリフトの鍵', imgKey:'Missamkey_icon'},
-  {id:'col_26', name:'Video cassette with the Cyborg Killer movie', jp:'サイボーグキラービデオカセット', imgKey:'VSH_cyborg_icon'},
-  {id:'col_27', name:'BakeEzy cook book', jp:'BakeEzyクックブック', imgKey:'BakeEzy_Cook_Book_icon'},
-  {id:'col_28', name:'JohnB Liquid DNB glasses', jp:'JohnB Liquid DNBグラス', imgKey:'JohnB_icon'},
-  {id:'col_29', name:'Glorious E lightweight armored mask', jp:'Glorious E軽量装甲マスク', imgKey:'Glori_mask_icon'},
-  {id:'col_30', name:'Baddie\'s red beard', jp:'Baddie_icon.png', imgKey:'Baddie_icon'},
-  {id:'col_31', name:'DRD body armor', jp:'DRDボディアーマー', imgKey:'DRD_body_armor'},
-  {id:'col_32', name:'Gingy keychain', jp:'Gingyキーチェーン', imgKey:'Gingy_keychain_icon'},
-  {id:'col_33', name:'Golden egg', jp:'金の卵', imgKey:'Golden_egg_icon'},
-  {id:'col_34', name:'Press pass (issued for NoiceGuy)', jp:'プレスパス(NoiceGuy)', imgKey:'NoiceGuyPass_icon'},
-  {id:'col_35', name:'Axel parrot figurine', jp:'アクセルのオウムの置物', imgKey:'Axel_parrot_icon'},
-  {id:'col_36', name:'BEAR Buddy plush toy', jp:'BEARバディぬいぐるみ', imgKey:'Buddy_icon.png', imgKey:'Buddy_icon'},
-  {id:'col_37', name:'Inseq gas pipe wrench', jp:'Inseqガスパイプレンチ', imgKey:'BT-Inseq_gas_pipe_wrench_icon'},
-  {id:'col_38', name:'Viibiin sneaker', jp:'Viibiinスニーカー', imgKey:'BV-Viibiin_sneaker-icon'},
-  {id:'col_39', name:'Tamatthi kunai knife replica', jp:'Tamatthiクナイナイフのレプリカ', imgKey:'BV-Tamatthi_kunai_knife_replica-icon'}
+  {id:'col_1', name:'KC-130 model', jp:'KC-130 模型', imgKey:'BV-LM KC-130-icon'},
+  {id:'col_2', name:'1GPhone smartphone', jp:'1GPhone スマートフォン', imgKey:'1gphone_icon'},
+  {id:'col_3', name:'Antique axe', jp:'アンティークの斧', imgKey:'Antique_Axe_icon'},
+  {id:'col_4', name:'Axel parrot figurine', jp:'アクセルのオウムの置物', imgKey:'Axel_parrot_icon'},
+  {id:'col_5', name:'Baddle\'s red beard', jp:'Baddle（ヒゲ）', imgKey:'Baddie_icon'},
+  {id:'col_6', name:'BakeEzy cook book', jp:'BakeEzyクックブック', imgKey:'BakeEzy_Cook_Book_icon'},
+  {id:'col_7', name:'Battered antique book', jp:'ボロボロの古い本', imgKey:'BatteredBookIcon'},
+  {id:'col_8', name:'Inseq gas pipe wrench', jp:'Inseqガスパイプレンチ', imgKey:'BT-Inseq_gas_pipe_wrench-icon'},
+  {id:'col_9', name:'BEAR Buddy plush toy', jp:'BEAR Buddy ぬいぐるみ', imgKey:'Buddy_icon'},
+  {id:'col_10', name:'Desmond Pilak CD', jp:'Desmond Pilak CD', imgKey:'BV-Desmond-Pilak-CD-icon'},
+  {id:'col_11', name:'Domontovich Ushanka', jp:'Domontovich ウシャンカ帽子', imgKey:'GHg-Domontovich-icon'},
+  {id:'col_12', name:'Mazoni dumbbell', jp:'Mazoni ダンベル', imgKey:'BV-Mazoni-icon'},
+  {id:'col_13', name:'Tamatthi kunai knife replica', jp:'Tamatthi クナイナイフのレプリカ', imgKey:'BV-Tamatthi_kunai_knife_replica-icon'},
+  {id:'col_14', name:'Viibiin sneaker', jp:'Viibiin スニーカー', imgKey:'BV-Viibiin_sneaker-icon'},
+  {id:'col_15', name:'Deadlyslob\'s beard oil', jp:'Deadlyslobのビアードオイル', imgKey:'Deadlyslobs_beard_oil_icon'},
+  {id:'col_16', name:'DRD body armor', jp:'DRD ボディーアーマー', imgKey:'DRD_body_armor'},
+  {id:'col_17', name:'42 Signature Blend English Tea', jp:'42nd イングリッシュティー', imgKey:'EnglishTeaIcon'},
+  {id:'col_18', name:'Fake mustache', jp:'付け髭', imgKey:'Fake_Mustache_icon'},
+  {id:'col_19', name:'FireKlean gun lube', jp:'FireKlean ガンルーブ', imgKey:'FireKlean_icon'},
+  {id:'col_20', name:'Nut Sack mask', jp:'Nut Sack マスク', imgKey:'GFa-Nut-Sack-icon'},
+  {id:'col_21', name:'Missam forklift key', jp:'Missam フォークリフトの鍵', imgKey:'Missamkey_icon'},
+  {id:'col_22', name:'Gingy keychain', jp:'Gingy キーチェーン', imgKey:'Gingy_keychain_icon'},
+  {id:'col_23', name:'Glorious E lightweight armored mask', jp:'Glorious マスク', imgKey:'Glori_mask_icon'},
+  {id:'col_24', name:'Golden egg', jp:'金の卵', imgKey:'Golden_egg_icon'},
+  {id:'col_25', name:'SheefGG piggy bank', jp:'SheefGG 貯金箱', imgKey:'GSt-SheefGG-piggy-bank-icon'},
+  {id:'col_26', name:'Dunduk floppy disk', jp:'Dunduk フロッピーディスク', imgKey:'I-Dunduk-floppy-disk-icon'},
+  {id:'col_27', name:'JohnB Liquid DNB glasses', jp:'JohnB バイザー', imgKey:'JohnB_icon'},
+  {id:'col_28', name:'Loot Lord plushie', jp:'Loot Lord ぬいぐるみ', imgKey:'Loot_Lord_plushie_icon'},
+  {id:'col_29', name:'Can of Dr. Lupo\'s coffee beans', jp:'Lupoのコーヒー豆', imgKey:'Lupo_Icon'},
+  {id:'col_30', name:'LVNDMARK\'s rat poison', jp:'Lvndmark ネズミ駆除剤', imgKey:'Lvndmark_rat_poison_icon'},
+  {id:'col_31', name:'Smoke balaclava', jp:'Smoke バラクラバ', imgKey:'Smoke_icon'},
+  {id:'col_32', name:'Tigzresq splint', jp:'Tigzresq スプリント', imgKey:'M-Tigzresq-splint-icon'},
+  {id:'col_33', name:'Press pass (issued for NoiceGuy)', jp:'Noiceguy プレスパス', imgKey:'NoiceguyPass_icon'},
+  {id:'col_34', name:'French bakery baguette', jp:'French bakery バゲット', imgKey:'PF-French bakery baguette-icon'},
+  {id:'col_35', name:'GigaBeef canned meat', jp:'GigaBeef コンビーフ缶', imgKey:'PF-GigaBeef-icon'},
+  {id:'col_36', name:'Pestily plague mask', jp:'Pestily ペストマスク', imgKey:'Plague_mask_icon'},
+  {id:'col_37', name:'Can of RatCola soda', jp:'RatCola', imgKey:'RatCola_Icon'},
+  {id:'col_38', name:'Raven figurine', jp:'カラスの置物', imgKey:'Raven_figurine_icon'},
+  {id:'col_39', name:'Shroud half-mask', jp:'Shroud バンダナ', imgKey:'Shroud_Icon'},
+  {id:'col_40', name:'Silver Badge', jp:'シルバーバッジ', imgKey:'Silver_Badge_icon'},
+  {id:'col_41', name:'YXMC thermos', jp:'YXMC 魔法瓶', imgKey:'YXMC-icon'},
+  {id:'col_42', name:'Veritas guitar pick', jp:'Veritas ギターピック', imgKey:'VeritasGuitarPickIcon'},
+  {id:'col_43', name:'Video cassette with the Cyborg Killer movie', jp:'WillerZ VHSテープ', imgKey:'VSH_cyborg_icon'},
+  {id:'col_44', name:'WZ Wallet', jp:'WZ ウォレット', imgKey:'WZ_Wallet_icon'}
 ];
 
 const ALL_TASKS_DATABASE = [
@@ -358,7 +363,7 @@ const ALL_TASKS_DATABASE = [
   {id:'jg_16', name:'The Tarkov Shooter - Part 8', trader:'Jaeger', map:'Woods', req:'The Tarkov Shooter - Part 7', note:'1レイド中にボルトアクションでPMC 3体撃破', category:'kappa'},
 
   // --- FENCE ---
-  {id:'fn_collector', name:'Collector', trader:'Fence', map:'Any', req:'全Kappa前提タスク完了 + PMC Level 55', note:'全Collectorアイテム納品', items:'Collector全39品 (FIR)', category:'kappa'},
+  {id:'fn_collector', name:'Collector', trader:'Fence', map:'Any', req:'全Kappa前提タスク完了 + PMC Level 55', note:'全Collectorアイテム納品', items:'Collector全44品 (FIR)', category:'kappa'},
 
   // --- LIGHTKEEPER ---
   {id:'lk_1', name:'Network Provider - Part 1', trader:'Lightkeeper', map:'Lighthouse', req:'PMC Level 35', note:'無線トランスミッター受領・修理調査', category:'lightkeeper'},
@@ -491,7 +496,7 @@ function renderCollectorList() {
     const card = document.createElement('div');
     card.className = 'collector-card' + (done ? ' done' : '');
 
-    // GitHubの images/ フォルダから実ファイルを正確に読み込む
+    // GitHubの images/ フォルダから各アイテムの画像を正確に読み込む
     let imgSrc = `images/${item.imgKey}.png`;
 
     card.innerHTML = `
