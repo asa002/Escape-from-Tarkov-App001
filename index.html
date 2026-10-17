@@ -16,15 +16,18 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}.stat{background:var(--panel2);padding:13px;border-radius:10px;border:1px solid var(--line)}.stat small{display:block;color:var(--muted)}.stat strong{font-size:22px}
 .progress{height:8px;background:#0e1216;border-radius:20px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--green);width:0}
 .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.section-title h2{margin:0;font-size:20px}.muted{color:var(--muted)}.itemlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
-.entry{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.entry.done{opacity:.68}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:4px;flex-shrink:0}.entry h3{margin:0;font-size:16px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.sources a{color:var(--blue);text-decoration:none}.sources a:hover{text-decoration:underline}
-.itemrow{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.itemrow:last-child{border-bottom:0}.itemrow label{display:flex;align-items:center;gap:10px;cursor:pointer}
-/* ボックスサイズ最大の画像を基準に統一、小サイズ画像は中央揃え配置 */
+.entry{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px}.entry.done{opacity:.8}.entryhead{display:flex;gap:10px;align-items:flex-start}.entry input[type=checkbox]{accent-color:var(--green);width:18px;height:18px;margin-top:4px;flex-shrink:0}.entry h3{margin:0;font-size:16px}.entry p{margin:4px 0;color:var(--muted);font-size:13px}.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}.tag.raid{background:#4c3320;color:#ffd09b}.tag.no{background:#203d32;color:#a8f0c3}.tag.kappa{background:#4b3a18;color:#ffe0a0}.sources a{color:var(--blue);text-decoration:none}.sources a:hover{text-decoration:underline}
+.itemrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);gap:10px}.itemrow:last-child{border-bottom:0}
 .item-img{width:64px;height:64px;background:#11161b;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:2px}
 .item-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.qty{color:var(--muted);font-variant-numeric:tabular-nums}.smallcheck{display:flex;gap:5px;align-items:center;font-size:12px;color:var(--muted);white-space:nowrap}.smallcheck input{accent-color:var(--green)}
+.qty{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.count-controls{display:flex;align-items:center;gap:6px}
+.count-controls button{background:var(--panel);color:var(--text);border:1px solid var(--line);width:28px;height:28px;border-radius:4px;cursor:pointer;font-weight:bold;display:flex;align-items:center;justify-content:center}
+.count-controls button:hover{background:var(--accent);color:#171717}
+.count-controls span{min-width:45px;text-align:center;font-variant-numeric:tabular-nums}
 .route li{margin:10px 0;padding-left:4px}.route strong{color:#f4ce7e}.slotrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.slotrow select{min-width:200px}.slotrow input{flex:1;min-width:180px}.footer{font-size:12px;color:var(--muted);margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
 .hidden{display:none!important}.empty{padding:20px;text-align:center;color:var(--muted)}
-@media(max-width:600px){main{padding:14px 10px}.panel{padding:12px}.itemrow{grid-template-columns:auto 1fr auto}.itemrow .smallcheck{grid-column:1/-1}.tab{flex:1;padding:10px 8px}}
+@media(max-width:600px){main{padding:14px 10px}.panel{padding:12px}.tab{flex:1;padding:10px 8px}}
 </style>
 </head>
 <body>
@@ -39,7 +42,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
   </div>
 </header>
 <main>
-<div class="notice" id="t-notice"><strong>GitHub公開対応：</strong>画像は <code>images/</code> フォルダから読み込まれます。言語切替に応じてCollectorアイテム名も自動で日本語・英語に切り替わります。</div>
+<div class="notice" id="t-notice"><strong>アップデート：</strong>ハイドアウトのフィルターに「完了済みのみ」などを追加し、完了した施設の表示切替に対応しました。</div>
 <div class="stats">
  <div class="stat"><small id="t-stat-tasks">タスク完了</small><strong id="taskCount">0 / 0</strong><div class="progress"><span id="taskBar"></span></div></div>
  <div class="stat"><small id="t-stat-items">準備アイテム</small><strong id="itemCount">0 / 0</strong><div class="progress"><span id="itemBar"></span></div></div>
@@ -127,9 +130,16 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
 <!-- 4. ハイドアウト -->
 <section id="hideout" class="page hidden">
  <div class="panel">
-   <div class="section-title"><h2 id="t-hideout-title">ハイドアウト素材チェック</h2><span class="muted" id="t-hideout-subtitle">施設・レベルごとに管理</span></div>
-   <div class="toolbar"><input id="hideoutSearch" placeholder="施設名・アイテム名で検索…"><select id="hideoutFilter"><option value="all" id="hideout-all">すべて表示</option><option value="todo" id="hideout-todo">未所持あり</option><option value="done" id="hideout-done">準備完了</option></select></div>
-   <div id="hideoutItems"></div>
+   <div class="section-title"><h2 id="t-hideout-title">ハイドアウト進捗管理</h2><span class="muted" id="t-hideout-subtitle">現在のレベルから次のアップグレードを表示</span></div>
+   <div class="toolbar">
+     <input id="hideoutSearch" placeholder="施設名で検索…">
+     <select id="hideoutFilter">
+       <option value="all" id="h-opt-all">すべて表示</option>
+       <option value="todo" id="h-opt-todo">未完了のみ</option>
+       <option value="done" id="h-opt-done">完了済みのみ</option>
+     </select>
+   </div>
+   <div id="hideoutItems" class="itemlist"></div>
  </div>
 </section>
 
@@ -186,51 +196,55 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}.notice{background:#352
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v13';
+const KEY = 'eft-pve-tracker-v17';
 let currentLang = 'ja';
 
 const i18n = {
   ja: {
     title: "ESCAPE FROM TARKOV PvE",
     subtitle: "日本語タスク＆ハイドアウト・準備品トラッカー",
-    notice: "<strong>GitHub公開対応：</strong>画像は <code>images/</code> フォルダから読み込まれます。言語切替に応じてCollectorアイテム名も自動で日本語・英語に切り替わります。",
+    notice: "<strong>アップデート：</strong>ハイドアウトのフィルターに「完了済みのみ」などを追加し、完了した施設の表示切替に対応しました。",
     statTasks: "タスク完了", statItems: "準備アイテム", statSlot: "現在スロット", statAuto: "自動保存：有効",
     tabTasks: "1. タスク管理 (全件)", tabTrader: "2. トレーダー別", tabMap: "3. マップ別", tabHideout: "4. ハイドアウト", tabRoute: "5. 建設ルート", tabSave: "保存・設定",
     allTasksTitle: "すべてのタスク一覧 (Kappa前提・主要タスク)", allTasksDesc: "全件表示中", allTasksInfo: "各タスクの解放条件や目的を確認してチェックできます。",
     optAll: "すべて表示", optTodo: "未完了のみ", optDone: "完了のみ",
+    hOptAll: "すべて表示", hOptTodo: "未完了のみ", hOptDone: "完了済みのみ",
     collectorTitle: "Collector 納品アイテム (最新44点)", firReq: "全品インレイド必須", collectorDesc: "Collector用アイテムはレイド内発見（Found in Raid）状態が必要です。",
     linkEnCollector: "英語Wiki：Collector (Fandom) ↗", linkJpCollector: "日本語Wiki：Fence/Collector ↗",
     traderTitle: "トレーダー別タスク確認", traderDesc: "確認したいトレーダーを選択してタスクを確認できます。",
     mapTitle: "マップ別タスク確認", mapDesc: "出撃マップに合わせてタスクを確認できます。",
-    hideoutTitle: "ハイドアウト素材チェック", hideoutSubtitle: "施設・レベルごとに管理", hideoutDesc: "「所持」と「FIR確認」を管理できます。",
-    hideoutAll: "すべて表示", hideoutTodo: "未所持あり", hideoutDone: "準備完了",
+    hideoutTitle: "ハイドアウト進捗管理", hideoutSubtitle: "現在のレベルから次のアップグレードを表示",
     routeTitle: "ハイドアウト設営・優先ルート", saveTitle: "名前付きセーブ＆ロード (10スロット)", slotLabel: "対象スロット",
     saveNowBtn: "名前を付けて保存", exportBtn: "JSON書き出し", importBtn: "JSON読み込み", resetTitle: "現在のスロットの進捗クリア",
     resetBtn1: "現在の進捗リセット（1/2）", resetBtn2: "本当にリセットする（2/2）", resetHint1: "実行するにはもう一度クリック", resetHint2: "リセットしました",
-    footer: "GitHub公開対応HTMLトラッカー。", owned: "所持", firCheck: "FIR確認",
-    searchAll: "タスク名・トレーダー・解放条件で検索…", searchHideout: "施設名・アイテム名で検索…",
-    kappaBadge: "Kappa必須・前提", generalBadge: "一般・進行タスク", taskInfo: "Task Info ↗", noMatch: "該当する項目はありません。", reqLabel: "解放条件: "
+    footer: "GitHub公開対応HTMLトラッカー。",
+    searchAll: "タスク名・トレーダー・解放条件で検索…", searchHideout: "施設名で検索…",
+    kappaBadge: "Kappa必須・前提", generalBadge: "一般・進行タスク", taskInfo: "Task Info ↗", noMatch: "該当する項目はありません。", reqLabel: "解放条件: ",
+    currentLv: "現在 Lv.", nextUpgrade: "次 Lv.", maxLevel: "建設完了 (MAX)", upgradeBtn: "このレベルを完了する", downgradeBtn: "レベルを戻す", firNote: " (FIR必須)",
+    completeCheck: "完了"
   },
   en: {
     title: "ESCAPE FROM TARKOV PvE",
     subtitle: "English/Japanese Task & Hideout Tracker",
-    notice: "<strong>GitHub Pages Ready:</strong> Images are loaded from the <code>images/</code> folder. Collector item names automatically switch between English and Japanese.",
+    notice: "<strong>Update:</strong> Added 'Completed Only' filter to hideout options.",
     statTasks: "Tasks Done", statItems: "Items Ready", statSlot: "Active Slot", statAuto: "Auto-save: ON",
     tabTasks: "1. Task List (All)", tabTrader: "2. By Trader", tabMap: "3. By Map", tabHideout: "4. Hideout", tabRoute: "5. Build Route", tabSave: "Settings & Save",
     allTasksTitle: "All Tasks List (Kappa & General)", allTasksDesc: "Displaying all items", allTasksInfo: "Check tasks while verifying requirements.",
     optAll: "Show All", optTodo: "Incomplete Only", optDone: "Completed Only",
+    hOptAll: "Show All", hOptTodo: "Incomplete Only", hOptDone: "Completed Only",
     collectorTitle: "Collector Required Items (Latest 44 items)", firReq: "All FIR Required", collectorDesc: "Collector items must be Found in Raid.",
     linkEnCollector: "English Wiki: Collector (Fandom) ↗", linkJpCollector: "Japanese Wiki: Fence/Collector ↗",
     traderTitle: "Tasks by Trader", traderDesc: "Select a trader to manage tasks.",
     mapTitle: "Tasks by Map", mapDesc: "Check required tasks for specific maps.",
-    hideoutTitle: "Hideout Materials Checklist", hideoutSubtitle: "Managed by Station & Level", hideoutDesc: "Track Owned and FIR items.",
-    hideoutAll: "Show All", hideoutTodo: "Missing Items", hideoutDone: "Ready",
+    hideoutTitle: "Hideout Progress Tracker", hideoutSubtitle: "Displays next upgrade requirements based on current level",
     routeTitle: "Hideout Build Route", saveTitle: "Named Save & Load (10 Slots)", slotLabel: "Target Slot",
     saveNowBtn: "Save Slot", exportBtn: "Export JSON", importBtn: "Import JSON", resetTitle: "Clear Current Slot Progress",
     resetBtn1: "Reset Current Slot (1/2)", resetBtn2: "Confirm Reset (2/2)", resetHint1: "Click again to confirm", resetHint2: "Progress reset",
-    footer: "GitHub Pages Ready Tracker.", owned: "Owned", firCheck: "FIR Check",
-    searchAll: "Search task, trader, or requirements...", searchHideout: "Search station or items...",
-    kappaBadge: "Kappa Prerequisite", generalBadge: "General Task", taskInfo: "Task Info ↗", noMatch: "No matching items found.", reqLabel: "Unlock Req: "
+    footer: "GitHub Pages Ready Tracker.",
+    searchAll: "Search task, trader, or requirements...", searchHideout: "Search station...",
+    kappaBadge: "Kappa Prerequisite", generalBadge: "General Task", taskInfo: "Task Info ↗", noMatch: "No matching items found.", reqLabel: "Unlock Req: ",
+    currentLv: "Current Lv.", nextUpgrade: "Next Lv.", maxLevel: "Completed (MAX)", upgradeBtn: "Complete This Level", downgradeBtn: "Lower Level", firNote: " (FIR Req)",
+    completeCheck: "Done"
   }
 };
 
@@ -269,7 +283,6 @@ const allTasksData = [
   {id: 'spa_tour_1', name: 'Spa Tour - Part 1 / スパツアー Part 1', trader: 'Peacekeeper', map: 'Shoreline', req: 'Fishing Gear完了', note: 'ショアラインで12Gショットガンによる12体Scavヘッドショット', kappa: false}
 ];
 
-/* 全44種 Collector納品アイテムリスト（日英対応 & images/ フォルダの画像ファイル指定） */
 const collectorData=[
 {en: '42 Signature Blend English Tea', ja: '42 Signature Blend English Tea', count: 1, file: 'EnglishTeaIcon.png'},
 {en: 'Antique axe', ja: 'アンティークのアックス', count: 1, file: 'Antique_Axe_icon.png'},
@@ -317,19 +330,104 @@ const collectorData=[
 {en: 'WZ Wallet', ja: 'WZ ウォレット', count: 1, file: 'WZ_Wallet_icon.png'}
 ];
 
-const hideoutData=[
-{station:'Security',level:1,items:[['Construction measuring tape',1,false],['₽',20000,false]]},
-{station:'Generator',level:1,items:[['Spark plug',1,false],['₽',100000,false]],req:'Security Lv.1'},
-{station:'Illumination',level:1,items:[['Crickent lighter',1,false],['₽',10000,false]]},
-{station:'Workbench',level:1,items:[['Screw nuts',2,false],['Bolts',2,false],['Leatherman Multitool',1,false]]},
-{station:'Water Collector',level:1,items:[['Duct tape',3,false],['Screw nuts',5,false],['Bolts',5,false],['Corrugated hose',4,false]]},
-{station:'Water Collector',level:2,items:[['Toolset',2,false],['Corrugated hose',6,false],['Electric motor',2,false],['KEKTAPE duct tape',5,false]],req:'Workbench Lv.1 / Attention Lv.3'},
-{station:'Hall of Fame',level:1,items:[['Insulating tape',2,false],['Pack of nails',5,false],['Light bulb',5,false],['Cat figurine',1,true],['Fleece fabric',5,false],['Round pliers',1,true]]},
-{station:'Hall of Fame',level:2,items:[['Tech manual',1,true],['Pliers Elite',1,true],['Toolset',1,true],['Golden rooster figurine',1,true],['Energy-saving lamp',10,false],['Pack of screws',6,false],['Duct tape',3,false],['Xenomorph sealing foam',2,false],['Tube of Poxeram cold welding',2,false]]},
-{station:'Air Filtering Unit',level:1,items:[['Gas mask air filter',5,true],['Military power filter',5,false],['Military corrugated tube',10,false]],req:'Generator Lv.3 / Vents Lv.3 / Skier LL3 / $25,000'},
-{station:'Bitcoin Farm',level:1,items:[['T-Shaped plug',10,false],['VPX Flash Storage Module',2,false],['Power cord',15,false],['Power supply unit',10,true],['CPU fan',15,false]],req:'Intelligence Center Lv.2'},
-{station:'Bitcoin Farm',level:2,items:[['CPU fan',15,false],['Power supply unit',10,false],['Printed circuit board',15,true],['Phase control relay',10,false],['Military power filter',5,false]],req:'Generator Lv.3'},
-{station:'Gym',level:1,items:[['Toolset',1,true],['Electric drill',1,true],['Metal cutting scissors',1,true],['Screw nuts',5,false],['Bolts',5,false],['WD-40 (100ml)',1,false],['Insulating tape',5,false]],req:'Defective Wall Lv.6 / Illumination Lv.2 / Vents Lv.2'}
+const hideoutStations = [
+  {
+    id: 'stash', name: {en: 'Stash', ja: 'スタッシュ'},
+    levels: [
+      {level: 1, items: []},
+      {level: 2, items: [['Pliers', 2, false], ['Wrench', 2, false], ['Corrugated hose', 3, false], ['₽', 2500000, false]]},
+      {level: 3, items: [['Wi-Fi Camera', 2, true], ['Phase control relay', 4, false], ['FP-100 filter absorber', 2, false], ['Secure Flash drive', 5, true], ['₽', 8500000, false]]},
+      {level: 4, items: []}
+    ]
+  },
+  {
+    id: 'security', name: {en: 'Security', ja: 'セキュリティ'},
+    levels: [
+      {level: 1, items: [['Construction measuring tape', 1, false], ['₽', 20000, false]]},
+      {level: 2, items: [['Power cord', 2, false], ['Energy-saving lamp', 4, false], ['Pliers', 1, false], ['₽', 75000, false]]},
+      {level: 3, items: [['NIXXIE technical data book', 1, true], ['Vpx Flash Storage Module', 1, true], ['Phase control relay', 1, false], ['₽', 250000, false]]}
+    ]
+  },
+  {
+    id: 'generator', name: {en: 'Generator', ja: '発電機'},
+    levels: [
+      {level: 1, items: [['Spark plug', 1, false], ['₽', 100000, false]], req: 'Security Lv.1'},
+      {level: 2, items: [['Tushonka (Large)', 2, false], ['Phase control relay', 2, false], ['Spark plug', 3, false], ['₽', 450000, false]], req: 'Security Lv.2'},
+      {level: 3, items: [['Mulled Catalyst chemical pack', 2, false], ['Toolset', 2, true], ['FP-100 filter absorber', 2, false], ['₽', 1800000, false]], req: 'Illumination Lv.3'}
+    ]
+  },
+  {
+    id: 'illumination', name: {en: 'Illumination', ja: '照明'},
+    levels: [
+      {level: 1, items: [['Crickent lighter', 1, false], ['₽', 10000, false]]},
+      {level: 2, items: [['Energy-saving lamp', 3, false], ['Bulb', 3, false], ['₽', 50000, false]]},
+      {level: 3, items: [['UV lamp', 5, false], ['FP-100 filter absorber', 1, false], ['₽', 200000, false]]}
+    ]
+  },
+  {
+    id: 'vents', name: {en: 'Vents', ja: '通気口'},
+    levels: [
+      {level: 1, items: [['Corrugated hose', 2, false], ['Metal spare parts', 2, false], ['₽', 35000, false]], req: 'Generator Lv.1'},
+      {level: 2, items: [['Electric motor', 1, false], ['Toolset', 1, false], ['Corrugated hose', 3, false], ['₽', 150000, false]], req: 'Generator Lv.2'},
+      {level: 3, items: [['Milpulse tactical burner', 1, false], ['Electric motor', 1, false], ['Corrugated hose', 5, false], ['₽', 500000, false]], req: 'Generator Lv.3'}
+    ]
+  },
+  {
+    id: 'workbench', name: {en: 'Workbench', ja: 'ワークベンチ'},
+    levels: [
+      {level: 1, items: [['Screw nuts', 2, false], ['Bolts', 2, false], ['Leatherman Multitool', 1, false]], req: 'Security Lv.1'},
+      {level: 2, items: [['Toolset', 1, false], ['WD-40 (100ml)', 1, false], ['Pliers Elite', 1, true], ['₽', 100000, false]], req: 'Vents Lv.1'},
+      {level: 3, items: [['Milpulse tactical burner', 1, false], ['Electric motor', 2, false], ['Wires', 15, false], ['₽', 450000, false]], req: 'Vents Lv.2'}
+    ]
+  },
+  {
+    id: 'lavatory', name: {en: 'Lavatory', ja: '洗面所'},
+    levels: [
+      {level: 1, items: [['Tube of Poxeram cold welding', 1, false], ['Soap', 1, false], ['₽', 10000, false]]},
+      {level: 2, items: [['Teapot', 1, false], ['Wrench', 1, false], ['Corrugated hose', 2, false], ['₽', 50000, false]]},
+      {level: 3, items: [['Clean Water', 2, true], ['Corrugated hose', 4, false], ['Toolset', 1, false], ['₽', 200000, false]]}
+    ]
+  },
+  {
+    id: 'water_collector', name: {en: 'Water Collector', ja: '集水器'},
+    levels: [
+      {level: 1, items: [['Duct tape', 3, false], ['Screw nuts', 5, false], ['Bolts', 5, false], ['Corrugated hose', 4, false]], req: 'Lavatory Lv.2'},
+      {level: 2, items: [['Toolset', 2, false], ['Corrugated hose', 6, false], ['Electric motor', 2, false], ['KEKTAPE duct tape', 5, false]], req: 'Workbench Lv.1'},
+      {level: 3, items: [['Phase control relay', 2, false], ['Water filter', 2, false], ['Electric motor', 1, false], ['₽', 500000, false]], req: 'Generator Lv.2'}
+    ]
+  },
+  {
+    id: 'medstation', name: {en: 'Medstation', ja: 'メディステーション'},
+    levels: [
+      {level: 1, items: [['Salewa first aid kit', 1, true], ['Disposable syringe', 3, false], ['Hydrogen peroxide', 1, false], ['₽', 25000, false]]},
+      {level: 2, items: [['Vaseline', 1, false], ['Augmentin pill pack', 2, false], ['Ibuprofen painkillers', 1, false], ['₽', 120000, false]], req: 'Water Collector Lv.1'},
+      {level: 3, items: [['LEDX Skin Transilluminator', 1, true], ['Ophthalmoscope', 1, true], ['UHF RFID Reader', 1, true], ['₽', 600000, false]], req: 'Intel Center Lv.2'}
+    ]
+  },
+  {
+    id: 'nutrition', name: {en: 'Nutrition Unit', ja: '栄養ユニット'},
+    levels: [
+      {level: 1, items: [['Pack of juice', 1, false], ['MRE ration pack', 1, false], ['Emelya rye croutons', 1, false], ['₽', 15000, false]], req: 'Lavatory Lv.1'},
+      {level: 2, items: [['Can of beef stew', 2, false], ['Condensed milk', 1, false], ['Pack of instant noodles', 2, false], ['₽', 75000, false]], req: 'Medstation Lv.1'},
+      {level: 3, items: [['Aseptic bandage', 3, false], ['Can of TarCola', 3, false], ['Purewater', 1, true], ['₽', 300000, false]], req: 'Water Collector Lv.2'}
+    ]
+  },
+  {
+    id: 'intel', name: {en: 'Intelligence Center', ja: 'インテリジェンスセンター'},
+    levels: [
+      {level: 1, items: [['Secure Flash drive', 3, true], ['CD-ROM', 3, false], ['DVD drive', 3, false], ['₽', 150000, false]], req: 'Security Lv.2'},
+      {level: 2, items: [['Intelligence folder', 4, true], ['VPX Flash Storage Module', 2, true], ['Phase control relay', 3, false], ['₽', 600000, false]], req: 'Generator Lv.2'},
+      {level: 3, items: [['Encrusted flash drive', 2, true], ['SJ9 TGLabs combat stimulant', 2, true], ['Military flash drive', 4, true], ['₽', 2500000, false]], req: 'Generator Lv.3'}
+    ]
+  },
+  {
+    id: 'bitcoin', name: {en: 'Bitcoin Farm', ja: 'ビットコインファーム'},
+    levels: [
+      {level: 1, items: [['T-Shaped plug', 10, false], ['VPX Flash Storage Module', 2, false], ['Power cord', 15, false], ['Power supply unit', 10, true], ['CPU fan', 15, false]], req: 'Intel Center Lv.2'},
+      {level: 2, items: [['CPU fan', 15, false], ['Power supply unit', 10, false], ['Printed circuit board', 15, true], ['Phase control relay', 10, false], ['Military power filter', 5, false]], req: 'Generator Lv.3'},
+      {level: 3, items: [['Physical Bitcoin', 25, true], ['Graphics card', 50, false], ['UHF RFID Reader', 3, true], ['Miltrade battery', 3, false]], req: 'Generator Lv.3'}
+    ]
+  }
 ];
 
 function createEmptySlot(name = '') {
@@ -337,7 +435,8 @@ function createEmptySlot(name = '') {
     name: name,
     tasks: {},
     collector: {},
-    hideout: {}
+    hideoutLevels: {},
+    hideoutCounts: {}
   };
 }
 
@@ -378,7 +477,8 @@ function cur(){
   if(!state.slots[state.slot]) state.slots[state.slot] = createEmptySlot(`スロット ${state.slot + 1}`);
   if(!state.slots[state.slot].tasks) state.slots[state.slot].tasks = {};
   if(!state.slots[state.slot].collector) state.slots[state.slot].collector = {};
-  if(!state.slots[state.slot].hideout) state.slots[state.slot].hideout = {};
+  if(!state.slots[state.slot].hideoutLevels) state.slots[state.slot].hideoutLevels = {};
+  if(!state.slots[state.slot].hideoutCounts) state.slots[state.slot].hideoutCounts = {};
   return state.slots[state.slot];
 }
 
@@ -410,6 +510,10 @@ function setLang(lang){
   document.getElementById('t-opt-all').textContent = t.optAll;
   document.getElementById('t-opt-todo').textContent = t.optTodo;
   document.getElementById('t-opt-done').textContent = t.optDone;
+
+  document.getElementById('h-opt-all').textContent = t.hOptAll;
+  document.getElementById('h-opt-todo').textContent = t.hOptTodo;
+  document.getElementById('h-opt-done').textContent = t.hOptDone;
   
   document.getElementById('t-collector-title').textContent = t.collectorTitle;
   document.getElementById('t-fir-req').textContent = t.firReq;
@@ -424,9 +528,6 @@ function setLang(lang){
   
   document.getElementById('t-hideout-title').textContent = t.hideoutTitle;
   document.getElementById('t-hideout-subtitle').textContent = t.hideoutSubtitle;
-  document.getElementById('hideout-all').textContent = t.hideoutAll;
-  document.getElementById('hideout-todo').textContent = t.hideoutTodo;
-  document.getElementById('hideout-done').textContent = t.hideoutDone;
   
   document.getElementById('t-route-title').textContent = t.routeTitle;
   document.getElementById('t-save-title').textContent = t.saveTitle;
@@ -531,6 +632,7 @@ function renderCollector(){
     let itemName = (currentLang === 'ja' ? d.ja : d.en);
     let row = document.createElement('div');
     row.className = 'itemrow';
+    row.style.gridTemplateColumns = 'auto 1fr auto auto';
     row.innerHTML = `
       <div class="item-img"><img src="images/${d.file}" alt="${esc(d.en)}" onerror="this.style.display='none';this.parentElement.textContent='📦';"></div>
       <label><input type="checkbox" ${v?'checked':''}> ${esc(itemName)}</label>
@@ -546,40 +648,129 @@ function renderCollector(){
 }
 
 function renderHideout(){
- const t = i18n[currentLang];
- const root = document.getElementById('hideoutItems');
- if(!root) return;
- root.innerHTML = '';
- const q = (document.getElementById('hideoutSearch')?.value || '').toLowerCase();
- const filter = document.getElementById('hideoutFilter')?.value || 'all';
- 
- hideoutData.forEach((d, di)=>{
-   let items = d.items.filter(x => x[0].toLowerCase().includes(q) || d.station.toLowerCase().includes(q));
-   if(!items.length && !d.station.toLowerCase().includes(q)) return;
-   let keys = d.items.map((x, ii) => di+'-'+ii), all = d.items.every((x, ii) => cur().hideout[keys[ii]]?.owned);
-   if(filter === 'done' && !all) return;
-   if(filter === 'todo' && all) return;
-   
-   let card = document.createElement('div');
-   card.className = 'panel';
-   card.innerHTML = `<div class="section-title"><h3>${esc(d.station)} Lv.${d.level}</h3><span class="tag">${all?(currentLang==='ja'?'準備完了':'Ready'):(currentLang==='ja'?'素材チェック':'Check')}</span></div>${d.req?`<p class="muted">${currentLang==='ja'?'前提条件：':'Req: '}${esc(d.req)}</p>`:''}<div class="itemlist"></div>`;
-   let list = card.querySelector('.itemlist');
-   
-   items.forEach(x=>{
-     let ii = d.items.indexOf(x), key = di+'-'+ii, old = cur().hideout[key]||{};
-     let row = document.createElement('div');
-     row.className = 'entry';
-     row.innerHTML = `<div class="itemrow" style="grid-template-columns:1fr auto auto;"><span>${esc(x[0])} <span class="qty">× ${x[1]}</span></span><label class="smallcheck"><input type="checkbox" data-k="owned" ${old.owned?'checked':''}> ${t.owned}</label><label class="smallcheck"><input type="checkbox" data-k="raid" ${old.raid?'checked':''}> ${t.firCheck}${x[2]?(currentLang==='ja'?'（要）':'(Req)'):''}</label></div>`;
-     row.querySelectorAll('input').forEach(inp => inp.onchange = e => {
-       cur().hideout[key] = cur().hideout[key]||{};
-       cur().hideout[key][e.target.dataset.k] = e.target.checked;
-       save();
-       renderAll();
-     });
-     list.appendChild(row);
-   });
-   root.appendChild(card);
- });
+  const t = i18n[currentLang];
+  const root = document.getElementById('hideoutItems');
+  if(!root) return;
+  root.innerHTML = '';
+  const q = (document.getElementById('hideoutSearch')?.value || '').toLowerCase();
+  const filter = document.getElementById('hideoutFilter')?.value || 'all';
+
+  hideoutStations.forEach(station => {
+    let stationName = (currentLang === 'ja' ? station.name.ja : station.name.en);
+    if(q && !stationName.toLowerCase().includes(q)) return;
+
+    let currentLv = cur().hideoutLevels[station.id] || 0;
+    let nextLvObj = station.levels.find(l => l.level === currentLv + 1);
+    let isMax = !nextLvObj;
+
+    // フィルター判定（todo: 未完了のみ / done: 完了済みのみ(MAX) / all: すべて）
+    if(filter === 'todo' && isMax) return;
+    if(filter === 'done' && !isMax) return;
+
+    let card = document.createElement('div');
+    card.className = 'entry' + (isMax ? ' done' : '');
+    
+    let html = `
+      <div class="section-title">
+        <h3>${esc(stationName)}</h3>
+        <span class="tag ${isMax ? 'no' : 'raid'}">${t.currentLv} ${currentLv}</span>
+      </div>
+    `;
+
+    if(isMax) {
+      html += `<p class="muted" style="margin-top:10px; color:var(--green); font-weight:700;">${t.maxLevel}</p>`;
+      html += `<div style="margin-top:12px;"><button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button></div>`;
+    } else {
+      html += `<p class="muted" style="margin-top:6px;">${t.nextUpgrade} Lv.${nextLvObj.level}${nextLvObj.req ? ' (Req: ' + esc(nextLvObj.req) + ')' : ''}</p>`;
+      html += `<div style="margin:10px 0; border-top:1px solid var(--line); padding-top:4px;" class="hideout-items-list">`;
+      
+      if(nextLvObj.items.length === 0) {
+        html += `<p class="muted" style="padding:6px 0;">（必要素材なし）</p>`;
+      } else {
+        nextLvObj.items.forEach((item, idx) => {
+          let reqFir = item[2] ? t.firNote : '';
+          let itemKey = `${station.id}_${nextLvObj.level}_${idx}`;
+          let currentOwned = cur().hideoutCounts[itemKey] || 0;
+          let requiredQty = item[1];
+          let isDone = currentOwned >= requiredQty;
+
+          html += `
+            <div class="itemrow" style="padding:6px 0;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" class="hideout-check" data-key="${itemKey}" data-max="${requiredQty}" ${isDone ? 'checked' : ''} title="チェックで必要数に自動設定">
+                <span style="font-size:14px;">${esc(item[0])}${reqFir}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="count-controls">
+                  <button type="button" class="minus-btn" data-key="${itemKey}" data-max="${requiredQty}">-</button>
+                  <span>${currentOwned} / ${requiredQty.toLocaleString()}</span>
+                  <button type="button" class="plus-btn" data-key="${itemKey}" data-max="${requiredQty}">+</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+      html += `</div>`;
+      html += `<div style="display:flex; gap:8px; margin-top:12px;">`;
+      html += `<button class="btn primary" data-action="up" data-station="${station.id}">${t.upgradeBtn}</button>`;
+      if(currentLv > 0) {
+        html += `<button class="btn" data-action="down" data-station="${station.id}">${t.downgradeBtn}</button>`;
+      }
+      html += `</div>`;
+    }
+
+    card.innerHTML = html;
+
+    card.querySelectorAll('button[data-action]').forEach(btn => {
+      btn.onclick = () => {
+        let stId = btn.dataset.station;
+        let act = btn.dataset.action;
+        let curL = cur().hideoutLevels[stId] || 0;
+        let stObj = hideoutStations.find(s => s.id === stId);
+        
+        if(act === 'up') {
+          let maxL = stObj.levels.length;
+          if(curL < maxL) cur().hideoutLevels[stId] = curL + 1;
+        } else if(act === 'down') {
+          if(curL > 0) cur().hideoutLevels[stId] = curL - 1;
+        }
+        save();
+        renderAll();
+      };
+    });
+
+    card.querySelectorAll('.plus-btn, .minus-btn').forEach(btn => {
+      btn.onclick = () => {
+        let key = btn.dataset.key;
+        let max = parseInt(btn.dataset.max, 10);
+        let curVal = cur().hideoutCounts[key] || 0;
+        if(btn.classList.contains('plus-btn')) {
+          if(curVal < max) cur().hideoutCounts[key] = curVal + 1;
+        } else {
+          if(curVal > 0) cur().hideoutCounts[key] = curVal - 1;
+        }
+        save();
+        renderAll();
+      };
+    });
+
+    card.querySelectorAll('.hideout-check').forEach(chk => {
+      chk.onchange = (e) => {
+        let key = e.target.dataset.key;
+        let max = parseInt(e.target.dataset.max, 10);
+        if(e.target.checked) {
+          cur().hideoutCounts[key] = max;
+        } else {
+          cur().hideoutCounts[key] = 0;
+        }
+        save();
+        renderAll();
+      };
+    });
+
+    root.appendChild(card);
+  });
 }
 
 function updateSlotDropdown() {
@@ -617,12 +808,13 @@ function updateStats(){
   const taskBarEl = document.getElementById('taskBar');
   if(taskBarEl) taskBarEl.style.width = (kt / allTasksData.length * 100) + '%';
   
-  let total = collectorData.length + hideoutData.reduce((n,d)=>n+d.items.length,0),
-      done = Object.values(cur().collector).filter(Boolean).length + Object.values(cur().hideout).filter(v=>v?.owned).length;
+  let totalCollector = collectorData.length;
+  let doneCollector = Object.values(cur().collector).filter(Boolean).length;
+  
   const itemCountEl = document.getElementById('itemCount');
-  if(itemCountEl) itemCountEl.textContent = done + ' / ' + total;
+  if(itemCountEl) itemCountEl.textContent = doneCollector + ' / ' + totalCollector;
   const itemBarEl = document.getElementById('itemBar');
-  if(itemBarEl) itemBarEl.style.width = (done / total * 100) + '%';
+  if(itemBarEl) itemBarEl.style.width = (doneCollector / totalCollector * 100) + '%';
 }
 
 function switchTab(id){
@@ -639,7 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('allTasksFilter')?.addEventListener('change', renderAllTasks);
   document.getElementById('traderSelect')?.addEventListener('change', renderTraderTasks);
   document.getElementById('mapSelect')?.addEventListener('change', renderMapTasks);
-  ['hideoutSearch','hideoutFilter'].forEach(id => document.getElementById(id)?.addEventListener('input', renderHideout));
+  document.getElementById('hideoutSearch')?.addEventListener('input', renderHideout);
+  document.getElementById('hideoutFilter')?.addEventListener('change', renderHideout);
 
   const slotSelect = document.getElementById('slotSelect');
   if(slotSelect){
@@ -716,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 5000);
       return;
     }
-    cur().tasks = {}; cur().collector = {}; cur().hideout = {};
+    cur().tasks = {}; cur().collector = {}; cur().hideoutLevels = {}; cur().hideoutCounts = {};
     resetArmed = false;
     b.textContent = t.resetBtn1;
     document.getElementById('resetHint').textContent = t.resetHint2;
