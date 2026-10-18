@@ -10,10 +10,11 @@
 header{padding:20px max(18px,calc((100% - 1200px)/2));border-bottom:1px solid var(--line);background:#11171deF;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
 h1{margin:0;font-size:clamp(20px,2.5vw,28px);letter-spacing:.02em}header p{color:var(--muted);margin:4px 0 0;font-size:13px}
 .header-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.faction-switch{display:flex;gap:4px;background:var(--panel2);padding:3px;border-radius:7px;border:1px solid var(--line)}
-.faction-btn{background:transparent;color:var(--muted);border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:700;font-size:12px;transition:all .15s}
+.faction-switch, .lang-switch{display:flex;gap:4px;background:var(--panel2);padding:3px;border-radius:7px;border:1px solid var(--line)}
+.faction-btn, .lang-btn{background:transparent;color:var(--muted);border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:700;font-size:12px;transition:all .15s}
 .faction-btn.usec.active{background:var(--usec);color:#fff}
 .faction-btn.bear.active{background:var(--bear);color:#fff}
+.lang-btn.active{background:var(--accent);color:#171717}
 
 main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px}.tab.active{background:var(--accent);color:#171717;border-color:var(--accent)}
@@ -57,6 +58,10 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
     <p id="t-subtitle">正規タスク ＆ Collector ＆ ハイドアウト総合トラッカー</p>
   </div>
   <div class="header-controls">
+    <div class="lang-switch">
+      <button class="lang-btn active" id="btnLangJp" onclick="setLanguage('jp')">JP</button>
+      <button class="lang-btn" id="btnLangEn" onclick="setLanguage('en')">EN</button>
+    </div>
     <div class="faction-switch">
       <button class="faction-btn usec active" onclick="setFaction('USEC')">USEC</button>
       <button class="faction-btn bear" onclick="setFaction('BEAR')">BEAR</button>
@@ -200,6 +205,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 <script>
 const KEY = 'eft-pve-tracker-v39-hideout';
 let currentFaction = 'USEC';
+let currentLang = 'jp';
 let activeTabId = 'kappaTasks';
 
 const COLLECTOR_ITEMS = [
@@ -253,57 +259,152 @@ const HIDEOUT_STATIONS = [
   {
     station: 'Generator (発電機)',
     levels: [
-      {id:'gen_1', name:'Generator Lv.1', req:'Security Lv.1', note:'発電機 起動に必須', items:[{name:'Spark plug ×1 (インレイド不要)'}, {name:'100,000ルーブル'}]},
-      {id:'gen_2', name:'Generator Lv.2', req:'Generator Lv.1, Vents Lv.2', note:'燃料コンテナ最大4個', items:[{name:'Phase control relay ×5'}, {name:'Electric motor ×1'}, {name:'Wires ×15'}]},
-      {id:'gen_3', name:'Generator Lv.3', req:'Generator Lv.2, Vents Lv.3, Mechanic LL3', note:'燃料コンテナ最大6個', items:[{name:'Power supply unit ×5'}, {name:'Phase control relay ×6'}, {name:'Electric motor ×3'}, {name:'Spark plug ×10'}]}
+      {id:'gen_1', name:'Generator Lv.1', req:'Security Lv.1', note:'発電機 起動に必須', items:[
+        {jp:'スパークプラグ ×1 (インレイド不要)', en:'Spark plug ×1 (No FIR required)'}, 
+        {jp:'100,000ルーブル', en:'100,000 Roubles'}
+      ]},
+      {id:'gen_2', name:'Generator Lv.2', req:'Generator Lv.1, Vents Lv.2', note:'燃料コンテナ最大4個', items:[
+        {jp:'位相制御リレー ×5', en:'Phase control relay ×5'}, 
+        {jp:'電気モーター ×1', en:'Electric motor ×1'}, 
+        {jp:'ワイヤー ×15', en:'Wires ×15'}
+      ]},
+      {id:'gen_3', name:'Generator Lv.3', req:'Generator Lv.2, Vents Lv.3, Mechanic LL3', note:'燃料コンテナ最大6個', items:[
+        {jp:'電源ユニット ×5', en:'Power supply unit ×5'}, 
+        {jp:'位相制御リレー ×6', en:'Phase control relay ×6'}, 
+        {jp:'電気モーター ×3', en:'Electric motor ×3'}, 
+        {jp:'スパークプラグ ×10', en:'Spark plug ×10'}
+      ]}
     ]
   },
   {
     station: 'Workbench (ワークベンチ)',
     levels: [
-      {id:'wb_1', name:'Workbench Lv.1', req:'Security Lv.1', note:'武器パーツ・弾薬作成解放', items:[{name:'Screw nuts ×2'}, {name:'Bolts ×2'}, {name:'Leatherman Multitool ×1 (インレイド不要)'}]},
-      {id:'wb_2', name:'Workbench Lv.2', req:'Workbench Lv.1, Intelligence Center Lv.1', note:'上位弾薬作成解放', items:[{name:'Awl ×1'}, {name:'Clinch wrench ×1'}, {name:'Screwdriver (flat) ×1'}, {name:'Screwdriver (phillips) ×1'}]},
-      {id:'wb_3', name:'Workbench Lv.3', req:'Workbench Lv.2, Mechanic LL2', note:'最高峰のクラフト解放', items:[{name:'Hand drill ×1 (FIR推奨)'}, {name:'Metal cutting scissors ×1 (FIR推奨)'}, {name:'Pliers ×1'}, {name:'Pliers Elite ×1'}]}
+      {id:'wb_1', name:'Workbench Lv.1', req:'Security Lv.1', note:'武器パーツ・弾薬作成解放', items:[
+        {jp:'ナット ×2', en:'Screw nuts ×2'}, 
+        {jp:'ボルト ×2', en:'Bolts ×2'}, 
+        {jp:'レザーマン マルチツール ×1 (インレイド不要)', en:'Leatherman Multitool ×1 (No FIR required)'}
+      ]},
+      {id:'wb_2', name:'Workbench Lv.2', req:'Workbench Lv.1, Intelligence Center Lv.1', note:'上位弾薬作成解放', items:[
+        {jp:'目打ち ×1', en:'Awl ×1'}, 
+        {jp:'口開きスパナ ×1', en:'Clinch wrench ×1'}, 
+        {jp:'マイナスドライバー ×1', en:'Screwdriver (flat) ×1'}, 
+        {jp:'プラスドライバー ×1', en:'Screwdriver (phillips) ×1'}
+      ]},
+      {id:'wb_3', name:'Workbench Lv.3', req:'Workbench Lv.2, Mechanic LL2', note:'最高峰のクラフト解放', items:[
+        {jp:'ハンドドリル ×1 (FIR推奨)', en:'Hand drill ×1 (FIR recommended)'}, 
+        {jp:'金切りバサミ ×1 (FIR推奨)', en:'Metal cutting scissors ×1 (FIR recommended)'}, 
+        {jp:'ペンチ ×1', en:'Pliers ×1'}, 
+        {jp:'精密切断ペンチ ×1', en:'Pliers Elite ×1'}
+      ]}
     ]
   },
   {
     station: 'Medstation (メドステーション)',
     levels: [
-      {id:'med_1', name:'Medstation Lv.1', req:'なし', note:'医療品の作成解放', items:[{name:'Disposable syringe ×1'}, {name:'Pile of meds ×1'}, {name:'Aseptic bandage ×2'}, {name:'OLOLO Multivitamins ×1 (インレイド不要)'}]},
-      {id:'med_2', name:'Medstation Lv.2', req:'Medstation Lv.1, Generator Lv.1', note:'回復薬の効率上昇', items:[{name:'Salewa first aid kit ×1 (インレイド必要)'}, {name:'Hydrogen peroxide ×2'}, {name:'Pile of meds ×3'}]},
-      {id:'med_3', name:'Medstation Lv.3', req:'Medstation Lv.2, Therapist LL3', note:'PropitalやGrizzly作成解放', items:[{name:'Morphine ×3 (インレイド必要)'}, {name:'AI-2 ×5'}, {name:'Analgin painkillers ×5'}, {name:'Medical bloodset ×1'}]}
+      {id:'med_1', name:'Medstation Lv.1', req:'なし', note:'医療品の作成解放', items:[
+        {jp:'ディスポーザブル注射器 ×1', en:'Disposable syringe ×1'}, 
+        {jp:'医療品山盛り ×1', en:'Pile of meds ×1'}, 
+        {jp:'無菌包帯 ×2', en:'Aseptic bandage ×2'}, 
+        {jp:'OLOLO マルチビタミン ×1 (インレイド不要)', en:'OLOLO Multivitamins ×1 (No FIR required)'}
+      ]},
+      {id:'med_2', name:'Medstation Lv.2', req:'Medstation Lv.1, Generator Lv.1', note:'回復薬の効率上昇', items:[
+        {jp:'Salewa 応急処置キット ×1 (インレイド必要)', en:'Salewa first aid kit ×1 (FIR required)'}, 
+        {jp:'過酸化水素 ×2', en:'Hydrogen peroxide ×2'}, 
+        {jp:'医療品山盛り ×3', en:'Pile of meds ×3'}
+      ]},
+      {id:'med_3', name:'Medstation Lv.3', req:'Medstation Lv.2, Therapist LL3', note:'PropitalやGrizzly作成解放', items:[
+        {jp:'モルヒネ ×3 (インレイド必要)', en:'Morphine ×3 (FIR required)'}, 
+        {jp:'AI-2 応急処置キット ×5', en:'AI-2 ×5'}, 
+        {jp:'Analgin 鎮痛剤 ×5', en:'Analgin painkillers ×5'}, 
+        {jp:'医療用採血セット ×1', en:'Medical bloodset ×1'}
+      ]}
     ]
   },
   {
     station: 'Nutrition Unit (栄養ユニット)',
     levels: [
-      {id:'nut_1', name:'Nutrition Unit Lv.1', req:'なし', note:'食品・飲料の作成', items:[{name:'Crickent lighter ×1'}, {name:'Classic matches ×2'}, {name:'25,000ルーブル'}]},
-      {id:'nut_2', name:'Nutrition Unit Lv.2', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'コンビーフやクヴァス等作成', items:[{name:'Pack of sodium bicarbonate ×2'}, {name:'Can of condensed milk ×2 (インレイド必要)'}]},
-      {id:'nut_3', name:'Nutrition Unit Lv.3', req:'Nutrition Unit Lv.2, Jaeger LL2', note:'MREや高級飲食物作成', items:[{name:'Aquamari water bottle ×2'}, {name:'Can of Majaica coffee beans ×2 (インレイド必要)'}, {name:'RatCola ×2'}]}
+      {id:'nut_1', name:'Nutrition Unit Lv.1', req:'なし', note:'食品・飲料の作成', items:[
+        {jp:'Crickent ライター ×1', en:'Crickent lighter ×1'}, 
+        {jp:'マッチ ×2', en:'Classic matches ×2'}, 
+        {jp:'25,000ルーブル', en:'25,000 Roubles'}
+      ]},
+      {id:'nut_2', name:'Nutrition Unit Lv.2', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'コンビーフやクヴァス等作成', items:[
+        {jp:'重曹パック ×2', en:'Pack of sodium bicarbonate ×2'}, 
+        {jp:'コンデンスミルク ×2 (インレイド必要)', en:'Can of condensed milk ×2 (FIR required)'}
+      ]},
+      {id:'nut_3', name:'Nutrition Unit Lv.3', req:'Nutrition Unit Lv.2, Jaeger LL2', note:'MREや高級飲食物作成', items:[
+        {jp:'Aquamari ウォーターボトル ×2', en:'Aquamari water bottle ×2'}, 
+        {jp:'Majaica コーヒー豆 ×2 (インレイド必要)', en:'Can of Majaica coffee beans ×2 (FIR required)'}, 
+        {jp:'RatCola ×2', en:'RatCola ×2'}
+      ]}
     ]
   },
   {
     station: 'Lavatory (サニタリー)',
     levels: [
-      {id:'lav_1', name:'Lavatory Lv.1', req:'なし', note:'ウォーターフィルター等のリサイクル', items:[{name:'Toilet paper ×1'}, {name:'Toothpaste ×1'}, {name:'Soap ×1'}, {name:'Awl ×1'}, {name:'10,000ルーブル'}]},
-      {id:'lav_2', name:'Lavatory Lv.2', req:'Lavatory Lv.1', note:'燃料タンク（空）からの工作等', items:[{name:'Corrugated hose ×2'}, {name:'Tube ×1'}, {name:'Soap ×2'}]},
-      {id:'lav_3', name:'Lavatory Lv.3', req:'Lavatory Lv.2, Skier LL2', note:'上級アイテム作成', items:[{name:'Atnikor eye drops ×2'}, {name:'Ox bleach ×2'}, {name:'Minitool ×1'}]}
+      {id:'lav_1', name:'Lavatory Lv.1', req:'なし', note:'ウォーターフィルター等のリサイクル', items:[
+        {jp:'トイレットペーパー ×1', en:'Toilet paper ×1'}, 
+        {jp:'歯磨き粉 ×1', en:'Toothpaste ×1'}, 
+        {jp:'石鹸 ×1', en:'Soap ×1'}, 
+        {jp:'目打ち ×1', en:'Awl ×1'}, 
+        {jp:'10,000ルーブル', en:'10,000 Roubles'}
+      ]},
+      {id:'lav_2', name:'Lavatory Lv.2', req:'Lavatory Lv.1', note:'燃料タンク（空）からの工作等', items:[
+        {jp:'波状ホース ×2', en:'Corrugated hose ×2'}, 
+        {jp:'チューブ ×1', en:'Tube ×1'}, 
+        {jp:'石鹸 ×2', en:'Soap ×2'}
+      ]},
+      {id:'lav_3', name:'Lavatory Lv.3', req:'Lavatory Lv.2, Skier LL2', note:'上級アイテム作成', items:[
+        {jp:'Antikor 目薬 ×2', en:'Antikor eye drops ×2'}, 
+        {jp:'Ox 漂白剤 ×2', en:'Ox bleach ×2'}, 
+        {jp:'ミニツールキット ×1', en:'Minitool ×1'}
+      ]}
     ]
   },
   {
     station: 'Water Collector (浄水器)',
     levels: [
-      {id:'wat_1', name:'Water Collector Lv.1', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'浄水器（時間経過で浄水生成）', items:[{name:'Phase control relay ×2'}, {name:'Power cord ×1'}, {name:'Can of white salt ×1'}]},
-      {id:'wat_2', name:'Water Collector Lv.2', req:'Water Collector Lv.1, Medstation Lv.2', note:'浄水スピード上昇', items:[{name:'Corrugated hose ×4'}, {name:'Bolts ×5'}, {name:'Screw nuts ×5'}, {name:'Duct tape ×3'}]},
-      {id:'wat_3', name:'Water Collector Lv.3', req:'Water Collector Lv.2, Ragman LL3', note:'純水作成効率最大', items:[{name:'Silicone tube ×4'}, {name:'Pressure gauge ×2'}, {name:'Analog thermometer ×2'}, {name:'Corrugated hose ×5'}]}
+      {id:'wat_1', name:'Water Collector Lv.1', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'浄水器（時間経過で浄水生成）', items:[
+        {jp:'位相制御リレー ×2', en:'Phase control relay ×2'}, 
+        {jp:'電源コード ×1', en:'Power cord ×1'}, 
+        {jp:'精製塩 ×1', en:'Can of white salt ×1'}
+      ]},
+      {id:'wat_2', name:'Water Collector Lv.2', req:'Water Collector Lv.1, Medstation Lv.2', note:'浄水スピード上昇', items:[
+        {jp:'波状ホース ×4', en:'Corrugated hose ×4'}, 
+        {jp:'ボルト ×5', en:'Bolts ×5'}, 
+        {jp:'ナット ×5', en:'Screw nuts ×5'}, 
+        {jp:'ダクトテープ ×3', en:'Duct tape ×3'}
+      ]},
+      {id:'wat_3', name:'Water Collector Lv.3', req:'Water Collector Lv.2, Ragman LL3', note:'純水作成効率最大', items:[
+        {jp:'シリコンチューブ ×4', en:'Silicone tube ×4'}, 
+        {jp:'圧力計 ×2', en:'Pressure gauge ×2'}, 
+        {jp:'温度計 ×2', en:'Analog thermometer ×2'}, 
+        {jp:'波状ホース ×5', en:'Corrugated hose ×5'}
+      ]}
     ]
   },
   {
     station: 'Intelligence Center (情報センター)',
     levels: [
-      {id:'int_1', name:'Intelligence Center Lv.1', req:'Security Lv.2, Vents Lv.2', note:'Scavの再出撃時間短縮・報酬アップ', items:[{name:'Folder with intelligence ×1'}, {name:'Topographic survey maps ×1'}, {name:'Factory plan map ×1'}, {name:'Working LCD ×1'}, {name:'Power cord ×1'}]},
-      {id:'int_2', name:'Intelligence Center Lv.2', req:'Intelligence Center Lv.1, Security Lv.3, Medstation Lv.3, Nutrition Unit Lv.3, Mechanic LL2', note:'フリマ手数料軽減', items:[{name:'Folder with intelligence ×3'}, {name:'Secure Flash drive ×3 (インレイド必要)'}, {name:'Powercord ×4'}, {name:'Damaged hard drive ×4'}]},
-      {id:'int_3', name:'Intelligence Center Lv.3', req:'Intelligence Center Lv.2, Workbench Lv.3, Generator Lv.3, Prapor LL3', note:'フリマ手数料大幅減', items:[{name:'Military COFDM wireless Signal Transmitter ×2 (インレイド必要)'}, {name:'VPX Flash Storage Module ×2 (インレイド必要)'}, {name:'Gas analyzer ×3'}, {name:'Military cable ×4'}]}
+      {id:'int_1', name:'Intelligence Center Lv.1', req:'Security Lv.2, Vents Lv.2', note:'Scavの再出撃時間短縮・報酬アップ', items:[
+        {jp:'機密情報フォルダー ×1', en:'Folder with intelligence ×1'}, 
+        {jp:'地形測量図 ×1', en:'Topographic survey maps ×1'}, 
+        {jp:'Factory プラン図 ×1', en:'Factory plan map ×1'}, 
+        {jp:'液晶モニター ×1', en:'Working LCD ×1'}, 
+        {jp:'電源コード ×1', en:'Power cord ×1'}
+      ]},
+      {id:'int_2', name:'Intelligence Center Lv.2', req:'Intelligence Center Lv.1, Security Lv.3, Medstation Lv.3, Nutrition Unit Lv.3, Mechanic LL2', note:'フリマ手数料軽減', items:[
+        {jp:'機密情報フォルダー ×3', en:'Folder with intelligence ×3'}, 
+        {jp:'セキュアFlashドライブ ×3 (インレイド必要)', en:'Secure Flash drive ×3 (FIR required)'}, 
+        {jp:'電源コード ×4', en:'Powercord ×4'}, 
+        {jp:'故障したハードドライブ ×4', en:'Damaged hard drive ×4'}
+      ]},
+      {id:'int_3', name:'Intelligence Center Lv.3', req:'Intelligence Center Lv.2, Workbench Lv.3, Generator Lv.3, Prapor LL3', note:'フリマ手数料大幅減', items:[
+        {jp:'軍用 COFDM 無線信号発信機 ×2 (インレイド必要)', en:'Military COFDM wireless Signal Transmitter ×2 (FIR required)'}, 
+        {jp:'VPX フラッシュストレージモジュール ×2 (インレイド必要)', en:'VPX Flash Storage Module ×2 (FIR required)'}, 
+        {jp:'ガスアナライザー ×3', en:'Gas analyzer ×3'}, 
+        {jp:'軍用ケーブル ×4', en:'Military cable ×4'}
+      ]}
     ]
   }
 ];
@@ -469,6 +570,13 @@ function setFaction(fac){
   saveState(); renderCurrentTab();
 }
 
+function setLanguage(lang) {
+  currentLang = lang;
+  document.getElementById('btnLangJp').classList.toggle('active', lang === 'jp');
+  document.getElementById('btnLangEn').classList.toggle('active', lang === 'en');
+  renderCurrentTab();
+}
+
 function getFilteredData(categoryFilter) {
   const search = (document.getElementById('globalSearch')?.value || '').toLowerCase();
   const trader = document.getElementById('traderFilter')?.value || 'all';
@@ -550,12 +658,15 @@ function renderCollectorList() {
     card.className = 'collector-card' + (done ? ' done' : '');
     let imgSrc = `images/${item.imgKey}.png`;
 
+    let primaryName = currentLang === 'jp' ? item.jp : item.name;
+    let secondaryName = currentLang === 'jp' ? item.name : item.jp;
+
     card.innerHTML = `
       <input type="checkbox" ${done ? 'checked':''} data-id="${item.id}" style="accent-color:var(--green);width:18px;height:18px;flex-shrink:0;">
-      <img src="${imgSrc}" onerror="this.src='images/1gphone_icon.png'" alt="${esc(item.name)}">
+      <img src="${imgSrc}" onerror="this.src='images/1gphone_icon.png'" alt="${esc(primaryName)}">
       <div style="flex:1; min-width:0;">
-        <h3 style="margin:0; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${esc(item.name)}">${esc(item.name)}</h3>
-        <p style="margin:2px 0 0; font-size:12px; color:var(--muted);">${esc(item.jp)}</p>
+        <h3 style="margin:0; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${esc(primaryName)}">${esc(primaryName)}</h3>
+        <p style="margin:2px 0 0; font-size:12px; color:var(--muted);">${esc(secondaryName)}</p>
         <div><span class="tag fir">FIR (レイド内必須)</span></div>
       </div>
     `;
@@ -612,10 +723,11 @@ function renderHideoutList() {
       lvl.items.forEach((item, idx) => {
         const key = `${lvl.id}_${idx}`;
         const checked = !!hItems[key];
+        let itemName = currentLang === 'jp' ? item.jp : item.en;
         itemsHtml += `
           <label class="item-check-row">
             <input type="checkbox" data-key="${key}" ${checked ? 'checked':''}>
-            <span>${esc(item.name)}</span>
+            <span>${esc(itemName)}</span>
           </label>`;
       });
 
