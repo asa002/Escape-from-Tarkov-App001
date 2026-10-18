@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Escape from Tarkov — Kappa & Collector 総合トラッカー</title>
+<title>Escape from Tarkov — Kappa & Collector & Hideout 総合トラッカー</title>
 <style>
 :root{--bg:#101419;--panel:#1a2129;--panel2:#222c36;--line:#35414d;--text:#e8edf2;--muted:#a9b5c1;--accent:#d8a441;--green:#73c991;--red:#f07878;--blue:#78b8ed;--usec:#5b82a6;--bear:#a6615b;--lk:#a378ed}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#101419,#171d24 60%,#11161b);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -30,10 +30,23 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 .tag{display:inline-block;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:800;margin:3px 4px 0 0;background:#34414d;color:#dbe8f4}
 .tag.kappa{background:#4b3a18;color:#ffe0a0}.tag.nonkappa{background:#203d32;color:#a8f0c3}.tag.lightkeeper{background:#3d204c;color:#e2bcf0}
 .tag.fir{background:#482d2d;color:#ffcccc}
+.tag.hideout{background:#1e3d48;color:#c0e4f0}
 .sources{margin-top:8px;font-size:12px}.sources a{color:var(--blue);text-decoration:none;margin-right:10px}.sources a:hover{text-decoration:underline}
 .req-items{background:#161d24;border:1px dashed var(--line);padding:6px 8px;border-radius:6px;margin:6px 0;font-size:12px;color:#d3deea}
 .slotrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.slotrow select{min-width:180px}.slotrow input{flex:1;min-width:180px}.footer{font-size:12px;color:var(--muted);margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
 .hidden{display:none!important}.empty{padding:25px;text-align:center;color:var(--muted)}
+
+/* ハイドアウト専用デザイン */
+.hideout-station-card { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+.hideout-station-card details { width: 100%; }
+.hideout-station-card summary { padding: 14px 16px; font-weight: bold; font-size: 16px; cursor: pointer; background: #202933; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+.hideout-station-card summary:hover { background: #273340; }
+.hideout-levels-container { padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+.hideout-level-box { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.hideout-level-box.level-done { opacity: 0.7; }
+.item-check-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 13px; color: #d3deea; }
+.item-check-row input[type=checkbox] { accent-color: var(--green); width: 16px; height: 16px; cursor: pointer; }
+
 @media(max-width:600px){main{padding:12px 8px}.panel{padding:12px}.tab{flex:1;padding:8px 6px;text-align:center}}
 </style>
 </head>
@@ -41,7 +54,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 <header>
   <div>
     <h1 id="t-title">ESCAPE FROM TARKOV</h1>
-    <p id="t-subtitle">正規タスク ＆ Collector（Kappa用アイテム）専用トラッカー</p>
+    <p id="t-subtitle">正規タスク ＆ Collector ＆ ハイドアウト総合トラッカー</p>
   </div>
   <div class="header-controls">
     <div class="faction-switch">
@@ -54,19 +67,20 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
 <div class="stats">
  <div class="stat"><small id="t-stat-tasks">Kappa前提タスク完了</small><strong id="taskCount">0 / 0</strong><div class="progress"><span id="taskBar"></span></div></div>
  <div class="stat"><small id="t-stat-collector">Collector納品アイテム完了</small><strong id="collectorCount">0 / 0</strong><div class="progress"><span id="collectorBar"></span></div></div>
+ <div class="stat"><small id="t-stat-hideout">ハイドアウト改装進行度</small><strong id="hideoutCount">0 / 0</strong><div class="progress"><span id="hideoutBar"></span></div></div>
  <div class="stat">
    <small id="t-stat-slot">セーブデータ</small>
    <input type="text" id="headerSlotNameInput" value="スロット 1" title="セーブ名を直接変更できます">
-   <small id="t-stat-auto">自動保存：有効</small>
  </div>
 </div>
 
 <div class="tabs" role="tablist">
 <button class="tab active" data-tab="kappaTasks">1. Kappa前提タスク</button>
-<button class="tab" data-tab="collectorItemsTab">2. Collector納品アイテム (Kappa用)</button>
-<button class="tab" data-tab="nonKappaTasks">3. その他・分岐タスク</button>
-<button class="tab" data-tab="lkTasks">4. Lightkeeperタスク</button>
-<button class="tab" data-tab="allTasks">5. すべてのタスク一覧</button>
+<button class="tab" data-tab="collectorItemsTab">2. Collector納品アイテム</button>
+<button class="tab" data-tab="hideoutTab">3. ハイドアウト</button>
+<button class="tab" data-tab="nonKappaTasks">4. その他・分岐タスク</button>
+<button class="tab" data-tab="lkTasks">5. Lightkeeperタスク</button>
+<button class="tab" data-tab="allTasks">6. すべてのタスク一覧</button>
 <button class="tab" data-tab="save">保存・設定</button>
 </div>
 
@@ -75,7 +89,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
   <div class="toolbar" style="margin:0;">
     <input id="globalSearch" placeholder="検索ワードを入力…" oninput="renderCurrentTab()">
     <select id="traderFilter" onchange="renderCurrentTab()">
-      <option value="all">全トレーダー</option>
+      <option value="all">全トレーダー / 施設</option>
       <option value="Prapor">Prapor</option>
       <option value="Therapist">Therapist</option>
       <option value="Skier">Skier</option>
@@ -87,7 +101,7 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
       <option value="Lightkeeper">Lightkeeper</option>
     </select>
     <select id="mapFilter" onchange="renderCurrentTab()">
-      <option value="all">全マップ</option>
+      <option value="all">全マップ / 条件</option>
       <option value="Customs">Customs</option>
       <option value="Woods">Woods</option>
       <option value="Shoreline">Shoreline</option>
@@ -124,31 +138,39 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
  </div>
 </section>
 
-<!-- 3. その他・分岐タスク (Kappa不要) -->
+<!-- 3. ハイドアウト -->
+<section id="hideoutTab" class="page hidden">
+ <div class="panel">
+   <div class="section-title"><h2>3. ハイドアウト管理</h2><span class="muted">全施設のレベル別必要アイテムとレベルアップ条件。アイテムをすべてチェックすると自動で折りたたまれます。</span></div>
+   <div id="hideoutContainer" style="margin-top: 15px;"></div>
+ </div>
+</section>
+
+<!-- 4. その他・分岐タスク (Kappa不要) -->
 <section id="nonKappaTasks" class="page hidden">
  <div class="panel">
-   <div class="section-title"><h2>3. その他・分岐タスク (Kappa不要)</h2><span class="muted">非必須のサブタスク・分岐タスク</span></div>
+   <div class="section-title"><h2>4. その他・分岐タスク (Kappa不要)</h2><span class="muted">非必須のサブタスク・分岐タスク</span></div>
    <div id="nonKappaTasksList" class="itemlist"></div>
  </div>
 </section>
 
-<!-- 4. Lightkeeperタスク -->
+<!-- 5. Lightkeeperタスク -->
 <section id="lkTasks" class="page hidden">
  <div class="panel">
-   <div class="section-title"><h2>4. Lightkeeperタスク</h2><span class="muted">灯台島（Lighthouse）のLightkeeperに関連するタスク</span></div>
+   <div class="section-title"><h2>5. Lightkeeperタスク</h2><span class="muted">灯台島（Lighthouse）のLightkeeperに関連するタスク</span></div>
    <div id="lkTasksList" class="itemlist"></div>
  </div>
 </section>
 
-<!-- 5. すべてのタスク一覧 -->
+<!-- 6. すべてのタスク一覧 -->
 <section id="allTasks" class="page hidden">
  <div class="panel">
-   <div class="section-title"><h2>5. すべてのタスク一覧 (全件)</h2><span class="muted">ゲーム内の正規全タスクを一括管理</span></div>
+   <div class="section-title"><h2>6. すべてのタスク一覧 (全件)</h2><span class="muted">ゲーム内の正規全タスクを一括管理</span></div>
    <div id="allTasksList" class="itemlist"></div>
  </div>
 </section>
 
-<!-- 6. 保存・設定 -->
+<!-- 7. 保存・設定 -->
 <section id="save" class="page hidden">
  <div class="panel">
    <h2>名前付きセーブ＆ロード (10スロット)</h2>
@@ -160,11 +182,9 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
      <input type="text" id="slotNameInput" placeholder="スロット名を入力">
      <button class="btn primary" id="saveSlotBtn">名前を付けて保存</button>
      <button class="btn" id="loadSlotBtn">選択スロットをロード</button>
-     <button class="btn danger" id="clearSlotBtn">スロット初期化</button>
    </div>
    <p id="saveStatus" class="muted">自動保存機能：有効</p>
  </div>
-
  <div class="panel">
    <h2>ファイル共有 (バックアップ JSON)</h2>
    <div class="slotrow">
@@ -173,22 +193,15 @@ main{max-width:1200px;margin:auto;padding:20px 16px 60px}
      <input id="importFile" type="file" accept="application/json" class="hidden">
    </div>
  </div>
-
- <div class="panel">
-   <h2>現在のスロットの進捗クリア</h2>
-   <button class="btn danger" id="resetBtn">現在の進捗リセット（1/2）</button>
-   <span id="resetHint" class="muted">実行するにはもう一度クリック</span>
- </div>
 </section>
 <div class="footer">Escape from Tarkov — Kappa & Collector Comprehensive Tracker</div>
 </main>
 
 <script>
-const KEY = 'eft-pve-tracker-v35-collector-fixed';
+const KEY = 'eft-pve-tracker-v39-hideout';
 let currentFaction = 'USEC';
 let activeTabId = 'kappaTasks';
 
-// 全44種のCollectorアイテムリスト（Domontovich Ushankaの画像キーを修正済）
 const COLLECTOR_ITEMS = [
   {id:'col_1', name:'KC-130 model', jp:'KC-130 模型', imgKey:'BV-LM KC-130-icon'},
   {id:'col_2', name:'1GPhone smartphone', jp:'1GPhone スマートフォン', imgKey:'1gphone_icon'},
@@ -236,8 +249,66 @@ const COLLECTOR_ITEMS = [
   {id:'col_44', name:'WZ Wallet', jp:'WZ ウォレット', imgKey:'WZ_Wallet_icon'}
 ];
 
+const HIDEOUT_STATIONS = [
+  {
+    station: 'Generator (発電機)',
+    levels: [
+      {id:'gen_1', name:'Generator Lv.1', req:'Security Lv.1', note:'発電機 起動に必須', items:[{name:'Spark plug ×1 (インレイド不要)'}, {name:'100,000ルーブル'}]},
+      {id:'gen_2', name:'Generator Lv.2', req:'Generator Lv.1, Vents Lv.2', note:'燃料コンテナ最大4個', items:[{name:'Phase control relay ×5'}, {name:'Electric motor ×1'}, {name:'Wires ×15'}]},
+      {id:'gen_3', name:'Generator Lv.3', req:'Generator Lv.2, Vents Lv.3, Mechanic LL3', note:'燃料コンテナ最大6個', items:[{name:'Power supply unit ×5'}, {name:'Phase control relay ×6'}, {name:'Electric motor ×3'}, {name:'Spark plug ×10'}]}
+    ]
+  },
+  {
+    station: 'Workbench (ワークベンチ)',
+    levels: [
+      {id:'wb_1', name:'Workbench Lv.1', req:'Security Lv.1', note:'武器パーツ・弾薬作成解放', items:[{name:'Screw nuts ×2'}, {name:'Bolts ×2'}, {name:'Leatherman Multitool ×1 (インレイド不要)'}]},
+      {id:'wb_2', name:'Workbench Lv.2', req:'Workbench Lv.1, Intelligence Center Lv.1', note:'上位弾薬作成解放', items:[{name:'Awl ×1'}, {name:'Clinch wrench ×1'}, {name:'Screwdriver (flat) ×1'}, {name:'Screwdriver (phillips) ×1'}]},
+      {id:'wb_3', name:'Workbench Lv.3', req:'Workbench Lv.2, Mechanic LL2', note:'最高峰のクラフト解放', items:[{name:'Hand drill ×1 (FIR推奨)'}, {name:'Metal cutting scissors ×1 (FIR推奨)'}, {name:'Pliers ×1'}, {name:'Pliers Elite ×1'}]}
+    ]
+  },
+  {
+    station: 'Medstation (メドステーション)',
+    levels: [
+      {id:'med_1', name:'Medstation Lv.1', req:'なし', note:'医療品の作成解放', items:[{name:'Disposable syringe ×1'}, {name:'Pile of meds ×1'}, {name:'Aseptic bandage ×2'}, {name:'OLOLO Multivitamins ×1 (インレイド不要)'}]},
+      {id:'med_2', name:'Medstation Lv.2', req:'Medstation Lv.1, Generator Lv.1', note:'回復薬の効率上昇', items:[{name:'Salewa first aid kit ×1 (インレイド必要)'}, {name:'Hydrogen peroxide ×2'}, {name:'Pile of meds ×3'}]},
+      {id:'med_3', name:'Medstation Lv.3', req:'Medstation Lv.2, Therapist LL3', note:'PropitalやGrizzly作成解放', items:[{name:'Morphine ×3 (インレイド必要)'}, {name:'AI-2 ×5'}, {name:'Analgin painkillers ×5'}, {name:'Medical bloodset ×1'}]}
+    ]
+  },
+  {
+    station: 'Nutrition Unit (栄養ユニット)',
+    levels: [
+      {id:'nut_1', name:'Nutrition Unit Lv.1', req:'なし', note:'食品・飲料の作成', items:[{name:'Crickent lighter ×1'}, {name:'Classic matches ×2'}, {name:'25,000ルーブル'}]},
+      {id:'nut_2', name:'Nutrition Unit Lv.2', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'コンビーフやクヴァス等作成', items:[{name:'Pack of sodium bicarbonate ×2'}, {name:'Can of condensed milk ×2 (インレイド必要)'}]},
+      {id:'nut_3', name:'Nutrition Unit Lv.3', req:'Nutrition Unit Lv.2, Jaeger LL2', note:'MREや高級飲食物作成', items:[{name:'Aquamari water bottle ×2'}, {name:'Can of Majaica coffee beans ×2 (インレイド必要)'}, {name:'RatCola ×2'}]}
+    ]
+  },
+  {
+    station: 'Lavatory (サニタリー)',
+    levels: [
+      {id:'lav_1', name:'Lavatory Lv.1', req:'なし', note:'ウォーターフィルター等のリサイクル', items:[{name:'Toilet paper ×1'}, {name:'Toothpaste ×1'}, {name:'Soap ×1'}, {name:'Awl ×1'}, {name:'10,000ルーブル'}]},
+      {id:'lav_2', name:'Lavatory Lv.2', req:'Lavatory Lv.1', note:'燃料タンク（空）からの工作等', items:[{name:'Corrugated hose ×2'}, {name:'Tube ×1'}, {name:'Soap ×2'}]},
+      {id:'lav_3', name:'Lavatory Lv.3', req:'Lavatory Lv.2, Skier LL2', note:'上級アイテム作成', items:[{name:'Atnikor eye drops ×2'}, {name:'Ox bleach ×2'}, {name:'Minitool ×1'}]}
+    ]
+  },
+  {
+    station: 'Water Collector (浄水器)',
+    levels: [
+      {id:'wat_1', name:'Water Collector Lv.1', req:'Nutrition Unit Lv.1, Generator Lv.1', note:'浄水器（時間経過で浄水生成）', items:[{name:'Phase control relay ×2'}, {name:'Power cord ×1'}, {name:'Can of white salt ×1'}]},
+      {id:'wat_2', name:'Water Collector Lv.2', req:'Water Collector Lv.1, Medstation Lv.2', note:'浄水スピード上昇', items:[{name:'Corrugated hose ×4'}, {name:'Bolts ×5'}, {name:'Screw nuts ×5'}, {name:'Duct tape ×3'}]},
+      {id:'wat_3', name:'Water Collector Lv.3', req:'Water Collector Lv.2, Ragman LL3', note:'純水作成効率最大', items:[{name:'Silicone tube ×4'}, {name:'Pressure gauge ×2'}, {name:'Analog thermometer ×2'}, {name:'Corrugated hose ×5'}]}
+    ]
+  },
+  {
+    station: 'Intelligence Center (情報センター)',
+    levels: [
+      {id:'int_1', name:'Intelligence Center Lv.1', req:'Security Lv.2, Vents Lv.2', note:'Scavの再出撃時間短縮・報酬アップ', items:[{name:'Folder with intelligence ×1'}, {name:'Topographic survey maps ×1'}, {name:'Factory plan map ×1'}, {name:'Working LCD ×1'}, {name:'Power cord ×1'}]},
+      {id:'int_2', name:'Intelligence Center Lv.2', req:'Intelligence Center Lv.1, Security Lv.3, Medstation Lv.3, Nutrition Unit Lv.3, Mechanic LL2', note:'フリマ手数料軽減', items:[{name:'Folder with intelligence ×3'}, {name:'Secure Flash drive ×3 (インレイド必要)'}, {name:'Powercord ×4'}, {name:'Damaged hard drive ×4'}]},
+      {id:'int_3', name:'Intelligence Center Lv.3', req:'Intelligence Center Lv.2, Workbench Lv.3, Generator Lv.3, Prapor LL3', note:'フリマ手数料大幅減', items:[{name:'Military COFDM wireless Signal Transmitter ×2 (インレイド必要)'}, {name:'VPX Flash Storage Module ×2 (インレイド必要)'}, {name:'Gas analyzer ×3'}, {name:'Military cable ×4'}]}
+    ]
+  }
+];
+
 const ALL_TASKS_DATABASE = [
-  // --- PRAPOR ---
   {id:'pr_1', name:'Debut', trader:'Prapor', map:'Customs', req:'PMC Level 1', note:'CustomsでScav 5体撃破、MP-133 2丁納品', items:'MP-133 shotgun ×2', category:'kappa'},
   {id:'pr_2', name:'Checking', trader:'Prapor', map:'Customs', req:'Debut', note:'トラックからブロンズのポケットウォッチ回収', items:'Machinery key', category:'kappa'},
   {id:'pr_3', name:'Shootout Picnic', trader:'Prapor', map:'Woods', req:'Checking', note:'WoodsでScav 15体撃破', category:'kappa'},
@@ -257,8 +328,6 @@ const ALL_TASKS_DATABASE = [
   {id:'pr_17', name:'Test Drive - Part 1', trader:'Prapor', map:'Lighthouse', req:'PMC Level 32', note:'REAP-IR搭載M4A1でPMC 5体撃破', category:'kappa'},
   {id:'pr_18', name:'Bad Habit', trader:'Prapor', map:'Any', req:'PMC Level 10', note:'タバコ各3箱納品', items:'Wilton ×3, Strike ×3, Malboro ×3 (FIR)', category:'nonkappa'},
   {id:'pr_19', name:'Polikhim Hobo', trader:'Prapor', map:'Customs', req:'Checking', note:'CustomsでScav 25体撃破', category:'nonkappa'},
-
-  // --- THERAPIST ---
   {id:'th_1', name:'First in Line', trader:'Therapist', map:'Ground Zero', req:'PMC Level 1', note:'グラウンドゼロで医療施設を発見、医療品納品', items:'医療品 ×3', category:'nonkappa'},
   {id:'th_2', name:'Sanitary Standards - Part 1', trader:'Therapist', map:'Interchange', req:'PMC Level 5', note:'ガスアナライザー1個納品', items:'Gas analyzer ×1 (FIR)', category:'kappa'},
   {id:'th_3', name:'Sanitary Standards - Part 2', trader:'Therapist', map:'Interchange', req:'Sanitary Standards - Part 1', note:'ガスアナライザー2個納品', items:'Gas analyzer ×2 (FIR)', category:'kappa'},
@@ -277,8 +346,6 @@ const ALL_TASKS_DATABASE = [
   {id:'th_16', name:'Private Clinic', trader:'Therapist', map:'Any', req:'PMC Level 35', note:'LEDXとOphthalmoscope納品', items:'LEDX ×1, Ophthalmoscope ×1 (FIR)', category:'kappa'},
   {id:'th_17', name:'Decontamination Service', trader:'Therapist', map:'Interchange', req:'Private Clinic', note:'レスピレーター＆カウボーイハットでScav 40体撃破', category:'kappa'},
   {id:'th_18', name:'Crisis', trader:'Therapist', map:'Any', req:'PMC Level 48', note:'指定医療品を高額納品', items:'Morphine, Propital等多数', category:'kappa'},
-
-  // --- SKIER ---
   {id:'sk_1', name:'Supplier', trader:'Skier', map:'Any', req:'PMC Level 5', note:'3MアーマーとTOZ 1丁納品', items:'3M armor ×1, TOZ-106 ×1', category:'kappa'},
   {id:'sk_2', name:'What’s on the Flash Drive?', trader:'Skier', map:'Any', req:'Supplier', note:'Secure Flash Drive 2個納品', items:'Flash Drive ×2 (FIR)', category:'kappa'},
   {id:'sk_3', name:'Golden Swag', trader:'Skier', map:'Customs', req:'What’s on the Flash Drive?', note:'303号室からZibboライター回収して埋設', items:'Dorm 303 key, Zibbo', category:'kappa'},
@@ -290,8 +357,6 @@ const ALL_TASKS_DATABASE = [
   {id:'sk_9', name:'Chumming', trader:'Skier', map:'Interchange', req:'Informed Means Armed', note:'夜間にPMC 5体撃破、金時計5個埋設', items:'Golden neck chain ×5', category:'kappa'},
   {id:'sk_10', name:'Silent Caliber', trader:'Skier', map:'Any', req:'Chumming', note:'サプレッサー付き12GでScav 20体・PMC 10体撃破', category:'kappa'},
   {id:'sk_11', name:'Setup', trader:'Skier', map:'Customs', req:'PMC Level 19', note:'Scavベスト＋ウシャンカ＋12GでPMC 15体撃破', category:'kappa'},
-
-  // --- PEACEKEEPER ---
   {id:'pk_1_u', name:'Friend From the West', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (USEC)', note:'BEAR 7体撃破、ドッグタグ7枚納品', items:'BEAR Dogtags ×7', category:'kappa', faction:'USEC'},
   {id:'pk_1_b', name:'Friend From the West', trader:'Peacekeeper', map:'Customs', req:'PMC Level 10 (BEAR)', note:'USEC 7体撃破、ドッグタグ7枚納品', items:'USEC Dogtags ×7', category:'kappa', faction:'BEAR'},
   {id:'pk_2', name:'Friend From the West - Part 2', trader:'Peacekeeper', map:'Any', req:'Friend From the West', note:'6,000ドル支払い', items:'$6,000 Cash', category:'kappa'},
@@ -310,8 +375,6 @@ const ALL_TASKS_DATABASE = [
   {id:'pk_15', name:'Wet Job - Part 5', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 4', note:'スナイパースキルLevel 7到達', category:'kappa'},
   {id:'pk_16', name:'Wet Job - Part 6', trader:'Peacekeeper', map:'Shoreline', req:'Wet Job - Part 5', note:'指定ポイントでスナイパーキル', category:'kappa'},
   {id:'pk_17', name:'The Guide', trader:'Peacekeeper', map:'Multiple', req:'Wet Job - Part 6', note:'全マップを1レイドも死なずに連続で生還クリア', category:'kappa'},
-
-  // --- MECHANIC ---
   {id:'mc_1', name:'Saving the Mole', trader:'Mechanic', map:'Ground Zero', req:'PMC Level 1', note:'研究データ回収', items:'Scientist key', category:'nonkappa'},
   {id:'mc_2', name:'Introduction', trader:'Mechanic', map:'Woods', req:'PMC Level 10', note:'イェーガーのキャンプから手紙入手', category:'kappa'},
   {id:'mc_gs1', name:'Gunsmith - MP-133', trader:'Mechanic', map:'Any', req:'PMC Level 12', note:'カスタムMP-133納品', items:'MP-133 custom', category:'kappa'},
@@ -331,8 +394,6 @@ const ALL_TASKS_DATABASE = [
   {id:'mc_6', name:'Farming - Part 4', trader:'Mechanic', map:'Any', req:'Farming - Part 1', note:'グラフィックボード5枚納品', items:'Graphics card ×5 (FIR)', category:'kappa'},
   {id:'mc_7', name:'Shooter Born in Heaven', trader:'Mechanic', map:'Multiple', req:'PMC Level 30', note:'各指定マップでボルトアクション100m以上HS PMCキル', category:'kappa'},
   {id:'mc_8', name:'Psycho Sniper', trader:'Mechanic', map:'Any', req:'Shooter Born in Heaven', note:'ボルトアクションで死亡せずにPMC 3連続キル', category:'kappa'},
-
-  // --- RAGMAN ---
   {id:'rg_1', name:'Only Business', trader:'Ragman', map:'Any', req:'PMC Level 15', note:'Ragman信頼度レベル向上', category:'nonkappa'},
   {id:'rg_2', name:'Make ULTRA Great Again', trader:'Ragman', map:'Interchange', req:'Only Business', note:'InterchangeでScav 25体撃破', category:'kappa'},
   {id:'rg_3', name:'Big Sale', trader:'Ragman', map:'Interchange', req:'Only Business', note:'ショッピングモール内5店舗確認', category:'kappa'},
@@ -343,8 +404,6 @@ const ALL_TASKS_DATABASE = [
   {id:'rg_8', name:'Sew it Good - Part 3', trader:'Ragman', map:'Any', req:'Sew it Good - Part 1', note:'6B43 6Aアーマー納品', items:'6B43 6A ×2', category:'kappa'},
   {id:'rg_9', name:'Sales Night', trader:'Ragman', map:'Interchange', req:'PMC Level 25', note:'Interchangeから夜間に7回脱出', category:'kappa'},
   {id:'rg_10', name:'The Stylish One', trader:'Ragman', map:'Interchange', req:'PMC Level 40', note:'Killa 100体撃破', category:'nonkappa'},
-
-  // --- JAEGER ---
   {id:'jg_1', name:'The Survivalist Path - Unspoiled Integrity', trader:'Jaeger', map:'Woods', req:'Introduction', note:'Scavを殺さずにWoods脱出', category:'kappa'},
   {id:'jg_2', name:'The Survivalist Path - Thrifty', trader:'Jaeger', map:'Reserve', req:'Introduction', note:'ZibboとIskraを隠し場所に埋設', items:'Zibbo ×1, Iskra ×1', category:'kappa'},
   {id:'jg_3', name:'The Survivalist Path - Zhivchik', trader:'Jaeger', map:'Woods', req:'Introduction', note:'脱水症状で5分間生存して生還', category:'kappa'},
@@ -361,11 +420,7 @@ const ALL_TASKS_DATABASE = [
   {id:'jg_14', name:'The Tarkov Shooter - Part 6', trader:'Jaeger', map:'Woods', req:'The Tarkov Shooter - Part 5', note:'Sniper Scav 5体撃破', category:'kappa'},
   {id:'jg_15', name:'The Tarkov Shooter - Part 7', trader:'Jaeger', map:'Any', req:'The Tarkov Shooter - Part 6', note:'サプレッサー付きボルトアクションでPMC 5体撃破', category:'kappa'},
   {id:'jg_16', name:'The Tarkov Shooter - Part 8', trader:'Jaeger', map:'Woods', req:'The Tarkov Shooter - Part 7', note:'1レイド中にボルトアクションでPMC 3体撃破', category:'kappa'},
-
-  // --- FENCE ---
   {id:'fn_collector', name:'Collector', trader:'Fence', map:'Any', req:'全Kappa前提タスク完了 + PMC Level 55', note:'全Collectorアイテム納品', items:'Collector全44品 (FIR)', category:'kappa'},
-
-  // --- LIGHTKEEPER ---
   {id:'lk_1', name:'Network Provider - Part 1', trader:'Lightkeeper', map:'Lighthouse', req:'PMC Level 35', note:'無線トランスミッター受領・修理調査', category:'lightkeeper'},
   {id:'lk_2', name:'Network Provider - Part 2', trader:'Lightkeeper', map:'Lighthouse', req:'Network Provider - Part 1', note:'無線コンポーネント納品', items:'Military cable ×4等', category:'lightkeeper'},
   {id:'lk_3', name:'Assessment - Part 1', trader:'Lightkeeper', map:'Lighthouse', req:'Network Provider - Part 2', note:'Lighthouse架線橋エリアでPMC 20体撃破', category:'lightkeeper'},
@@ -375,7 +430,7 @@ const ALL_TASKS_DATABASE = [
 ];
 
 function createEmptySlot(name = '') {
-  return { name: name, faction: 'USEC', tasks: {}, collector: {} };
+  return { name: name, faction: 'USEC', tasks: {}, collector: {}, hideoutItems: {} };
 }
 
 let state = { slot: 0, slots: Array.from({length: 10}, (_, i) => createEmptySlot(`スロット ${i + 1}`)) };
@@ -402,6 +457,7 @@ function cur(){
   if(state.slot === undefined || state.slot < 0 || state.slot >= 10) state.slot = 0;
   if(!state.slots[state.slot]) state.slots[state.slot] = createEmptySlot(`スロット ${state.slot + 1}`);
   if(!state.slots[state.slot].collector) state.slots[state.slot].collector = {};
+  if(!state.slots[state.slot].hideoutItems) state.slots[state.slot].hideoutItems = {};
   return state.slots[state.slot];
 }
 
@@ -484,19 +540,14 @@ function renderCollectorList() {
   const root = document.getElementById('collectorItemsList');
   if(!root) return;
   root.innerHTML = '';
-
   const search = (document.getElementById('globalSearch')?.value || '').toLowerCase();
 
   COLLECTOR_ITEMS.forEach(item => {
-    if (search && !item.name.toLowerCase().includes(search) && !item.jp.toLowerCase().includes(search)) {
-      return;
-    }
+    if (search && !item.name.toLowerCase().includes(search) && !item.jp.toLowerCase().includes(search)) return;
 
     let done = !!cur().collector[item.id];
     const card = document.createElement('div');
     card.className = 'collector-card' + (done ? ' done' : '');
-
-    // GitHubの images/ フォルダから各アイテムの画像を正確に読み込む
     let imgSrc = `images/${item.imgKey}.png`;
 
     card.innerHTML = `
@@ -517,6 +568,85 @@ function renderCollectorList() {
   });
 }
 
+function renderHideoutList() {
+  const root = document.getElementById('hideoutContainer');
+  if(!root) return;
+  root.innerHTML = '';
+
+  const hItems = cur().hideoutItems || {};
+
+  HIDEOUT_STATIONS.forEach(stationObj => {
+    const card = document.createElement('div');
+    card.className = 'hideout-station-card';
+
+    let allLevelDone = true;
+    stationObj.levels.forEach(lvl => {
+      lvl.items.forEach((item, idx) => {
+        const key = `${lvl.id}_${idx}`;
+        if (!hItems[key]) allLevelDone = false;
+      });
+    });
+
+    const details = document.createElement('details');
+    if (!allLevelDone) details.open = true;
+
+    const summary = document.createElement('summary');
+    summary.innerHTML = `<span>${esc(stationObj.station)}</span> <span style="font-size:12px; color:var(--muted);">全${stationObj.levels.length}段階</span>`;
+    details.appendChild(summary);
+
+    const levelsContainer = document.createElement('div');
+    levelsContainer.className = 'hideout-levels-container';
+
+    stationObj.levels.forEach(lvl => {
+      const levelBox = document.createElement('div');
+      
+      let lvlDone = true;
+      lvl.items.forEach((item, idx) => {
+        const key = `${lvl.id}_${idx}`;
+        if (!hItems[key]) lvlDone = false;
+      });
+
+      levelBox.className = 'hideout-level-box' + (lvlDone ? ' level-done' : '');
+
+      let itemsHtml = '';
+      lvl.items.forEach((item, idx) => {
+        const key = `${lvl.id}_${idx}`;
+        const checked = !!hItems[key];
+        itemsHtml += `
+          <label class="item-check-row">
+            <input type="checkbox" data-key="${key}" ${checked ? 'checked':''}>
+            <span>${esc(item.name)}</span>
+          </label>`;
+      });
+
+      levelBox.innerHTML = `
+        <h4 style="margin:0 0 6px; font-size:14px; color:var(--text);">${esc(lvl.name)}</h4>
+        <p style="margin:2px 0 6px; font-size:12px; color:var(--accent);"><strong>レベルアップ条件: </strong>${esc(lvl.req)}</p>
+        <p style="margin:2px 0 8px; font-size:12px; color:var(--muted);">${esc(lvl.note)}</p>
+        <div style="background:#161d24; border:1px dashed var(--line); padding:8px; border-radius:6px;">
+          <strong style="font-size:12px; display:block; margin-bottom:4px;">必要アイテム チェックリスト:</strong>
+          ${itemsHtml}
+        </div>
+      `;
+
+      levelBox.querySelectorAll('input[type=checkbox]').forEach(chk => {
+        chk.onchange = (e) => {
+          if(!cur().hideoutItems) cur().hideoutItems = {};
+          cur().hideoutItems[e.target.dataset.key] = e.target.checked;
+          saveState();
+          renderHideoutList();
+        };
+      });
+
+      levelsContainer.appendChild(levelBox);
+    });
+
+    details.appendChild(levelsContainer);
+    card.appendChild(details);
+    root.appendChild(card);
+  });
+}
+
 function renderTaskList(targetId, tasks) {
   const root = document.getElementById(targetId);
   if(!root) return;
@@ -526,10 +656,17 @@ function renderTaskList(targetId, tasks) {
 }
 
 function renderCurrentTab(){
+  const filterPanel = document.getElementById('filterPanel');
+  if (filterPanel) {
+    filterPanel.classList.toggle('hidden', activeTabId === 'hideoutTab');
+  }
+
   if(activeTabId === 'collectorItemsTab') {
     renderCollectorList();
   } else if(activeTabId === 'kappaTasks') {
     renderTaskList('kappaTasksList', getFilteredData('kappa'));
+  } else if(activeTabId === 'hideoutTab') {
+    renderHideoutList();
   } else if(activeTabId === 'nonKappaTasks') {
     renderTaskList('nonKappaTasksList', getFilteredData('nonkappa'));
   } else if(activeTabId === 'lkTasks') {
@@ -563,7 +700,20 @@ function updateStats(){
   let colKeys = Object.keys(cur().collector || {});
   let doneCol = colKeys.filter(k => cur().collector[k]).length;
   document.getElementById('collectorCount').textContent = doneCol + ' / ' + COLLECTOR_ITEMS.length;
-  document.getElementById('collectorBar').style.width = (doneCol / COLLECTOR_ITEMS.length * 100) + '%';
+  document.getElementById('collectorBar').style.width = (COLLECTOR_ITEMS.length ? (doneCol / COLLECTOR_ITEMS.length * 100) : 0) + '%';
+
+  let totalItems = 0;
+  let doneItems = 0;
+  HIDEOUT_STATIONS.forEach(s => {
+    s.levels.forEach(l => {
+      l.items.forEach((it, idx) => {
+        totalItems++;
+        if (cur().hideoutItems && cur().hideoutItems[`${l.id}_${idx}`]) doneItems++;
+      });
+    });
+  });
+  document.getElementById('hideoutCount').textContent = doneItems + ' / ' + totalItems;
+  document.getElementById('hideoutBar').style.width = (totalItems ? (doneItems / totalItems * 100) : 0) + '%';
 }
 
 function switchTab(id){
